@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+<link href='/fullcalendar-5.11.3/lib/main.css' rel='stylesheet' />
+<script src='/fullcalendar-5.11.3/lib/main.js'></script>
+
 <head>
     <meta charset="UTF-8">
     <title>내한공연 캘린더</title>
 </head>
-<body>
+<script>
+    console.log("hi");
+    document.addEventListener('DOMContentLoaded', function() {
+        let calendarEl = document.getElementById('calendar');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+        });
+        calendar.render();
+    });
 
+</script>
+<body>
+    <h1>MyCalendar</h1>
+
+    <div id='calendar'></div>
 </body>
+
 </html>
