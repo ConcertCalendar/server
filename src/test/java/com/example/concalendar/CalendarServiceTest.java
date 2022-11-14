@@ -19,4 +19,10 @@ public class CalendarServiceTest {
     public void calendarServiceTest1(){
         calendarService.create("singer","title","content","calTime","calStart","calEnd");
     }
+
+    @Test
+    @DisplayName("글 id를 이용하여 삭제가 가능하다")
+    public void calendarServiceTest2(){
+        calendarService.deleteById(1);
+    }
 }

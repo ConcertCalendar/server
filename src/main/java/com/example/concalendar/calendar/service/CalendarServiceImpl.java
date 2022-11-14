@@ -32,4 +32,10 @@ public class CalendarServiceImpl implements CalendarService{
 
         calendarRepository.save(calendar);
     }
+
+    // 공연 정보 DB에서 해당 id 정보 삭제 메서드
+    @Override
+    public void deleteById(int id){
+        calendarRepository.deleteById(id);
+   }
 }
