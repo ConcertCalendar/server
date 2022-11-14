@@ -1,5 +1,10 @@
 package com.example.concalendar.calendar.repository;
 
-public class CalendarRepository {
+import com.example.concalendar.calendar.entity.Calendar;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
 }

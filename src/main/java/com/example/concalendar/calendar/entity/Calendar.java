@@ -1,32 +1,44 @@
 package com.example.concalendar.calendar.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // 기본키(primary key)
-    private Integer calNo;
+    private Integer conNo;
 
     @Column
-    private String calTitle;
+    private String singer;
 
     @Column
-    private String calContent;
+    private String conTitle;
 
     @Column
-    private String calTime;
+    private String conContent;
 
     @Column
-    private String calStart;
+    private String conTime;
 
     @Column
-    private String calEnd;
+    private String conStart;
+
+    @Column
+    private String conEnd;
+
+    @Column
+    private LocalDateTime createdDate;
+
+    @Column
+    private LocalDateTime updatedDate;
 
 }
