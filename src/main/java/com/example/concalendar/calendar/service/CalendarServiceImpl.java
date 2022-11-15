@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,4 +39,17 @@ public class CalendarServiceImpl implements CalendarService{
     public void deleteById(int id){
         calendarRepository.deleteById(id);
    }
+
+    @Override
+    public Calendar findById(int id){
+        Optional<Calendar> calendar = calendarRepository.findById(id);
+
+        if(calendar.isPresent()){
+            return calendar.get();
+        }
+        else{
+            return null;
+        }
+
+    }
 }
