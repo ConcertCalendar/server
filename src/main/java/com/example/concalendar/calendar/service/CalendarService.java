@@ -15,8 +15,9 @@ public interface CalendarService {
     // 공연 정보 DB에서 해당 id 정보 삭제 메서드
     public void deleteById(int id);
 
-    // 공연 정보 DB 수정 메서드
+    // 공연 정보 DB id로 읽기 메서드
     public Calendar findById(int id);
 
-
+    // 공연 정보 수정 메서드
+    public void update(int id, Calendar calendar);
 }

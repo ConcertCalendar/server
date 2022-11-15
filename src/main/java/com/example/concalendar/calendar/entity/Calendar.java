@@ -41,4 +41,10 @@ public class Calendar {
     @Column
     private LocalDateTime updatedDate;
 
+    public void update(String conTime, String conStart, String conEnd) {
+        this.conTime = conTime;
+        this.conStart = conStart;
+        this.conEnd = conEnd;
+        this.updatedDate = LocalDateTime.now();
+    }
 }

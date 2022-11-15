@@ -4,6 +4,7 @@ import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.repository.CalendarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -52,4 +53,24 @@ public class CalendarServiceImpl implements CalendarService{
         }
 
     }
+
+    @Override
+    @Transactional //db 트랜잭션 자동으로 commit 해줌
+    // 공연 정보 수정 메서드
+    public void update(int id, Calendar calendar){
+        Calendar foundCalendar = calendarRepository.findById(id).orElse(null);
+
+//        foundCalendar.setSinger(calendar.getSinger());
+//        foundCalendar.setConTitle(calendar.getConTitle());
+//        foundCalendar.setConTime(calendar.getConTime());
+//        foundCalendar.setConContent(calendar.getConContent());
+//        foundCalendar.setConStart(calendar.getConStart());
+//        foundCalendar.setConEnd(calendar.getConEnd());
+//        foundCalendar.setUpdatedDate(LocalDateTime.now());
+
+        // 객체의 영속성
+        // JPA 의 영속성 컨텍스트 덕분에 entity 객체의 값만 변경하면 자동으로 변경사항 반영함!
+        // 따라서 repository.update 를 쓰지 않아도 됨.
+        foundCalendar.update(calendar.getConTime(), calendar.getConStart(), calendar.getConEnd());
+    };
 }

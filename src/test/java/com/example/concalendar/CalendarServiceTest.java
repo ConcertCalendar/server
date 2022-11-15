@@ -35,4 +35,24 @@ public class CalendarServiceTest {
         Calendar calendar = calendarService.findById(2);
         assertThat(calendar.getConNo()).isEqualTo(2);
     }
+    @Test
+    @DisplayName("글 id와 Calendar 객체를 이용하여 DB 수정이 가능하다.")
+    public void calendarServiceTest4(){
+        Calendar calendar1 = Calendar.builder()
+                .singer("2")
+                .conTitle("2")
+                .conContent("2")
+                .conTime("2")
+                .conStart("2")
+                .conEnd("2")
+                .build();
+
+        Calendar calendar2 = calendarService.findById(2);
+
+        calendarService.update(2,calendar1);
+
+        assertThat(calendarService.findById(2).getConTime()).isEqualTo("2");
+    }
+
+
 }
