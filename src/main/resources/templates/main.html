@@ -9,24 +9,49 @@
     <meta charset="UTF-8">
     <title>내한공연 캘린더</title>
 </head>
+<style>
+    a{ color: black; text-decoration: none; }
+
+</style>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        let calendarEl = document.getElementById('concert_calendar');
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
+        var calendarEl = document.getElementById('concert_calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            // header에 있는 자질 구레한 버튼들 삭제
+            headerToolbar: false
         });
         calendar.render();
     });
-
 </script>
 <body>
     <h1>MyCalendar</h1>
-    <div class="container">
+<div class="container">
+    <ul class="nav d-flex justify-content-around">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">NEWS</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">CONCERT</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">MUSIC</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">EVENT</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">COMMUNITY</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+    </ul>
         <div class="row">
-            <div class="column-md-12" id="concert_calendar"></div>
+            <div id="concert_calendar"></div>
         </div>
     </div>
-
 </body>
 
 </html>
