@@ -10,11 +10,48 @@
     <title>내한공연 캘린더</title>
 </head>
 <style>
+    h1{
+        text-align: center;
+        margin: 30px 0 30px 0;
+    }
     a{ color: black; text-decoration: none; }
     /*concert_calendar 위 아래로 여백 주기*/
     #concert_calendar{
         margin: 30px 0 30px 0;
     }
+
+    .main-news-picture {
+        width: 250px;
+        display: block;
+        margin: auto;
+    }
+    .main-news-text{
+        font-weight: bold;
+        display: block;
+        margin: auto;
+        width: 250px;
+    }
+
+    .hr-sect {
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.35);
+        font-size: 12px;
+        margin: 8px 0px;
+    }
+    .hr-sect::before,
+    .hr-sect::after {
+        content: "";
+        /*flex-grow -> 남는 행 여백을 분배해서 채움*/
+        flex-grow: 1;
+        background: rgba(0, 0, 0, 0.35);
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: 0px 16px;
+    }
+
 </style>
 
 <script>
@@ -65,7 +102,7 @@
     });
 </script>
 <body>
-    <h1>MyCalendar</h1>
+    <h1>naehan</h1>
     <div class="container">
         <!-- 메뉴 -->
         <ul class="nav d-flex justify-content-around">
@@ -209,7 +246,43 @@
             </div>
         </div>
 
-        <div>
+        <div class="row row-cols-4">
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news1.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news1.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news2.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news2.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
 
         </div>
 
