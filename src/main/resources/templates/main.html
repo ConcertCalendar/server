@@ -9,24 +9,381 @@
     <meta charset="UTF-8">
     <title>내한공연 캘린더</title>
 </head>
+<style>
+    html {
+        height: 100%;
+    }
+    /*logo 제목 사이즈*/
+    #logo{
+        text-align: center;
+        font-size: 50px;
+    }
+    /* 소제목 */
+    h1{
+        text-align: center;
+        margin: 30px 0 30px 0;
+    }
+    a{ color: black; text-decoration: none; }
+    /*concert_calendar 위 아래로 여백 주기*/
+    #concert_calendar{
+        margin: 30px 0 30px 0;
+    }
+
+    h3{
+        text-align: center;
+        margin: 30px 0 30px 0;
+    }
+
+    #poster-section{
+        margin-bottom: 100px;
+    }
+
+    .main-poster-picture{
+        width: 250px;
+        height: 400px;
+        display: block;
+        margin: auto;
+    }
+
+    #news-section{
+        margin-bottom: 100px;
+    }
+
+    .main-news-picture {
+        width: 250px;
+        display: block;
+        margin: auto;
+    }
+    .main-news-text{
+        font-weight: bold;
+        display: block;
+        margin: auto;
+        width: 250px;
+    }
+
+    .hr-sect {
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.35);
+        font-size: 12px;
+        margin: 8px 0px;
+    }
+    .hr-sect::before,
+    .hr-sect::after {
+        content: "";
+        /*flex-grow -> 남는 행 여백을 분배해서 채움*/
+        flex-grow: 1;
+        background: rgba(0, 0, 0, 0.35);
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: 0px 16px;
+    }
+
+    footer {
+        background-color: black;
+        color: white;
+        margin-bottom: 0;
+    }
+    footer h1{
+        color: white;
+        margin: 20px 0 20px 0;
+    }
+    nav a{
+        color: white;
+    }
+
+</style>
+
 <script>
+    function getDateToday()
+    {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
+
+        return [mm, dd, yyyy];
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         let calendarEl = document.getElementById('concert_calendar');
+        const [mm, dd, yyyy] = getDateToday();
+
         let calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
+            // header에 있는 자질 구레한 버튼들 삭제
+            headerToolbar: false,
+            // aspectRatio : 달력 사이즈 조절
+            aspectRatio: 2,
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: `${yyyy}-${mm}-01`
+                },
+                {
+                    title: 'Long Event',
+                    start: `${yyyy}-${mm}-07`,
+                    end: `${yyyy}-${mm}-10`
+                },
+                {
+                    title: 'Click for Google',
+                    url: 'https://google.com/',
+                    start: `${yyyy}-${mm}-28`
+                }
+            ],
+            eventClick: function (event){
+                if(event.event.url){
+                    event.jsEvent.preventDefault();
+                    window.open(event.event.url, "_blank");
+                }
+            }
+
         });
         calendar.render();
     });
-
 </script>
 <body>
-    <h1>MyCalendar</h1>
+    <div id="logo">naehan</div>
     <div class="container">
-        <div class="row">
-            <div class="column-md-12" id="concert_calendar"></div>
-        </div>
-    </div>
+        <!-- 메뉴 -->
+        <ul class="nav d-flex justify-content-around">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">NEWS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">CONCERT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">MUSIC</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">EVENT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">COMMUNITY</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
 
+        <!-- calendar -->
+        <div class="row">
+            <div id="concert_calendar"></div>
+        </div>
+
+        <!-- 포스터 섹션 -->
+        <h1>Poster</h1>
+        <div class="row row-cols-4" id="poster-section">
+            <div class="col">
+                <img class="main-poster-picture"
+                     src="img/poster1.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    000 내한 공연
+                </div>
+            </div>
+            <div class="col">
+                <img class="main-poster-picture"
+                     src="img/poster2.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    000 내한 공연
+                </div>
+            </div>
+            <div class="col">
+                <img class="main-poster-picture"
+                     src="img/poster3.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    000 내한 공연
+                </div>
+            </div>
+            <div class="col">
+                <img class="main-poster-picture"
+                     src="img/poster4.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    000 내한 공연
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 인기글 + 공연 후기 -->
+        <div class="row">
+            <!-- col -> 영역 반으로 나누기-->
+            <div class="col">
+                <h5>인기글</h5>
+                <table class="table" id="popular-article-table">
+                    <thead>
+                    <tr>
+                        <th class="title col-6"><a>제목</a></th>
+                        <th class="hashtag col-2"><a>해시태그</a></th>
+                        <th class="user-id"><a>작성자</a></th>
+                        <th class="created-at"><a>작성일</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="title"><a>첫글</a></td>
+                        <td class="hashtag">#java</td>
+                        <td class="user-id">Uno</td>
+                        <td class="created-at">
+                            <time>2022-01-01</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>두번째글</td>
+                        <td>#spring</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-02</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>세번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>네번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>다섯번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <h5>공연 후기</h5>
+                <table class="table" id="review-article-table">
+                    <thead>
+                    <tr>
+                        <th class="title col-6"><a>제목</a></th>
+                        <th class="hashtag col-2"><a>해시태그</a></th>
+                        <th class="user-id"><a>작성자</a></th>
+                        <th class="created-at"><a>작성일</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="title"><a>첫글</a></td>
+                        <td class="hashtag">#java</td>
+                        <td class="user-id">Uno</td>
+                        <td class="created-at">
+                            <time>2022-01-01</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>두번째글</td>
+                        <td>#spring</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-02</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>세번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>네번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>다섯번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h1>NEWS</h1>
+
+        <!-- 뉴스 섹션 -->
+        <div class="row row-cols-4" id="news-section">
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news1.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news1.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news2.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
+            <div class="col">
+                <div class="hr-sect">NEWS</div>
+                <img class="main-news-picture"
+                     src="img/news2.jpeg"
+                     alt="Grapefruit slice atop a pile of other slices" />
+                <div class="main-news-text">
+                    올해 최고의 힙합 아티스트로 선정된 3인방에 대해 알아보자
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
+
+<footer>
+    <div class="container-fluid">
+        <h1>naehan</h1>
+        <nav>
+            <a href='https://velog.io/@joonghyun' target='_blank'>Blog</a> |
+            <a href='https://github.com/joong2043' target='_blank'>Github</a>
+        </nav>
+        <p>
+            <span>저자 : heavyJ</span><br/>
+            <span>이메일 : tbvjqlqlqlr@naver.com</span><br/>
+            <span>Copyright 2020. cocoder. All Rights Reserved.</span>
+        </p>
+    </div>
+</footer>
 
 </html>
