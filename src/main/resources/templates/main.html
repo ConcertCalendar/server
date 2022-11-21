@@ -11,7 +11,10 @@
 </head>
 <style>
     a{ color: black; text-decoration: none; }
-
+    /*concert_calendar 위 아래로 여백 주기*/
+    #concert_calendar{
+        margin: 30px 0 30px 0;
+    }
 </style>
 
 <script>
@@ -64,6 +67,7 @@
 <body>
     <h1>MyCalendar</h1>
     <div class="container">
+        <!-- 메뉴 -->
         <ul class="nav d-flex justify-content-around">
             <li class="nav-item">
                 <a class="nav-link active" href="#">NEWS</a>
@@ -84,17 +88,131 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
         </ul>
+
+        <!-- calendar -->
         <div class="row">
             <div id="concert_calendar"></div>
         </div>
-<!--        <div class="row">-->
-<!--            <div class="col">-->
-<!--                1 of 2-->
-<!--            </div>-->
-<!--            <div class="col">-->
-<!--                2 of 2-->
-<!--            </div>-->
-<!--        </div>-->
+
+        <!-- 인기글 + 공연 후기 -->
+        <div class="row">
+            <!-- col -> 영역 반으로 나누기-->
+            <div class="col">
+                <h5>인기글</h5>
+                <table class="table" id="popular-article-table">
+                    <thead>
+                    <tr>
+                        <th class="title col-6"><a>제목</a></th>
+                        <th class="hashtag col-2"><a>해시태그</a></th>
+                        <th class="user-id"><a>작성자</a></th>
+                        <th class="created-at"><a>작성일</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="title"><a>첫글</a></td>
+                        <td class="hashtag">#java</td>
+                        <td class="user-id">Uno</td>
+                        <td class="created-at">
+                            <time>2022-01-01</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>두번째글</td>
+                        <td>#spring</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-02</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>세번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>네번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>다섯번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <h5>공연 후기</h5>
+                <table class="table" id="review-article-table">
+                    <thead>
+                    <tr>
+                        <th class="title col-6"><a>제목</a></th>
+                        <th class="hashtag col-2"><a>해시태그</a></th>
+                        <th class="user-id"><a>작성자</a></th>
+                        <th class="created-at"><a>작성일</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="title"><a>첫글</a></td>
+                        <td class="hashtag">#java</td>
+                        <td class="user-id">Uno</td>
+                        <td class="created-at">
+                            <time>2022-01-01</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>두번째글</td>
+                        <td>#spring</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-02</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>세번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>네번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>다섯번째글</td>
+                        <td>#java</td>
+                        <td>Uno</td>
+                        <td>
+                            <time>2022-01-03</time>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+
+        </div>
+
     </div>
 </body>
 
