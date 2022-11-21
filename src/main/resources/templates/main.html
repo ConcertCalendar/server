@@ -15,42 +15,86 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('concert_calendar');
+    function getDateToday()
+    {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        return [mm, dd, yyyy];
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let calendarEl = document.getElementById('concert_calendar');
+        const [mm, dd, yyyy] = getDateToday();
+
+        let calendar = new FullCalendar.Calendar(calendarEl, {
             // header에 있는 자질 구레한 버튼들 삭제
-            headerToolbar: false
+            headerToolbar: false,
+            // aspectRatio : 달력 사이즈 조절
+            aspectRatio: 2,
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: `${yyyy}-${mm}-01`
+                },
+                {
+                    title: 'Long Event',
+                    start: `${yyyy}-${mm}-07`,
+                    end: `${yyyy}-${mm}-10`
+                },
+                {
+                    title: 'Click for Google',
+                    url: 'https://google.com/',
+                    start: `${yyyy}-${mm}-28`
+                }
+            ],
+            eventClick: function (event){
+                if(event.event.url){
+                    event.jsEvent.preventDefault();
+                    window.open(event.event.url, "_blank");
+                }
+            }
+
         });
         calendar.render();
     });
 </script>
 <body>
     <h1>MyCalendar</h1>
-<div class="container">
-    <ul class="nav d-flex justify-content-around">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">NEWS</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">CONCERT</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">MUSIC</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">EVENT</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">COMMUNITY</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-    </ul>
+    <div class="container">
+        <ul class="nav d-flex justify-content-around">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">NEWS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">CONCERT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">MUSIC</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">EVENT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">COMMUNITY</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
         <div class="row">
             <div id="concert_calendar"></div>
         </div>
+<!--        <div class="row">-->
+<!--            <div class="col">-->
+<!--                1 of 2-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                2 of 2-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </body>
 
