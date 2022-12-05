@@ -3,7 +3,9 @@ package com.example.concalendar.calendar.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -27,13 +29,13 @@ public class Calendar {
     private String conContent;
 
     @Column
-    private String conTime;
+    private LocalTime conTime;
 
     @Column
-    private String conStart;
+    private LocalDate conStart;
 
     @Column
-    private String conEnd;
+    private LocalDate conEnd;
 
     @Column
     private LocalDateTime createdDate;
@@ -41,7 +43,7 @@ public class Calendar {
     @Column
     private LocalDateTime updatedDate;
 
-    public void update(String conTime, String conStart, String conEnd) {
+    public void update(LocalTime conTime, LocalDate conStart, LocalDate conEnd) {
         this.conTime = conTime;
         this.conStart = conStart;
         this.conEnd = conEnd;
