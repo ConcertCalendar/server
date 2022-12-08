@@ -1,7 +1,5 @@
 package com.example.concalendar.user.service;
 
-import com.example.concalendar.user.dto.UserDto;
-import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,10 +8,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface UserService{
+@RequiredArgsConstructor
+public class CustomUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
 
-    public Integer join(UserDto userDto);
-
-    public String login(UserDto userDto);
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUserEmail(username).orElseThrow(()->new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+    }
 }

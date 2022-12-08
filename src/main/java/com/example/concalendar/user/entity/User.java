@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @Column(name = "user_phone", length = 13)
     private String userPhone;
 
+    @Column(name = "user_password", length = 300, nullable = false)
+    private String password;
+
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
 
@@ -63,12 +66,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return userName;
+        return userEmail;
     }
 
     @Override
