@@ -39,7 +39,7 @@ public class User implements UserDetails {
 
     @Column(name = "user_role", length = 4)
     @Enumerated(EnumType.STRING)
-    private Admin admin;
+    private Role role;
 
     @Column(name = "user_phone", length = 13)
     private String userPhone;

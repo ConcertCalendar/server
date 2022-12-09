@@ -1,5 +1,5 @@
 package com.example.concalendar.user.entity;
 
-public enum Admin {
+public enum Role {
     일반회원, 관리자;
 }

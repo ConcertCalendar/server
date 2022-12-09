@@ -2,7 +2,7 @@ package com.example.concalendar.user.controller;
 
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.user.dto.UserDto;
-import com.example.concalendar.user.entity.Admin;
+import com.example.concalendar.user.entity.Role;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.repository.UserRepository;
 import com.example.concalendar.user.service.UserService;

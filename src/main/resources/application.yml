@@ -1,0 +1,25 @@
+#DB
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ConcertCalendar?useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.jdbc.Driver
+
+#JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+      format_sql: true
+    show-sql: true
+
+#live reload ?? ???
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
+
+# jwt.yml ?? include
+  profiles:
+    include: jwt
