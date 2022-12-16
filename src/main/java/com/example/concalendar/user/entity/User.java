@@ -32,14 +32,14 @@ public class User implements UserDetails {
     private Date userBirth;
 
     @Column(name = "user_name", length = 10)
-    private String userName;
+    private String name;
 
     @Column(name = "user_nickname", length = 15)
     private String userNickname;
 
-    @Column(name = "user_role", length = 4)
+    @Column(name = "user_level", length = 4)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Level level;
 
     @Column(name = "user_phone", length = 13)
     private String userPhone;

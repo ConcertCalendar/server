@@ -1,10 +1,8 @@
 package com.example.concalendar.user.config;
 
+import com.example.concalendar.user.dto.TokenDto;
 import com.example.concalendar.user.service.CustomUserDetailsService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,8 +25,11 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    // 토큰 유효시간 30분
-    private long tokenValidTime = 30 * 60 * 1000L;
+
+    // Access 토큰 유효시간 30분
+    private Long accessTokenValidTime = 30 * 60 * 1000L;
+    // Refresh 토큰 유효시간 14일
+    private Long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L;
 
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -39,21 +40,39 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String userPk, List<String> roles) {
+    public TokenDto createToken(String userPk, List<String> roles) {
 
         // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         Claims claims = Jwts.claims().setSubject(userPk);
 
         // 정보는 key / value 쌍으로 저장된다.
         claims.put("roles", roles);
+        // 생성날짜, 만료날짜를 위한 Date
         Date now = new Date();
-        return Jwts.builder()
-                .setClaims(claims) // 정보 저장
-                .setIssuedAt(now) // 토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
-                // signature 에 들어갈 secret값 세팅
+
+        // Access 토큰 생성
+        // builder.compact로 토큰 생성하기
+        String accessToken = Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime()+accessTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+
+        // Refresh 토큰 생성
+        String refreshToken = Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setExpiration(new Date(now.getTime()+refreshTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256,secretKey)
+                .compact();
+
+        return TokenDto.builder()
+                .grantType("bearer")
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .accessTokenExpireDate(accessTokenValidTime)
+                .build();
     }
 
     // JWT 토큰에서 인증 정보 조회
@@ -62,7 +81,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // 토큰에서 회원 정보 추출
+    // Jwt 토큰을 복화화해서 회원 정보 추출
     public String getUserPk(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }

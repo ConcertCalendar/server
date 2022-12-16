@@ -1,6 +1,7 @@
 package com.example.concalendar.user.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -9,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
     private final JwtTokenProvider jwtTokenProvider;
@@ -18,6 +20,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // 헤더에서 JWT 를 받아옵니다.
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+
+        // log를 이용한 확인
+        log.info("[This is Verifying token!!]"); // 그냥 스트링 출력해주는 로
+        log.info(((HttpServletRequest) request).getRequestURL().toString());
 
         // 유효한 토큰인지 확인합니다. -> validation 진행
         if (token != null && jwtTokenProvider.validateToken(token)) {
