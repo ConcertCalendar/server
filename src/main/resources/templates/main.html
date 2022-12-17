@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <link href='/fullcalendar-5.11.3/lib/main.css' rel='stylesheet' />
 <script src='/fullcalendar-5.11.3/lib/main.js'></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
 <head>
     <meta charset="UTF-8">
     <title>내한공연 캘린더</title>
@@ -96,56 +99,9 @@
 
 </style>
 
-<script>
-    function getDateToday()
-    {
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyy = today.getFullYear();
-
-        return [mm, dd, yyyy];
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        let calendarEl = document.getElementById('concert_calendar');
-        const [mm, dd, yyyy] = getDateToday();
-
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-            // header에 있는 자질 구레한 버튼들 삭제
-            headerToolbar: false,
-            // aspectRatio : 달력 사이즈 조절
-            aspectRatio: 2,
-            events: [
-                {
-                    title: 'All Day Event',
-                    start: `${yyyy}-${mm}-01`
-                },
-                {
-                    title: 'Long Event',
-                    start: `${yyyy}-${mm}-07`,
-                    end: `${yyyy}-${mm}-10`
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'https://google.com/',
-                    start: `${yyyy}-${mm}-28`
-                }
-            ],
-            eventClick: function (event){
-                if(event.event.url){
-                    event.jsEvent.preventDefault();
-                    window.open(event.event.url, "_blank");
-                }
-            }
-
-        });
-        calendar.render();
-    });
-</script>
 <body>
     <div id="logo">naehan</div>
-    <div class="container">
+    <div class="container" id="main-container">
         <!-- 메뉴 -->
         <ul class="nav d-flex justify-content-around">
             <li class="nav-item">
@@ -369,6 +325,14 @@
         </div>
 
     </div>
+
+<!--    &lt;!&ndash;팝업 레이어&ndash;&gt;-->
+<!--    <div id="detail_popup_layer">-->
+<!--        &lt;!&ndash;팝업 컨텐츠 영역&ndash;&gt;-->
+<!--        <div id="popup_contents ">-->
+<!--            <th:block th:replace="calendarModal"></th:block>-->
+<!--        </div>-->
+<!--    </div>-->
 </body>
 
 <footer>
@@ -385,5 +349,101 @@
         </p>
     </div>
 </footer>
+
+<script>
+    function getDateToday()
+    {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
+
+        return [mm, dd, yyyy];
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let calendarEl = document.getElementById('concert_calendar');
+        const [mm, dd, yyyy] = getDateToday();
+
+        let request = $.ajax({
+            url: "/calendar/event",
+            method: "GET",
+        });
+        request.done(function(data){
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: data
+            });
+            calendar.render();
+        });
+
+        // let calendar = new FullCalendar.Calendar(calendarEl, {
+        //     // header에 있는 자질 구레한 버튼들 삭제
+        //     headerToolbar: false,
+        //     // aspectRatio : 달력 사이즈 조절
+        //     aspectRatio: 2,
+        //     events: [
+        //         {
+        //             title: 'All Day Event',
+        //             start: `${yyyy}-${mm}-01`
+        //         },
+        //         {
+        //             title: 'Long Event',
+        //             start: `${yyyy}-${mm}-07`,
+        //             end: `${yyyy}-${mm}-10`
+        //         },
+        //         {
+        //             title: 'Click for Google',
+        //             url: 'https://google.com/',
+        //             start: `${yyyy}-${mm}-28`
+        //         }
+        //     ],
+        //     eventClick: function (event){
+        //         if(event.event.url){
+        //             event.jsEvent.preventDefault();
+        //             window.open(event.event.url, "_blank");
+        //         }
+        //     }
+        //
+        // });
+        // calendar.render();
+    });
+
+    // // const modal = document.getElementById("modal")
+    // const modal = document.getElementById("modal");
+    // function modalOn() {
+    //     modal.style.display = "flex";
+    // }
+    // function isModalOn() {
+    //     return modal.style.display === "flex";
+    // }
+    // function modalOff() {
+    //     modal.style.display = "none";
+    // }
+    //
+    // const btnModal = document.getElementById("btn-modal");
+    // btnModal.addEventListener("click", function () {
+    //     modalOn();
+    // })
+    // // 모달 close 버튼 누르면 모달 끄기
+    // const closeBtn = document.getElementById("close-area");
+    // closeBtn.addEventListener("click", e => {
+    //     modalOff();
+    // })
+    // // 모달 창 이외 부분 클릭 시 모달 끄기
+    // modal.addEventListener("click", e => {
+    //     const evTarget = e.target
+    //     if(evTarget.classList.contains("modal-overlay")) {
+    //         modalOff();
+    //     }
+    // })
+    // // esc 버튼으로 모달 끄기
+    // window.addEventListener("keyup", e => {
+    //     if(isModalOn() && e.key === "Escape") {
+    //         modalOff()
+    //     }
+    // })
+
+</script>
 
 </html>
