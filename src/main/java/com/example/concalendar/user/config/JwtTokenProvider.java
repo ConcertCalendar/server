@@ -50,20 +50,22 @@ public class JwtTokenProvider {
         // 생성날짜, 만료날짜를 위한 Date
         Date now = new Date();
 
+        Date accessTokenExpiresIn = new Date(now.getTime()+accessTokenValidTime);
+        Date refreshTokenExpiresIn = new Date(now.getTime()+refreshTokenValidTime);
         // Access 토큰 생성
         // builder.compact로 토큰 생성하기
         String accessToken = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()+accessTokenValidTime))
+                .setExpiration(accessTokenExpiresIn)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
         // Refresh 토큰 생성
         String refreshToken = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setExpiration(new Date(now.getTime()+refreshTokenValidTime))
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(SignatureAlgorithm.HS256,secretKey)
                 .compact();
 
@@ -71,7 +73,8 @@ public class JwtTokenProvider {
                 .grantType("bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .accessTokenExpireDate(accessTokenValidTime)
+                .accessTokenExpiresTime(accessTokenValidTime)
+                .refreshTokenExpiresTime(refreshTokenValidTime)
                 .build();
     }
 
