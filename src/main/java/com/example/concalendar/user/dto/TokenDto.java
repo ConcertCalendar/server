@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Builder
 @Getter
 @NoArgsConstructor
@@ -13,5 +15,6 @@ public class TokenDto {
     private String grantType;
     private String accessToken;
     private String refreshToken;
-    private Long accessTokenExpireDate;
+    private Long accessTokenExpiresTime;
+    private Long refreshTokenExpiresTime;
 }

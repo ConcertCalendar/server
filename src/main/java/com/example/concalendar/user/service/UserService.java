@@ -1,6 +1,7 @@
 package com.example.concalendar.user.service;
 
 import com.example.concalendar.user.config.JwtTokenProvider;
+import com.example.concalendar.user.config.RedisRepositoryConfig;
 import com.example.concalendar.user.dto.TokenDto;
 import com.example.concalendar.user.dto.UserDto;
 import com.example.concalendar.user.entity.Level;
@@ -9,12 +10,14 @@ import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.repository.RefreshTokenRepository;
 import com.example.concalendar.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class UserService{
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional
     public Integer join(User user) {
@@ -45,8 +49,10 @@ public class UserService{
 
     @Transactional
     public TokenDto login(UserDto userDto) {
+        // 로그인 시 Email이 일치하면 유저 정보 가져오기
         User user = userRepository.findByUserEmail(userDto.getUserEmail())
                 .orElseThrow(()->new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+        // 로그인 시 패스워드가 불일치하면 에러 발생
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())){
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
@@ -59,7 +65,8 @@ public class UserService{
                 .token(tokenDto.getRefreshToken())
                 .build();
 
-        refreshTokenRepository.save(refreshToken);
+        redisTemplate.opsForValue().set("RT:"+user.getUserEmail(),tokenDto.getRefreshToken(),tokenDto.getRefreshTokenExpiresTime(), TimeUnit.MILLISECONDS);
+
         return tokenDto;
     }
 }
