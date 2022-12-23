@@ -52,7 +52,7 @@ public class TokenService{
 
         // Refresh Token을 Redis에 업데이트 하기
         redisTemplate.opsForValue().set(
-                authentication.getName(),
+                "RT:"+authentication.getName(),
                 newCreatedToken.getRefreshToken(),
                 newCreatedToken.getRefreshTokenExpiresTime(),
                 TimeUnit.MILLISECONDS

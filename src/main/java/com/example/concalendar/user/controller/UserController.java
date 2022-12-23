@@ -1,5 +1,6 @@
 package com.example.concalendar.user.controller;
 
+import antlr.Token;
 import com.example.concalendar.user.dto.TokenDto;
 import com.example.concalendar.user.dto.TokenRequestDto;
 import com.example.concalendar.user.dto.UserDto;
@@ -41,5 +42,12 @@ public class UserController {
     @PostMapping("/reIssue")
     public TokenDto reIssue(@RequestBody TokenRequestDto tokenRequestDto){
         return tokenService.reIssue(tokenRequestDto);
+    }
+
+    @PostMapping("/logout2")
+    public String logout(@RequestBody TokenRequestDto tokenRequestDto){
+        log.info("로그아웃 성공");
+        userService.logout(tokenRequestDto);
+        return "<h1>로그아웃</h1>";
     }
 }
