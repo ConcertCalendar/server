@@ -5,6 +5,7 @@ import com.example.concalendar.user.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +33,8 @@ public class JwtTokenProvider {
     private Long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L;
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final RedisTemplate redisTemplate;
+
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
@@ -102,6 +105,15 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+
+
+    public Long getExpiration(String accessToken) {
+        // accessToken 남은 유효시간
+        Date expiration = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody().getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
     }
 
 }
