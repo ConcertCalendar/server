@@ -34,8 +34,8 @@ public class Post {
     @Column(name = "modified_at", length = 13)
     private LocalDateTime modifiedDate;
 
-    @ManyToOne
-    @JoinColumn(name ="member_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name ="writer_id")
     private User user;
 
 }
