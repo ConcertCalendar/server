@@ -10,7 +10,9 @@ import com.example.concalendar.user.entity.RefreshToken;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.repository.RefreshTokenRepository;
 import com.example.concalendar.user.repository.UserRepository;
+import com.example.concalendar.user.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService{
@@ -32,7 +35,7 @@ public class UserService{
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional
-    public Integer join(User user) {
+    public Long join(User user) {
 
         User joinUser = User.builder()
                 .userEmail(user.getUserEmail())
@@ -91,6 +94,15 @@ public class UserService{
         // 해당 Access Token 유효시간을 가지고 와서 BlackList에 저장하기
         Long expiration = jwtTokenProvider.getExpiration(tokenRequestDto.getAccessToken());
         redisTemplate.opsForValue().set(tokenRequestDto.getAccessToken(),"logout",expiration,TimeUnit.MILLISECONDS);
+
+    }
+
+    public User findUserInfo(){
+        String user_email = SecurityUtil.getCurrentEmail();
+        log.info("context에 존재하는 이메일은 {}",user_email);
+
+        return userRepository.findByUserEmail(user_email)
+                .orElseThrow(()-> new RuntimeException("해당하는 이메일이 존재하지 않습니다."));
 
     }
 }
