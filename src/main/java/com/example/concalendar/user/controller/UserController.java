@@ -7,6 +7,8 @@ import com.example.concalendar.user.dto.UserDto;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.service.TokenService;
 import com.example.concalendar.user.service.UserService;
+import com.example.concalendar.util.Message;
+import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,19 +29,45 @@ public class UserController {
     private final TokenService tokenService;
 
     @PostMapping("/users/join")
-    public Long join(@Valid @RequestBody User user){
+    public ResponseEntity join(@Valid @RequestBody User user){
         log.info("회원가입 시도됨");
+        Message message = new Message();
+        if(userService.join(user)!=null){
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("회원가입 성공");
+            message.setData(user);
 
-        return userService.join(user);
+            return new ResponseEntity(message,HttpStatus.OK);
+        }
+        else{
+            message.setStatus(StatusEnum.BAD_REQUEST);
+            message.setMessage("회원가입 실패");
 
+            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+
+        }
     }
 
     // 로그인
     @PostMapping("/users/login")
-    public TokenDto login(@RequestBody UserDto userDto) {
+    public ResponseEntity login(@RequestBody UserDto userDto) {
         log.info("user email = {}", userDto.getUserEmail());
+        Message message = new Message();
+        if (userService.login(userDto)!=null){
+            TokenDto tokenDto = userService.login(userDto);
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("로그인 성공");
+            message.setData(tokenDto);
 
-        return userService.login(userDto);
+            return new ResponseEntity(message,HttpStatus.OK);
+        }
+        else{
+            message.setStatus(StatusEnum.BAD_REQUEST);
+            message.setMessage("로그인 실패");
+
+            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+
+        }
     }
 
     // 토큰 재발급
@@ -48,16 +76,25 @@ public class UserController {
         return tokenService.reIssue(tokenRequestDto);
     }
 
-    @PostMapping("/users/logout2")
-    public String logout(@RequestBody TokenRequestDto tokenRequestDto){
+    @PostMapping("/users/logout")
+    public ResponseEntity logout(@RequestBody TokenRequestDto tokenRequestDto){
         log.info("로그아웃 성공");
         userService.logout(tokenRequestDto);
-        return "<h1>로그아웃</h1>";
+
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("로그아웃 성공");
+
+        return new ResponseEntity(message,HttpStatus.OK);
+
     }
 
     @GetMapping("/users/info")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<User> getUserInfo(){
-        return new ResponseEntity(userService.findUserInfo(), HttpStatus.OK);
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        message.setData(userService.findUserInfo());
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 }
