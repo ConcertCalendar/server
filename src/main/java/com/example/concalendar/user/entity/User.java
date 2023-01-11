@@ -23,25 +23,25 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "user_email", nullable = false, length = 100, unique = true)
     private String userEmail;
 
-    @Column(name = "user_birth")
+    @Column(name = "user_birth",nullable = false)
     private Date userBirth;
 
-    @Column(name = "user_name", length = 10)
+    @Column(name = "user_name", length = 10, nullable = false)
     private String name;
 
-    @Column(name = "user_nickname", length = 15)
+    @Column(name = "user_nickname", length = 15, nullable = false)
     private String userNickname;
 
     @Column(name = "user_level", length = 4)
     @Enumerated(EnumType.STRING)
     private Level level;
 
-    @Column(name = "user_phone", length = 13)
+    @Column(name = "user_phone", length = 13, nullable = false)
     private String userPhone;
 
     @Column(name = "user_password", length = 300, nullable = false)

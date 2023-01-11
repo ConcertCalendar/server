@@ -15,11 +15,11 @@ public class RefreshToken {
     // token이 DB에 저장되는 index 용도
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     // 객체를 가져오기 위한 용도로서의 key 값
     @Column(nullable = false)
-    private Integer tokenKey;
+    private Long tokenKey;
 
     @Column
     private String token;
@@ -36,7 +36,7 @@ public class RefreshToken {
     }
 
     @Builder
-    public RefreshToken(Integer tokenKey, String token){
+    public RefreshToken(Long tokenKey, String token){
         this.tokenKey = tokenKey;
         this.token = token;
     }

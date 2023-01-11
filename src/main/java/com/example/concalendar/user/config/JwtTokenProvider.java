@@ -5,6 +5,7 @@ import com.example.concalendar.user.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +33,8 @@ public class JwtTokenProvider {
     private Long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L;
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final RedisTemplate redisTemplate;
+
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
@@ -50,20 +53,22 @@ public class JwtTokenProvider {
         // 생성날짜, 만료날짜를 위한 Date
         Date now = new Date();
 
+        Date accessTokenExpiresIn = new Date(now.getTime()+accessTokenValidTime);
+        Date refreshTokenExpiresIn = new Date(now.getTime()+refreshTokenValidTime);
         // Access 토큰 생성
         // builder.compact로 토큰 생성하기
         String accessToken = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()+accessTokenValidTime))
+                .setExpiration(accessTokenExpiresIn)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
         // Refresh 토큰 생성
         String refreshToken = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setExpiration(new Date(now.getTime()+refreshTokenValidTime))
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(SignatureAlgorithm.HS256,secretKey)
                 .compact();
 
@@ -71,7 +76,8 @@ public class JwtTokenProvider {
                 .grantType("bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .accessTokenExpireDate(accessTokenValidTime)
+                .accessTokenExpiresTime(accessTokenValidTime)
+                .refreshTokenExpiresTime(refreshTokenValidTime)
                 .build();
     }
 
@@ -99,6 +105,15 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+
+
+    public Long getExpiration(String accessToken) {
+        // accessToken 남은 유효시간
+        Date expiration = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody().getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
     }
 
 }
