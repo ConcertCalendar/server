@@ -37,7 +37,6 @@ public class SecurityUtil {
             userEmail = (String) authentication.getPrincipal();
         }
 
-
         return userEmail;
     }
 }
