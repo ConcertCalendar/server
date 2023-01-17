@@ -14,10 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -89,6 +86,7 @@ public class UserController {
 
     }
 
+    // 마이페이지 컨트롤러
     @GetMapping("/users/info")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<User> getUserInfo(){
@@ -96,5 +94,23 @@ public class UserController {
         message.setStatus(StatusEnum.OK);
         message.setData(userService.findUserInfo());
         return new ResponseEntity(message, HttpStatus.OK);
+    }
+
+    // 닉네임 중복 체크 컨트롤러
+    @GetMapping("/users/join/nicknameCheck")
+    public ResponseEntity nicknameDoubleCheck(@RequestParam String nickname){
+        boolean nicknameExists = userService.nicknameDoubleCheck(nickname);
+        Message message = new Message();
+
+        if (nicknameExists){
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("닉네임이 존재합니다");
+            return new ResponseEntity(message,HttpStatus.OK);
+        }
+        else{
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("이 닉네임을 사용할 수 있습니다");
+            return new ResponseEntity(message,HttpStatus.OK);
+        }
     }
 }

@@ -14,7 +14,7 @@ import java.util.Random;
 public class MailService {
     private final JavaMailSender javaMailSender;
 
-    public void send(MailDto mailDto){
+    public String send(MailDto mailDto){
         SimpleMailMessage smm = new SimpleMailMessage();
         Random random = new Random();
         String key = "";
@@ -32,9 +32,11 @@ public class MailService {
             smm.setText("아래 코드를 인증해주세요\n"+key);
             log.info("메일을 전송합니다 {}",mailDto.getAddress());
             javaMailSender.send(smm);
+            return key;
 
         } catch (Exception ex){
             ex.printStackTrace();
+            throw new RuntimeException("인증 메일을 발송하지 못했습니다");
         }
     }
 }

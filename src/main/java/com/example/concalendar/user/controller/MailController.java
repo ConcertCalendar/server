@@ -21,12 +21,12 @@ public class MailController {
     public ResponseEntity confirmMail(@RequestBody MailDto mailDto){
         Message message = new Message();
 
+        String emailAuthString = mailService.send(mailDto);
         message.setStatus(StatusEnum.OK);
-        message.setMessage("로그인 성공");
-        mailService.send(mailDto);
+        message.setData(emailAuthString);
+        message.setMessage("인증메일 발신 성공");
 
         return new ResponseEntity(message, HttpStatus.OK);
 
     }
-
 }
