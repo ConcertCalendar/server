@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class CalendarServiceTest {
-
     @Autowired
     private CalendarService calendarService;
 
