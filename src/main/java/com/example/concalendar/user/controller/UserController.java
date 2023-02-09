@@ -34,13 +34,13 @@ public class UserController {
             message.setMessage("회원가입 성공");
             message.setData(user);
 
-            return new ResponseEntity(message,HttpStatus.OK);
+            return new ResponseEntity(message, message.getStatus().getHttpStatus());
         }
         else{
             message.setStatus(StatusEnum.BAD_REQUEST);
             message.setMessage("회원가입 실패");
 
-            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(message, message.getStatus().getHttpStatus());
 
         }
     }
@@ -56,13 +56,13 @@ public class UserController {
             message.setMessage("로그인 성공");
             message.setData(tokenDto);
 
-            return new ResponseEntity(message,HttpStatus.OK);
+            return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
         else{
             message.setStatus(StatusEnum.BAD_REQUEST);
             message.setMessage("로그인 실패");
 
-            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(message, message.getStatus().getHttpStatus());
 
         }
     }
@@ -82,7 +82,7 @@ public class UserController {
         message.setStatus(StatusEnum.OK);
         message.setMessage("로그아웃 성공");
 
-        return new ResponseEntity(message,HttpStatus.OK);
+        return new ResponseEntity(message,message.getStatus().getHttpStatus());
 
     }
 
@@ -93,7 +93,7 @@ public class UserController {
         Message message = new Message();
         message.setStatus(StatusEnum.OK);
         message.setData(userService.findUserInfo());
-        return new ResponseEntity(message, HttpStatus.OK);
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
     // 닉네임 중복 체크 컨트롤러
@@ -103,14 +103,14 @@ public class UserController {
         Message message = new Message();
 
         if (nicknameExists){
-            message.setStatus(StatusEnum.OK);
+            message.setStatus(StatusEnum.BAD_REQUEST);
             message.setMessage("닉네임이 존재합니다");
-            return new ResponseEntity(message,HttpStatus.OK);
+            return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
         else{
             message.setStatus(StatusEnum.OK);
             message.setMessage("이 닉네임을 사용할 수 있습니다");
-            return new ResponseEntity(message,HttpStatus.OK);
+            return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
     }
 }

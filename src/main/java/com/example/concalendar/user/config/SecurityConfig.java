@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -20,6 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
+
+//    private final UserLoginFailHandler userLoginFailHandler;
 
     // authenticationManager를 Bean 등록합니다.
     @Bean
@@ -55,6 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+//                .formLogin() //
+//                .loginPage("/users/login") // 인증이 필요할 때 이동하는 페이지 설정
+//                .defaultSuccessUrl("/users/login") // 인증 성공시
+//                .failureUrl("/users/login")
+//                .failureHandler(userLoginFailHandler)
+//                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,redisTemplate),
                         UsernamePasswordAuthenticationFilter.class);
                 // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
@@ -63,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // + 토큰에 저장된 유저정보를 활용하여야 하기 때문에 CustomUserDetailService 클래스를 생성합니다.
         // 세션을 사용하지 않는다고 설정 -> STATELESS
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
     }
 

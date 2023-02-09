@@ -8,12 +8,15 @@ import com.example.concalendar.user.dto.UserDto;
 import com.example.concalendar.user.entity.Level;
 import com.example.concalendar.user.entity.RefreshToken;
 import com.example.concalendar.user.entity.User;
+import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.RefreshTokenRepository;
 import com.example.concalendar.user.repository.UserRepository;
 import com.example.concalendar.user.util.SecurityUtil;
+import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,10 +59,10 @@ public class UserService{
     public TokenDto login(UserDto userDto) {
         // 로그인 시 Email이 일치하면 유저 정보 가져오기
         User user = userRepository.findByUserEmail(userDto.getUserEmail())
-                .orElseThrow(()->new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+                .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"가입되지 않은 E-MAIL 입니다."));
         // 로그인 시 패스워드가 불일치하면 에러 발생
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())){
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new CustomException(StatusEnum.BAD_REQUEST,"잘못된 비밀번호입니다.");
         }
         // AccessToken, Refresh Token 발급하기
         TokenDto tokenDto = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
