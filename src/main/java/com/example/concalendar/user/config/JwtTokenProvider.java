@@ -27,8 +27,8 @@ public class JwtTokenProvider {
     private String secretKey;
 
 
-    // Access 토큰 유효시간 10분
-    private Long accessTokenValidTime = 600 * 1000L;
+    // Access 토큰 유효시간 1분
+    private Long accessTokenValidTime = 30 * 1000L;
     // Refresh 토큰 유효시간 14일
     private Long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L;
 
@@ -92,9 +92,14 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-    public String resolveToken(HttpServletRequest request) {
+    // Request의 Header에서 access token 값을 가져옵니다. "Authorization" : "TOKEN값'
+    public String resolveAccessToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
+    }
+
+    // Request의 Header에서 refresh token 값을 가져옵니다. "RefreshToken" : "TOKEN값'
+    public String resolveRefreshToken(HttpServletRequest request){
+        return request.getHeader("RefreshToken");
     }
 
     // 토큰의 유효성 + 만료일자 확인
