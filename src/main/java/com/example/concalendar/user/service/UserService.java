@@ -58,8 +58,10 @@ public class UserService{
     @Transactional
     public TokenDto login(UserDto userDto) {
         // 로그인 시 Email이 일치하면 유저 정보 가져오기
-        User user = userRepository.findByUserEmail(userDto.getUserEmail())
-                .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"가입되지 않은 E-MAIL 입니다."));
+
+        User user = findUserByUserEmail(userDto.getUserEmail());
+//        User user = userRepository.findByUserEmail(userDto.getUserEmail())
+//                .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"가입되지 않은 E-MAIL 입니다."));
         // 로그인 시 패스워드가 불일치하면 에러 발생
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())){
             throw new CustomException(StatusEnum.BAD_REQUEST,"잘못된 비밀번호입니다.");
@@ -73,7 +75,7 @@ public class UserService{
                 .token(tokenDto.getRefreshToken())
                 .build();
 
-        redisTemplate.opsForValue().set("RT:"+user.getUserEmail(),tokenDto.getRefreshToken(),tokenDto.getRefreshTokenExpiresTime(), TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set("RT:"+tokenDto.getRefreshToken(), user.getUserEmail(),tokenDto.getRefreshTokenExpiresTime(), TimeUnit.MILLISECONDS);
 
         return tokenDto;
     }
@@ -117,5 +119,12 @@ public class UserService{
         else{
             return true;
         }
+    }
+
+    public User findUserByUserEmail(String userEmail){
+        User user = userRepository.findByUserEmail(userEmail)
+                .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"가입되지 않은 E-MAIL 입니다."));;
+
+        return user;
     }
 }
