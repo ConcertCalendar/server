@@ -92,9 +92,14 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-    public String resolveToken(HttpServletRequest request) {
+    // Request의 Header에서 access token 값을 가져옵니다. "Authorization" : "TOKEN값'
+    public String resolveAccessToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
+    }
+
+    // Request의 Header에서 refresh token 값을 가져옵니다. "RefreshToken" : "TOKEN값'
+    public String resolveRefreshToken(HttpServletRequest request){
+        return request.getHeader("RefreshToken");
     }
 
     // 토큰의 유효성 + 만료일자 확인
