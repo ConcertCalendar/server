@@ -12,6 +12,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class MailService {
+
     private final JavaMailSender javaMailSender;
 
     public String send(MailDto mailDto){
