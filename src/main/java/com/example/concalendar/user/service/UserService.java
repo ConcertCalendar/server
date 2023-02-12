@@ -69,13 +69,13 @@ public class UserService{
         // AccessToken, Refresh Token 발급하기
         TokenDto tokenDto = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
 
-        // RefreshToken 저장하기
-        RefreshToken refreshToken = RefreshToken.builder()
-                .tokenKey(user.getUserId())
-                .token(tokenDto.getRefreshToken())
-                .build();
+//        // RefreshToken 저장하기
+//        RefreshToken refreshToken = RefreshToken.builder()
+//                .tokenKey(user.getUserId())
+//                .token(tokenDto.getRefreshToken())
+//                .build();
 
-        redisTemplate.opsForValue().set("RT:"+tokenDto.getRefreshToken(), user.getUserEmail(),tokenDto.getRefreshTokenExpiresTime(), TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(user.getUserEmail(),tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresTime(), TimeUnit.MILLISECONDS);
 
         return tokenDto;
     }
@@ -91,9 +91,9 @@ public class UserService{
         Authentication authentication = jwtTokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
 
         // Redis에서 해당 User email로 저장된 Refresh Token 이 있는지 여부를 확인 후에 있을 경우 삭제를 한다.
-        if (redisTemplate.opsForValue().get("RT:"+authentication.getName())!=null){
+        if (redisTemplate.opsForValue().get(authentication.getName())!=null){
             // Refresh Token을 삭제
-            redisTemplate.delete("RT:"+authentication.getName());
+            redisTemplate.delete(authentication.getName());
         }
 
         // 해당 Access Token 유효시간을 가지고 와서 BlackList에 저장하기

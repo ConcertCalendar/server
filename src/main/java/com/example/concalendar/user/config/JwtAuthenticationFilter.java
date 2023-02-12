@@ -27,8 +27,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String accessToken = jwtTokenProvider.resolveAccessToken((HttpServletRequest) request);
         String refreshToken = jwtTokenProvider.resolveRefreshToken((HttpServletRequest) request);
 
-        // log를 이용한 확인
-        log.info("[This is Verifying token!!]"); // 그냥 스트링 출력해주는 로
         log.info(((HttpServletRequest) request).getRequestURL().toString());
 
         // 유효한 토큰인지 확인합니다. -> validation 진행
