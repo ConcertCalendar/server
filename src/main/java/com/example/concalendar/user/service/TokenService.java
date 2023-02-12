@@ -46,17 +46,22 @@ public class TokenService{
 
         // redis에 저장되어 있던 refresh Token과 재발행 하고 싶은 refresh Token을 비교하여
         // 불일치하면 Exception 발생
-        if (!redisTemplate.hasKey("RT:"+refreshToken)) {
+        if ( !redisTemplate.opsForValue().get(jwtTokenProvider.getUserPk(accessToken)).equals(refreshToken) ) {
+            System.out.println(redisTemplate.opsForValue().get(jwtTokenProvider.getUserPk(accessToken)));
             throw new CustomException(StatusEnum.BAD_REQUEST, "일치하는 Refresh Token이 존재하지 않습니다");
         }
+
+        log.info("Refresh Token 검사가 끝났습니다.");
 
         // AccessToken이 만료된 경우
         if (!jwtTokenProvider.validateToken(accessToken)){
             log.info("accessToken이 만료됐을때 /reIssue");
             // redis에서 저장된  refreshToken(key)을 통해 userEmail(value) 가져오기
-            String userEmailOfSavedRT = (String) redisTemplate.opsForValue().get("RT:" + refreshToken);
+            String userEmailOfAcccessToken = jwtTokenProvider.getUserPk(accessToken);
 
-            user = userService.findUserByUserEmail(userEmailOfSavedRT);
+            log.info("만료된 access Toekn 사용자의 이메일은 : "+userEmailOfAcccessToken);
+
+            user = userService.findUserByUserEmail(userEmailOfAcccessToken);
 
         }
 
@@ -77,14 +82,11 @@ public class TokenService{
 
         // Refresh Token을 Redis에 업데이트 하기
         redisTemplate.opsForValue().set(
-                "RT:" + newCreatedToken.getRefreshToken(),
                 user.getUserEmail(),
+                newCreatedToken.getRefreshToken(),
                 newCreatedToken.getRefreshTokenExpiresTime(),
                 TimeUnit.MILLISECONDS
         );
-
-        // 기존 refreshToken을 key로 저장되어있던 데이터를 Redis에서 삭제하기
-        redisTemplate.delete("RT:"+refreshToken);
 
         return newCreatedToken;
 
