@@ -79,6 +79,7 @@ public class TokenService{
 
         // User객체의 이름과 역할을 매개변수로 token을 다시 생성한다.
         newCreatedToken = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
+        log.info("Access 토큰을 재발급했습니다."+newCreatedToken.getAccessToken());
 
         // Refresh Token을 Redis에 업데이트 하기
         redisTemplate.opsForValue().set(
