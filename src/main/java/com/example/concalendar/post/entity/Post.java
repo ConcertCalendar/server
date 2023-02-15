@@ -14,6 +14,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "post_table")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,8 +26,8 @@ public class Post {
     @Column(name = "post_content", nullable = false)
     private String postContent;
 
-    @Column(name = "post_like", length = 10)
-    private Integer postLike;
+    @Column(name = "post_heart", length = 10)
+    private int postHeart;
 
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
