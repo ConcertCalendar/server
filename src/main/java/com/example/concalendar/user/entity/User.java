@@ -1,5 +1,6 @@
 package com.example.concalendar.user.entity;
 
+import com.example.concalendar.post.entity.Post;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "user_table")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,6 +54,10 @@ public class User implements UserDetails {
 
     @Column(name = "modified_at", length = 13)
     private LocalDateTime modifiedDate;
+
+    // user와 Post의 관계는 1:N (1명이 여러 개의 게시물 작성 가능)
+    @OneToMany(mappedBy = "writer")
+    private List<Post> postList = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
