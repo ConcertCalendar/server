@@ -17,6 +17,13 @@ public class PostService {
     private final UserRepository userRepository;
 
     public void create(PostFormDto postFormDto) {
-
+        Post post = Post.builder()
+                .postTitle(postFormDto.getPostTitle())
+                .postContent(postFormDto.getPostContent())
+                .createdDate(LocalDateTime.now())
+                .postLike(1)
+                .writer(userRepository.findByUserEmail("15@gmail.com").orElseThrow())
+                .build();
+        postRepository.save(post);
     }
 }

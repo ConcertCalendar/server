@@ -17,7 +17,7 @@ import java.util.Date;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "post_title", nullable = false)
     private String postTitle;
@@ -26,7 +26,7 @@ public class Post {
     private String postContent;
 
     @Column(name = "post_like", length = 10)
-    private String postLike;
+    private Integer postLike;
 
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
@@ -34,8 +34,8 @@ public class Post {
     @Column(name = "modified_at", length = 13)
     private LocalDateTime modifiedDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name ="writer_id")
-    private User user;
+    private User writer;
 
 }
