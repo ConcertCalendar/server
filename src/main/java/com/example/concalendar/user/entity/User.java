@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Table(name = "user_table")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long userId;
 

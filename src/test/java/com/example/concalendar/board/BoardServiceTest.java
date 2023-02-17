@@ -25,11 +25,11 @@ public class BoardServiceTest {
     @DisplayName("게시판 등록하기")
     public void createBoardTest(){
 
-        boardService.createBoard("게시판1");
+        boardService.createBoard("자유게시판");
 
         Board searchBoard = boardService.findBoardById(1);
 
-        assertEquals("게시판1",searchBoard.getName());
+        assertEquals("자유게시판",searchBoard.getName());
     }
 
 

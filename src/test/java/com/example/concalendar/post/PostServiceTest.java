@@ -21,16 +21,18 @@ public class PostServiceTest {
     @Test
     @DisplayName("글 등록하기")
     public void createPostTest(){
-        PostFormDto postFormDto = PostFormDto.builder()
-                .postTitle("title33")
-                .postContent("content33")
-                .build();
 
-        postService.create(postFormDto, "15@gmail.com", 1);
+        for (int i=1; i<31; i++) {
+            PostFormDto postFormDto = PostFormDto.builder()
+                    .postTitle("title"+i)
+                    .postContent("content"+i+1)
+                    .build();
 
+            postService.create(postFormDto, "15@gmail.com", 1);
+        }
         Post post = postService.findPostByPostId(3);
 
-        assertEquals("title33",post.getPostTitle());
+        assertEquals("title3",post.getPostTitle());
     }
 
     @Test
