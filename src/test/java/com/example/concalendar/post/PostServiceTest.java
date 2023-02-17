@@ -22,27 +22,27 @@ public class PostServiceTest {
     @DisplayName("글 등록하기")
     public void createPostTest(){
         PostFormDto postFormDto = PostFormDto.builder()
-                .postTitle("title3")
-                .postContent("content3")
+                .postTitle("title33")
+                .postContent("content33")
                 .build();
 
-        postService.create(postFormDto, "15@gmail.com");
+        postService.create(postFormDto, "15@gmail.com", 1);
 
-        Post post = postService.findPostByPostId(2);
+        Post post = postService.findPostByPostId(3);
 
-        assertEquals("title3",post.getPostTitle());
+        assertEquals("title33",post.getPostTitle());
     }
 
     @Test
     @DisplayName("글 수정하기")
     public void updatePostTEst(){
         PostFormDto postFormDto = PostFormDto.builder()
-                .postTitle("title2 Changed")
-                .postContent("content2 changed")
+                .postTitle("title22 Changed")
+                .postContent("content22 changed")
                 .build();
 
         Post post = postService.update(2,postFormDto);
 
-        assertEquals("title2 Changed",post.getPostTitle());
+        assertEquals("title22 Changed",post.getPostTitle());
     }
 }
