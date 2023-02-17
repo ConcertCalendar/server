@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,4 +52,9 @@ public class PostService {
 
     }
 
+    public List<Post> findAllPostsByBoardId(Long id) {
+        List<Post> postList = postRepository.findAllPostsByBoardId(id);
+
+        return postList;
+    }
 }
