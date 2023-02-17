@@ -1,5 +1,6 @@
 package com.example.concalendar.post.entity;
 
+import com.example.concalendar.board.entity.Board;
 import com.example.concalendar.user.entity.Level;
 import com.example.concalendar.user.entity.User;
 import lombok.*;
@@ -38,5 +39,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name ="writer_id")
     private User writer;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
 }
