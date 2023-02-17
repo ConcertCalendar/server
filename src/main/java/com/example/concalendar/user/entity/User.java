@@ -57,7 +57,7 @@ public class User implements UserDetails {
 
     // user와 Post의 관계는 1:N (1명이 여러 개의 게시물 작성 가능)
     @OneToMany(mappedBy = "writer")
-    private List<Post> postList = new ArrayList<>();
+    private List<Post> postList;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
