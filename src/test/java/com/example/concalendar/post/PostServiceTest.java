@@ -22,10 +22,10 @@ public class PostServiceTest {
     @DisplayName("글 등록하기")
     public void createPostTest(){
 
-        for (int i=1; i<31; i++) {
+        for (int i=1; i<100; i++) {
             PostFormDto postFormDto = PostFormDto.builder()
-                    .postTitle("title"+i)
-                    .postContent("content"+i+1)
+                    .postTitle("title title title"+i)
+                    .postContent("content content content"+i+1)
                     .build();
 
             postService.create(postFormDto, "15@gmail.com", 1);
