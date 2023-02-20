@@ -1,15 +1,20 @@
 package com.example.concalendar.post.service;
 
 import com.example.concalendar.board.service.BoardService;
+import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,6 +54,23 @@ public class PostService {
         post.setPostContent(postFormDto.getPostContent());
 
         return post;
+
+    }
+
+    public List<PostDto> getPostByPage(Pageable pageRequest){
+        Page<Post> postPageList = postRepository.findAll(pageRequest);
+        List<Post> postList = new ArrayList<>();
+        List<PostDto> postDtoList = new ArrayList<>();
+
+        postList = postPageList.getContent();
+
+        for (Post post : postList){
+            PostDto postDto = PostDto.entityToGetPostDto(post);
+
+            postDtoList.add(postDto);
+        }
+
+        return postDtoList;
 
     }
 
