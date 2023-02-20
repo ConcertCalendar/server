@@ -7,11 +7,13 @@ spring:
     password: 1q2w3e4r!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  jpa:
-    hibernate:
-      ddl-auto: none
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
 
   sql:
     init:
-      schema-locations: init-data/schema.sql
-      data-locations: init-data/data.sql
+      schema-locations: classpath*:init-data/schema.sql
+      data-locations: classpath*:init-data/data.sql
+      mode: always
+      separator: ;;
