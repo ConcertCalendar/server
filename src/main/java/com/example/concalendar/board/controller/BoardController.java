@@ -27,7 +27,7 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity getAllPosts(@PathVariable Long id, @PageableDefault(size = 20, sort = "createdDate") Pageable pageRequest){
         log.info("/board/{}에 들어왔습니다",id);
-        List<PostDto> postDtoList = postService.getPostByPage(pageRequest);
+        List<PostDto> postDtoList = postService.getPostByPage(pageRequest, id);
 
 //        List<Post> postList = postService.findAllPostsByBoardId(id);
 //        List<PostDto> postDtoList = new ArrayList<>();

@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
     Page<Post> findAll(Pageable pageable);
+    Long countPostsByBoardId(long boardId);
 }
