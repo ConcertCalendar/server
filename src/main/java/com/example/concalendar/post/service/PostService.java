@@ -57,16 +57,15 @@ public class PostService {
 
     }
 
-    public List<PostDto> getPostByPage(Pageable pageRequest, long id){
-        Page<Post> postPageList = postRepository.findAllWithBoardId(pageRequest,id);
+    public List<PostDto> getPostByPage(Pageable pageRequest){
+        Page<Post> postPageList = postRepository.findAll(pageRequest);
         List<Post> postList = new ArrayList<>();
         List<PostDto> postDtoList = new ArrayList<>();
 
         postList = postPageList.getContent();
-        long postSizeByBoardId = postRepository.countPostsByBoardId(id);
 
         for (Post post : postList){
-            PostDto postDto = PostDto.entityToGetPostDto(post,postSizeByBoardId);
+            PostDto postDto = PostDto.entityToGetPostDto(post);
 
             postDtoList.add(postDto);
         }

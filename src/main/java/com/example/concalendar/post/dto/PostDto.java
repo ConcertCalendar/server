@@ -19,12 +19,11 @@ public class PostDto {
     private String postContent;
 
     private int postHeart;
-    private long entirePostsSize;
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public static PostDto entityToGetPostDto(Post post, long postSize){
+    public static PostDto entityToGetPostDto(Post post){
         PostDto getPostDto = PostDto.builder()
                 .postTitle(post.getPostTitle())
                 .postContent(post.getPostContent())
@@ -32,7 +31,6 @@ public class PostDto {
                 .id(post.getId())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
-                .entirePostsSize(postSize)
                 .build();
         return getPostDto;
 

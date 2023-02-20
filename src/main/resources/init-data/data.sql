@@ -1,3 +1,5 @@
+select * from user_table;
+;;
 SET FOREIGN_KEY_CHECKS = 0;
 ;;
 truncate table user_table;
