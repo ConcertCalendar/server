@@ -1,15 +1,16 @@
 package com.example.concalendar.post.service;
 
 import com.example.concalendar.board.service.BoardService;
-import com.example.concalendar.post.dto.PostDto;
+import com.example.concalendar.board.dto.BoardDto;
 import com.example.concalendar.post.dto.PostFormDto;
-import com.example.concalendar.post.dto.PostReturnDto;
+import com.example.concalendar.board.dto.BoardReturnDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
+import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.UserRepository;
+import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,27 +59,27 @@ public class PostService {
 
     }
 
-    public PostReturnDto getPostByPage(Pageable pageRequest, long id){
+    public BoardReturnDto getPostByPage(Pageable pageRequest, long id){
         Page<Post> postPageList = postRepository.findAllWithBoardId(pageRequest,id);
         List<Post> postList = new ArrayList<>();
-        List<PostDto> postDtoList = new ArrayList<>();
+        List<BoardDto> boardDtoList = new ArrayList<>();
 
         postList = postPageList.getContent();
         long postSizeByBoardId = postRepository.countPostsByBoardId(id);
 
         for (Post post : postList){
-            PostDto postDto = PostDto.entityToGetPostDto(post,postSizeByBoardId);
+            BoardDto boardDto = BoardDto.entityToGetPostDto(post);
 
-            postDtoList.add(postDto);
+            boardDtoList.add(boardDto);
         }
 
-        PostReturnDto postReturnDto = PostReturnDto
+        BoardReturnDto boardReturnDto = BoardReturnDto
                 .builder()
-                .postDtoList(postDtoList)
+                .boardDtoList(boardDtoList)
                 .postEntireSize(postSizeByBoardId)
                 .build();
 
-        return postReturnDto;
+        return boardReturnDto;
 
     }
 
@@ -86,5 +87,12 @@ public class PostService {
         List<Post> postList = postRepository.findAllPostsByBoardId(id);
 
         return postList;
+    }
+
+    public Post getPostByPostId(long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"postId에 해당하는 Post가 DB에 존재하지 않습니다."));
+
+        return post;
     }
 }
