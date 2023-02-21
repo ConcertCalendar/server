@@ -1,6 +1,7 @@
 package com.example.concalendar.board.controller;
 
 import com.example.concalendar.post.dto.PostDto;
+import com.example.concalendar.post.dto.PostReturnDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.service.PostService;
 import com.example.concalendar.util.Message;
@@ -27,7 +28,8 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity getAllPosts(@PathVariable Long id, @PageableDefault(size = 20, sort = "createdDate") Pageable pageRequest){
         log.info("/board/{}에 들어왔습니다",id);
-        List<PostDto> postDtoList = postService.getPostByPage(pageRequest, id);
+        PostReturnDto postReturnDto = postService.getPostByPage(pageRequest, id);
+
 
 //        List<Post> postList = postService.findAllPostsByBoardId(id);
 //        List<PostDto> postDtoList = new ArrayList<>();
@@ -43,7 +45,7 @@ public class BoardController {
 
         message.setStatus(StatusEnum.OK);
         message.setMessage("boardId="+id+"에 해당하는 게시물 리스트 전송 성공");
-        message.setData(postDtoList);
+        message.setData(postReturnDto);
 
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
