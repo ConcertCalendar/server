@@ -3,6 +3,7 @@ package com.example.concalendar.post.service;
 import com.example.concalendar.board.service.BoardService;
 import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
+import com.example.concalendar.post.dto.PostReturnDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.user.repository.UserRepository;
@@ -57,7 +58,7 @@ public class PostService {
 
     }
 
-    public List<PostDto> getPostByPage(Pageable pageRequest, long id){
+    public PostReturnDto getPostByPage(Pageable pageRequest, long id){
         Page<Post> postPageList = postRepository.findAllWithBoardId(pageRequest,id);
         List<Post> postList = new ArrayList<>();
         List<PostDto> postDtoList = new ArrayList<>();
@@ -71,7 +72,13 @@ public class PostService {
             postDtoList.add(postDto);
         }
 
-        return postDtoList;
+        PostReturnDto postReturnDto = PostReturnDto
+                .builder()
+                .postDtoList(postDtoList)
+                .postEntireSize(postSizeByBoardId)
+                .build();
+
+        return postReturnDto;
 
     }
 
