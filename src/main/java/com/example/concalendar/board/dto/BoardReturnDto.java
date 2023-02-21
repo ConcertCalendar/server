@@ -1,5 +1,6 @@
-package com.example.concalendar.post.dto;
+package com.example.concalendar.board.dto;
 
+import com.example.concalendar.board.dto.BoardDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,10 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class PostReturnDto {
+public class BoardReturnDto {
 
     private long postEntireSize;
 
-    private List<PostDto> postDtoList;
+    private List<BoardDto> boardDtoList;
 
 }

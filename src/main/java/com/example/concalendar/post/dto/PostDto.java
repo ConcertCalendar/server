@@ -1,18 +1,25 @@
 package com.example.concalendar.post.dto;
 
+import com.example.concalendar.board.entity.Board;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.user.entity.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 public class PostDto {
+
     private Long id;
+
+    private Long boardId;
+
+    private Long writerId;
+
+    private String writerName;
 
     private String postTitle;
 
@@ -21,19 +28,21 @@ public class PostDto {
     private int postHeart;
 
     private LocalDateTime createdDate;
+
     private LocalDateTime modifiedDate;
 
-    public static PostDto entityToGetPostDto(Post post, long postSize){
-        PostDto getPostDto = PostDto.builder()
-                .postTitle(post.getPostTitle())
-                .postContent(post.getPostContent())
-                .postHeart(post.getPostHeart())
-                .id(post.getId())
-                .createdDate(post.getCreatedDate())
-                .modifiedDate(post.getModifiedDate())
-                .build();
-        return getPostDto;
 
+    public PostDto(Post post){
+        this.id = post.getId();
+        this.boardId = post.getBoard().getId();
+        this.writerId = post.getWriter().getUserId();
+        this.writerName = post.getWriter().getUserNickname();
+        this.postTitle = post.getPostTitle();
+        this.postContent = post.getPostContent();
+        this.postHeart = post.getPostHeart();
+        this.createdDate = post.getCreatedDate();
+        this.modifiedDate = post.getModifiedDate();
     }
+
 
 }
