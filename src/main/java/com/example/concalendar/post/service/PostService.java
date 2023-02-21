@@ -6,7 +6,9 @@ import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.post.dto.PostReturnDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
+import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.UserRepository;
+import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -86,5 +88,12 @@ public class PostService {
         List<Post> postList = postRepository.findAllPostsByBoardId(id);
 
         return postList;
+    }
+
+    public Post getPostByPostId(long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"postId에 해당하는 Post가 DB에 존재하지 않습니다."));
+
+        return post;
     }
 }

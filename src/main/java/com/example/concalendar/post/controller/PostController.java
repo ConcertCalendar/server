@@ -1,9 +1,12 @@
 package com.example.concalendar.post.controller;
 
+import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,6 +21,11 @@ public class PostController {
     public void createPost(PostFormDto postFormDto){
         String userEmail = "";
         postService.create(postFormDto, userEmail, 1);
+    }
+
+    @GetMapping("/board/{boardId}/{postId}")
+    public void getPost(@PathVariable Long boardId, @PathVariable Long postId){
+
     }
 
 

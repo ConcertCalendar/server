@@ -37,7 +37,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("글 수정하기")
-    public void updatePostTEst(){
+    public void updatePostTest(){
         PostFormDto postFormDto = PostFormDto.builder()
                 .postTitle("title22 Changed")
                 .postContent("content22 changed")
@@ -46,5 +46,14 @@ public class PostServiceTest {
         Post post = postService.update(2,postFormDto);
 
         assertEquals("title22 Changed",post.getPostTitle());
+    }
+
+    @Test
+    @DisplayName("글 찾기")
+    public void getPostTest(){
+        long postId = 31;
+        Post post = postService.getPostByPostId(postId);
+
+        assertEquals(31,post.getId());
     }
 }
