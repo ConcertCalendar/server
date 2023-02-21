@@ -19,7 +19,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping("/write")
+    @PostMapping("/posts/write")
     public void createPost(PostFormDto postFormDto){
         String userEmail = "";
         postService.create(postFormDto, userEmail, 1);
