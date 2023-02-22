@@ -27,10 +27,10 @@ BEGIN
 	DECLARE i INT DEFAULT 1;
     WHILE (i <= 50) DO
 	INSERT INTO post_table (created_at,post_content,post_heart,post_title,board_id,writer_id)
-	values(now(), concat('contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent',i),0,concat('titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle',i),1,1);
+	values(now(), concat('contentcontentcontentcontentcontentcontentcontentcontentcontent\ncontentcontentcontentcontentcontentcontentcontentcontent',i),0,concat('titletitletitletitletitletitletitletitletitletitletitle\ntitletitletitletitletitletitletitletitletitletitletitle',i),1,1);
 
     INSERT INTO post_table (created_at,post_content,post_heart,post_title,board_id,writer_id)
-    values(now(), concat('ReviewContentReviewContentReviewContentReviewContentReviewContentReviewContentReviewContentReviewContentReviewContent',i),0,concat('ReviewTitleReviewTitleReviewTitleReviewTitleReviewTitleReviewTitleReviewTitleReviewTitleReviewTitleReviewTitle',i),2,2);
+    values(now(), concat('ReviewContentReviewContentReviewContentReviewContentReviewContent\nReviewContentReviewContentReviewContentReviewContent',i),0,concat('ReviewTitleReviewTitleReviewTitleReviewTitleReviewTitle\nReviewTitleReviewTitleReviewTitleReviewTitleReviewTitle',i),2,2);
 
 	SET i = i + 1;
     END WHILE;
