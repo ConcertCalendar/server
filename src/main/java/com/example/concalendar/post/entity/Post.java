@@ -47,7 +47,7 @@ public class Post {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "inPost")
+    @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
 
 }
