@@ -1,5 +1,6 @@
 package com.example.concalendar.user.entity;
 
+import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.post.entity.Post;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,6 +59,9 @@ public class User implements UserDetails {
     // user와 Post의 관계는 1:N (1명이 여러 개의 게시물 작성 가능)
     @OneToMany(mappedBy = "writer")
     private List<Post> postList;
+
+    @OneToMany(mappedBy = "commentWriter")
+    private List<Comment> commentList;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
