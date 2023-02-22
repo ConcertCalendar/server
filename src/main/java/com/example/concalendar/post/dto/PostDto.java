@@ -1,6 +1,8 @@
 package com.example.concalendar.post.dto;
 
 import com.example.concalendar.board.entity.Board;
+import com.example.concalendar.comment.dto.CommentDto;
+import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.user.entity.User;
 import lombok.Getter;
@@ -8,6 +10,9 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -31,6 +36,8 @@ public class PostDto {
 
     private LocalDateTime modifiedDate;
 
+    private List<CommentDto> commentDtoList;
+
 
     public PostDto(Post post){
         this.id = post.getId();
@@ -42,6 +49,9 @@ public class PostDto {
         this.postHeart = post.getPostHeart();
         this.createdDate = post.getCreatedDate();
         this.modifiedDate = post.getModifiedDate();
+        this.commentDtoList = post.getCommentList().stream()
+                .map(comment -> new CommentDto(comment))
+                .collect(Collectors.toList());
     }
 
 
