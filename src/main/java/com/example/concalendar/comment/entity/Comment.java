@@ -30,11 +30,11 @@ public class Comment {
     @Column(name = "modified_at", length = 13)
     private LocalDateTime modifiedDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="writer_id")
     private User commentWriter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post article;
 }

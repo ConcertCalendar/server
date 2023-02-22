@@ -8,6 +8,7 @@ import com.example.concalendar.user.service.UserService;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -36,5 +37,13 @@ public class CommentService {
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"댓글Id에 해당하는 댓글이 DB에 존재하지 않습니다."));
 
         return comment;
+    }
+
+    @Transactional
+    public void update(long commentId, String updateContent, String userEmail, long postId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"댓글Id에 해당하는 댓글이 DB에 존재하지 않습니다."));
+
+        comment.setCommentContent(updateContent);
     }
 }
