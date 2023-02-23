@@ -21,12 +21,35 @@ public class CommentController {
 
     @PostMapping("/boards/{boardId}/posts/{postId}/comments")
     public ResponseEntity createComment(@PathVariable Long boardId, @PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @RequestHeader String Authorization){
-        commentService.create(commentRequestDto.getCommentContent(), jwtTokenProvider.getUserPk(Authorization), postId);
         Message message = new Message();
-        message.setStatus(StatusEnum.OK);
-        message.setMessage("댓글 달기 성공");
+
+        if (jwtTokenProvider.validateToken(Authorization)){
+            commentService.create(commentRequestDto.getCommentContent(), jwtTokenProvider.getUserPk(Authorization), postId);
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("댓글 달기 성공");
+        }
+        else{
+            message.setStatus(StatusEnum.Unauthorized);
+            message.setMessage("AccessToken이 유효하지 않아서 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
+        }
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }
 
+    @PutMapping("/boards/{boardId}/posts/{postId}/comments/{commentId}")
+    public ResponseEntity updateComment(@PathVariable Long boardId, @PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @RequestHeader String Authorization){
+        Message message = new Message();
+
+        if (jwtTokenProvider.validateToken(Authorization)){
+            commentService.update(commentId, commentRequestDto.getCommentContent(), jwtTokenProvider.getUserPk(Authorization), postId);
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("댓글 수정 성공");
+        }
+        else{
+            message.setStatus(StatusEnum.Unauthorized);
+            message.setMessage("AccessToken이 유효하지 않아서 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
+        }
+
+        return new ResponseEntity(message,message.getStatus().getHttpStatus());
+    }
 }
