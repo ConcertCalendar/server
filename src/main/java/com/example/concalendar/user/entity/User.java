@@ -2,6 +2,7 @@ package com.example.concalendar.user.entity;
 
 import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.post.entity.Post;
+import com.example.concalendar.reply.entity.Reply;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -62,6 +63,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "commentWriter")
     private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "replyWriter")
+    private List<Reply> replyList;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
