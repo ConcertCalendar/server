@@ -52,4 +52,21 @@ public class CommentController {
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }
+
+    @DeleteMapping("/boards/{boardId}/posts/{postId}/comments/{commentId}")
+    public ResponseEntity deleteComment(@PathVariable Long boardId, @PathVariable Long postId, @PathVariable Long commentId, @RequestHeader String Authorization){
+        Message message = new Message();
+
+        if (jwtTokenProvider.validateToken(Authorization)){
+            commentService.delete(commentId);
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("댓글 삭제 성공");
+        }
+        else{
+            message.setStatus(StatusEnum.Unauthorized);
+            message.setMessage("AccessToken이 유효하지 않아서 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
+        }
+
+        return new ResponseEntity(message,message.getStatus().getHttpStatus());
+    }
 }
