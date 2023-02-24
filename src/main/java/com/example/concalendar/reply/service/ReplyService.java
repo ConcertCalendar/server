@@ -38,12 +38,19 @@ public class ReplyService {
         return reply;
     }
 
+    // 더티 체킹
     @Transactional
     public void update(String replyModifiedContent, long replyId) {
         Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"해당 답글 Id와 일치하는 답글이 존재하지 않습니다."));
 
         reply.setReplyContent(replyModifiedContent);
+    }
 
+
+    public void delete(long replyId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"해당 답글 Id와 일치하는 답글이 존재하지 않습니다."));
+        replyRepository.delete(reply);
     }
 }
