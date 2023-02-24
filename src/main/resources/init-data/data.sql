@@ -39,15 +39,15 @@ END;;
 
 call loop_insert_posts;;
 
-insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글1댓글1',1,1);
+insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1댓글1',1,1);
 ;;
-insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글2댓글2',1,2);
+insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2댓글2',1,2);
 ;;
-insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글3댓글3',2,1);
+insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3댓글3',2,1);
 ;;
-insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글4댓글4',2,2);
+insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4댓글4',2,2);
 ;;
-insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글5댓글5',1,1);
+insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5댓글5',1,1);
 ;;
 
 insert into reply_table (created_at,reply_content,comment_id,writer_id) values (now(), '답글1답글1',1,1);
