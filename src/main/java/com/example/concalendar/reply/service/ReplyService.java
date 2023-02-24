@@ -8,6 +8,7 @@ import com.example.concalendar.user.service.UserService;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -35,5 +36,14 @@ public class ReplyService {
                 .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"해당 답글 Id와 일치하는 답글이 존재하지 않습니다."));
 
         return reply;
+    }
+
+    @Transactional
+    public void update(String replyModifiedContent, long replyId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"해당 답글 Id와 일치하는 답글이 존재하지 않습니다."));
+
+        reply.setReplyContent(replyModifiedContent);
+
     }
 }
