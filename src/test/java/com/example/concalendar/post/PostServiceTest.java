@@ -28,7 +28,7 @@ public class PostServiceTest {
                     .postContent("content content content"+i+1)
                     .build();
 
-            postService.create(postFormDto, "15@gmail.com", 1);
+            postService.create(postFormDto, "15@gmail.com");
         }
         Post post = postService.findPostByPostId(3);
 
