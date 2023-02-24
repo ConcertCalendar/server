@@ -1,15 +1,18 @@
 package com.example.concalendar.post.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
 public class PostFormDto {
+    @NotBlank
+    private Long boardId;
+
     @NotBlank
     private String postTitle;
 
