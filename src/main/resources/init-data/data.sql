@@ -49,3 +49,14 @@ insert into comment_table (created_at,comment_content,post_id,writer_id) values 
 ;;
 insert into comment_table (created_at,comment_content,post_id,writer_id) values (now(), '댓글5댓글5',1,1);
 ;;
+
+insert into reply_table (created_at,reply_content,comment_id,writer_id) values (now(), '답글1답글1',1,1);
+;;
+insert into reply_table (created_at,reply_content,comment_id,writer_id) values (now(), '답글2답글2',1,1);
+;;
+insert into reply_table (created_at,reply_content,comment_id,writer_id) values (now(), '답글3답글3',2,1);
+;;
+insert into reply_table (created_at,reply_content,comment_id,writer_id) values (now(), '답글4답글4',2,2);
+;;
+insert into reply_table (created_at,reply_content,comment_id,writer_id) values (now(), '답글5답글5',2,2);
+;;
