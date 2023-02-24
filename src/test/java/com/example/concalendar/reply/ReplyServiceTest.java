@@ -22,4 +22,12 @@ public class ReplyServiceTest {
         replyService.create("답글1","15@gmail.com",1);
         assertEquals(replyService.findByReplyId(1).getReplyContent(),"답글1");
     }
+
+    @Test
+    @DisplayName("답글 수정 테스트")
+    @Order(2)
+    public void updateReplyTest(){
+        replyService.update("답글1 수정","15@gmail.com",1);
+        assertEquals(replyService.findByReplyId(1).getReplyContent(),"답글1 수정");
+    }
 }
