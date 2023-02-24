@@ -29,12 +29,6 @@ public class Reply {
     @Column(name = "modified_at", length = 13)
     private LocalDateTime modifiedDate;
 
-    @Column(name = "reply_step")
-    private Long replyStep;
-
-    @Column(name = "reply_level")
-    private Long replyLevel;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="writer_id")
     private User replyWriter;
