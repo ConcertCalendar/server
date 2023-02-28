@@ -7,16 +7,21 @@ import com.example.concalendar.user.dto.UserDto;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.service.TokenService;
 import com.example.concalendar.user.service.UserService;
+import com.example.concalendar.user.util.CookieUtil;
 import com.example.concalendar.util.Message;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
 
 @Slf4j
 @RestController
@@ -24,6 +29,7 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
     private final TokenService tokenService;
+    private final CookieUtil cookieUtil;
 
     @PostMapping("/users/join")
     public ResponseEntity join(@Valid @RequestBody User user){
@@ -47,7 +53,7 @@ public class UserController {
 
     // 로그인
     @PostMapping("/users/login")
-    public ResponseEntity login(@RequestBody UserDto userDto) {
+    public ResponseEntity login(@RequestBody UserDto userDto, HttpServletResponse response) {
         log.info("user email = {}", userDto.getUserEmail());
         Message message = new Message();
         if (userService.login(userDto)!=null){
@@ -55,6 +61,11 @@ public class UserController {
             message.setStatus(StatusEnum.OK);
             message.setMessage("로그인 성공");
             message.setData(tokenDto);
+
+            HashMap<String, Cookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
+
+            response.addCookie(hashMapCookies.get("accessTokenCookie"));
+            response.addCookie(hashMapCookies.get("refreshTokenCookie"));
 
             return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
