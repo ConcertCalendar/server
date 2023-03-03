@@ -12,6 +12,7 @@ import com.example.concalendar.util.Message;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.HashMap;
 
 @Slf4j
@@ -62,10 +64,12 @@ public class UserController {
             message.setMessage("로그인 성공");
             message.setData(tokenDto);
 
-            HashMap<String, Cookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
+            HashMap<String, ResponseCookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
 
-            response.addCookie(hashMapCookies.get("accessTokenCookie"));
-            response.addCookie(hashMapCookies.get("refreshTokenCookie"));
+            response.addHeader("Set-Cookie",hashMapCookies.get("accessTokenCookie").toString());
+
+//            response.addCookie(hashMapCookies.get("accessTokenCookie"));
+//            response.addCookie(hashMapCookies.get("refreshTokenCookie"));
 
             return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
