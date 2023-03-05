@@ -64,14 +64,17 @@ public class UserController {
             message.setMessage("로그인 성공");
             message.setData(tokenDto);
 
-            HashMap<String, ResponseCookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
+            HashMap<String, Cookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
 
-            response.addHeader("Set-Cookie",hashMapCookies.get("accessTokenCookie").toString());
+//            response.addHeader("Set-Cookie",hashMapCookies.get("accessTokenCookie").toString());
+//            response.addHeader("Authorization","sfsdfsadfasdf");
 
 //            response.addCookie(hashMapCookies.get("accessTokenCookie"));
 //            response.addCookie(hashMapCookies.get("refreshTokenCookie"));
 
-            return new ResponseEntity(message,message.getStatus().getHttpStatus());
+            response.addCookie(hashMapCookies.get("accessTokenCookie"));
+
+            return new ResponseEntity(message,HttpStatus.OK);
         }
         else{
             message.setStatus(StatusEnum.BAD_REQUEST);

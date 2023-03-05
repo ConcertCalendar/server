@@ -9,15 +9,12 @@ import java.util.HashMap;
 
 @Configuration
 public class CookieUtil {
-    public HashMap<String, ResponseCookie> createCookies(TokenDto tokenDto){
-        HashMap<String, ResponseCookie> hashMapCookies = new HashMap<>();
-        ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", tokenDto.getAccessToken())
-                .httpOnly(true)
-                .sameSite("None")
-                .secure(false)
-                .path("/")
-                .maxAge(tokenDto.getAccessTokenExpiresTime())
-                .build();
+    public HashMap<String, Cookie> createCookies(TokenDto tokenDto){
+        HashMap<String, Cookie> hashMapCookies = new HashMap<>();
+        Cookie accessTokenCookie =  new Cookie("accessToken", tokenDto.getAccessToken());
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(accessTokenCookie.getMaxAge());
+        accessTokenCookie.setSecure(false);
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
                 .httpOnly(true)
@@ -27,9 +24,8 @@ public class CookieUtil {
                 .maxAge(tokenDto.getRefreshTokenExpiresTime())
                 .build();
 
-
         hashMapCookies.put("accessTokenCookie",accessTokenCookie);
-        hashMapCookies.put("refreshTokenCookie",refreshTokenCookie);
+//        hashMapCookies.put("refreshTokenCookie",refreshTokenCookie);
 
         return hashMapCookies;
     }
