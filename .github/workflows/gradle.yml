@@ -43,35 +43,28 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build --exclude-task test
       
-    # 빌드를 성공하면 해당 프로젝트를 zip로 만든다
-  #  - name: Make zip file
-   #   run: zip -r ./ConcertCalendar.zip .
-    #  shell: bash
+    # 전송할 파일을 담을 디렉토리 생성
+    - name: Make Directory for deliver
+      run: mkdir deploy
+    
+    # Jar file Copy
+    - name: Copy Jar
+      run: cp ./build/libs/*.jar ./deploy/
       
-    # AWS 계정 설정
-  #  - name: Configure AWS credentials
-   #   uses: aws-actions/configure-aws-credentials@v1
-   #   with:
-      # 깃허브 secret에 넣어둔 access key
-    #    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      # 깃허브 Secrets에 넣어둔 Secret key
-    #    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      # 깃허브 secrets에 넣어둔 Region
-     #   aws-region: ${{ secrets.AWS_REGION }}
-        
-    # 만들어 놓은 S3에 해당 zip 파일 저장
-   # - name: Upload to S3
-    #  run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./ConcertCalendar.zip s3://concertcalendardeploy/ConcertCalendar.zip
-      
-    # AWS CodeDeploy에 배포
-   # - name: Deploy
-    #  env:
-     #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-     # run: |
-      #  aws deploy create-deployment 
-        
-
+    # 압축파일 형태로 전달
+    - name: Make zip file
+      run: zip -r -qq -j ./ConcertCalendar-build.zip ./deploy
+    
+    # S3 Bucket으로 Copy
+    - name: Deliver to AWS S3
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        aws s3 cp \
+        --region ap-northeast-2 \
+        --acl private \ 
+        ./ConcertCalendar-build.zip s3://ConcertCalendar-build/
 
 
 
