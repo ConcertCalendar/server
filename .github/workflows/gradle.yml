@@ -68,5 +68,5 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name concert-calendar-test-prod \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=project-bucket-v1,bundleType=zip,key=concert-calendar/ConcertCalendar.zip \
+          --s3-location bucket=myconcertcalendardeploy,bundleType=zip,key=concert-calendar/ConcertCalendar.zip \
           --region ap-northeast-2 \
