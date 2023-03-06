@@ -37,8 +37,8 @@ spring:
     # Google smtp server 사용
     host: smtp.gmail.com
     port: 587
-    username: ${{ secrets.MAIL_USERNAME }} #앱 비밀번호 발급받은 google 계정
-    password: ${{ secrets.MAIL_PASSWORD }} #발급받은 앱 비밀번호
+    username: tbvjqlqlqlr1@gmail.com #앱 비밀번호 발급받은 google 계정
+    password: rckhfmrxqxjucgiz #발급받은 앱 비밀번호
     properties:
       mail:
         smtp:
@@ -60,5 +60,5 @@ server:
   ssl:
     key-store: concal-keystore.p12
     key-store-type: PKCS12
-    key-store-password: ${{ secrets.SSL_KEY_STORE_PASSWORD }}
+    key-store-password: jp025879
     key-alias: ConCal-keystore
