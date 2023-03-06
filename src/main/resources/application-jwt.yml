@@ -1,2 +1,2 @@
 jwt:
-  secret: myprojectmyprojectmyproject
+  secret: ${{ secrets.JWT_SECRET }}
