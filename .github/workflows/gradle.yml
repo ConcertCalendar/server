@@ -61,12 +61,13 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./ConcertCalendar.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/ConcertCalendar.zip
 
       # Deploy
+      # applicatio-name => aws code deploy application 이름
       - name: Deploy
         run: |
           aws deploy create-deployment \
-          --application-name concert-calendar-project \
+          --application-name CC-codedeploy-app \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
-          --deployment-group-name concert-calendar-test-prod \
+          --deployment-group-name cc-codedeploy-development-group \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=myconcertcalendardeploy,bundleType=zip,key=concert-calendar/ConcertCalendar.zip \
           --region ap-northeast-2 \
