@@ -45,7 +45,9 @@ jobs:
 
       # 압축파일 형태로 전달
       - name: Make zip file
-        run: zip -r ./ConcertCalendar.zip
+        run: zip -r ./ConcertCalendar.zip .
+        shell: bash
+        
 
       # S3 Bucket으로 Copy
       - name: Deliver to AWS S3
