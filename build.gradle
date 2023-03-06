@@ -73,6 +73,10 @@ configurations {
 }
 //querydsl 추가 끝
 
+jar{
+    enabled = false
+}
+
 
 tasks.named('test') {
     useJUnitPlatform()
