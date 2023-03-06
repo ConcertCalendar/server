@@ -64,7 +64,7 @@ jobs:
         aws s3 cp \
         --region ap-northeast-2 \
         --acl private \ 
-        ./ConcertCalendar-build.zip s3://ConcertCalendar-build/
+        ./ConcertCalendar-build.zip s3://myconcertcalendardeploy/
 
 
 
