@@ -58,7 +58,7 @@ logging:
             sql: trace
 server:
   ssl:
-    key-store: concal-keystore.p12
+    key-store: classpath:concal-keystore.p12
     key-store-type: PKCS12
     key-store-password: ENC(K6b59LpwB/1YrEHkhuH33s7agEStZzGZ)
     key-alias: ConCal-keystore
