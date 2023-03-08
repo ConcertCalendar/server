@@ -56,6 +56,7 @@ logging:
         type:
           descriptor:
             sql: trace
+
 server:
   ssl:
     key-store: classpath:concal-keystore.p12
