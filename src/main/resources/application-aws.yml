@@ -1,8 +1,5 @@
 cloud:
   aws:
-    credentials:
-      access-key: ${{secrets.ACCESSKEY}}
-      secret-key: ${{secrets.SECRETKEY}}
     s3: #버킷이름
       bucket: myconcertcalendardeploy
     region: #S3 지역
