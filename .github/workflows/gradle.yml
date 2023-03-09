@@ -33,7 +33,10 @@ jobs:
           # 사용하는 자바 버전 17
           java-version: '17'
           distribution: 'temurin'
-    
+      - name: Make application-secret.yml
+      - run: touch ./src/main/resources/application-secret.yml
+      - run: echo "${{ secrets.APPLICATION_SECRET }}" > ./src/main/resources/application-secret.yml
+      - run: cat ./src/main/resources/application-secret.yml
  
       # gradlew에 권한 부여
       - name: Grant execute permission for gradlew
