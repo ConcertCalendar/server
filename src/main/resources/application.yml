@@ -4,7 +4,7 @@ spring:
   profiles:
     active: dev
     # jwt.yml 파일 포함
-    include: jwt
+    include: jwt, aws
 
   #JPA
   jpa:

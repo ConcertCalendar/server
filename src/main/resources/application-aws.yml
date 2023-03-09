@@ -1,0 +1,18 @@
+cloud:
+  aws:
+    credentials:
+      access-key: ENC(doqa9+sV9t1JhPDCqOgwTVywQebkWQT/zUS+oLyqHSY=)
+      secret-key: ENC(QRE6MNjQSkc+N0s1ZczmD1tlVSwqyDr65FaHH8pxQ0BguCzQmvw5dl9gGXB4t3ugEtqLONyoZEY=)
+    s3: #버킷이름
+      bucket: myconcertcalendardeploy
+    region: #S3 지역
+      static: ap-northeast-2
+    stack:
+      auto: false
+# multipartFile 용량 늘려주는 설정
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
