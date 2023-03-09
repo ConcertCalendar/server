@@ -64,7 +64,7 @@ public class UserController {
             message.setMessage("로그인 성공");
             message.setData(tokenDto);
 
-            HashMap<String, Cookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
+            HashMap<String, ResponseCookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
 
 //            response.addHeader("Set-Cookie",hashMapCookies.get("accessTokenCookie").toString());
 //            response.addHeader("Authorization","sfsdfsadfasdf");
@@ -72,7 +72,7 @@ public class UserController {
 //            response.addCookie(hashMapCookies.get("accessTokenCookie"));
 //            response.addCookie(hashMapCookies.get("refreshTokenCookie"));
 
-            response.addCookie(hashMapCookies.get("accessTokenCookie"));
+            response.addHeader("Set-Cookie",hashMapCookies.get("refreshTokenCookie").toString());
 
             return new ResponseEntity(message,HttpStatus.OK);
         }
