@@ -43,6 +43,10 @@ public class Calendar {
     @Column
     private LocalDateTime updatedDate;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "con_poster_id")
+    private ConcertPoster concertPoster;
+
     public void update(LocalTime conTime, LocalDate conStart, LocalDate conEnd) {
         this.conTime = conTime;
         this.conStart = conStart;

@@ -22,5 +22,9 @@ public class ConcertPoster {
     @Column
     private String posterUrl;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "calendar_id")
+    private Calendar calendar;
+
 
 }
