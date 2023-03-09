@@ -19,7 +19,7 @@ public class CookieUtil {
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
                 .httpOnly(true)
-                .sameSite("Lax")
+                .sameSite("None")
                 .secure(true)
                 .path("/")
                 .maxAge(tokenDto.getRefreshTokenExpiresTime())
