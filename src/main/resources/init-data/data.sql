@@ -6,8 +6,22 @@ truncate table board_table;
 ;;
 truncate table post_table;
 ;;
+truncate table calendar;
+;;
 SET FOREIGN_KEY_CHECKS = 1;
 ;;
+
+insert into calendar (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('해리 스타일스 (Harry Styles)','해리 스타일스 첫 내한공연','지정석VIP석 250,000원\n지정석P석 198,000원\n스탠딩P석 165,000원\n지정석R석 165,000원\n지정석S석 143,000원\n지정석A석 121,000원\n지정석B석 110,000원\n지정석C석 88,000원', "20:00:00","2023-03-20 20:00:00","2023-03-20 21:30:00",now());;
+
+insert into calendar (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('Men I Trust','MEN I TRUST LIVE IN SEOUL','스탠딩석 99,000원\n지정석 99,000원', "20:00:00","2023-04-22 20:00:00","2023-04-22 21:00:00",now());;
+
+insert into calendar (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('NEW HOPE CLUB','NEW HOPE CLUB LIVE IN SEOUL','VIP석 200,000원\n일반석 99,000원', "19:20:00","2023-04-23 19:20:00","2023-04-23 20:50:00",now());;
+
+insert into calendar (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('선셋 롤러코스터(Sunset Rollercoaster)','선셋 롤러코스터 내한공연 (Sunset Rollercoaster ＂Infinity Sunset＂ Tour in Seoul)','스탠딩석 88,000원\n지정석 88,000원', "20:00:00","2023-03-29 20:00:00","2023-03-29 21:40:00",now());;
+
+insert into calendar (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('Sum 41','Sum 41 Live in Seoul (썸 41 내한공연)','스탠딩석 115,000원\n지정석 115,000원', "20:00:00","2023-03-28 20:00:00","2023-03-28 21:30:00",now());;
+
+insert into calendar (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('킹스 오브 컨비니언스 (Kings Of Convenience)','킹스 오브 컨비니언스 내한공연（Kings Of Convenience Live in Seoul','스탠딩석 99,000원\n지정석 99,000원', "20:00:00","2023-03-17 20:00:00","2023-03-17 21:30:00",now());;
 
 
 insert into user_table (user_name, user_email, user_nickname, user_phone, user_birth, user_password, created_at, user_level) values ('십오', '15@gmail.com', '중현15', '010-5555-5555', '1996-01-06', '$2a$10$xcWOSCsY4tsPgkUQ9WNf0OYSNyBZ7TVAPzPjcq9LBcOFuFTEMXy/.', now(), '일반회원');;
