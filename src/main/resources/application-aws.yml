@@ -1,8 +1,8 @@
 cloud:
   aws:
     credentials:
-      access-key: ENC(doqa9+sV9t1JhPDCqOgwTVywQebkWQT/zUS+oLyqHSY=)
-      secret-key: ENC(QRE6MNjQSkc+N0s1ZczmD1tlVSwqyDr65FaHH8pxQ0BguCzQmvw5dl9gGXB4t3ugEtqLONyoZEY=)
+      access-key: ${{secrets.ACCESSKEY}}
+      secret-key: ${{secrets.SECRETKEY}}
     s3: #버킷이름
       bucket: myconcertcalendardeploy
     region: #S3 지역
