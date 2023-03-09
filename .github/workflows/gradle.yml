@@ -34,9 +34,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
   
-      - run: touch ./src/main/resources/application-secret.yml
-      - run: echo "${{ secrets.APPLICATION_SECRET }}" > ./src/main/resources/application-secret.yml
-      - run: cat ./src/main/resources/application-secret.yml
+      - run: touch ./src/main/resources/application-secret.properties
+      - run: echo "${{ secrets.APPLICATION_SECRET }}" > ./src/main/resources/application-secret.properties
+      - run: cat ./src/main/resources/application-secret.properties
  
       # gradlew에 권한 부여
       - name: Grant execute permission for gradlew
