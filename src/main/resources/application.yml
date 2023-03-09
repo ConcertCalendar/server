@@ -2,7 +2,7 @@
 spring:
   # application-local.yml을 사용하겠다
   profiles:
-    active: local
+    active: dev
     # jwt.yml 파일 포함
     include: jwt, aws
 
