@@ -12,7 +12,7 @@ spring:
 
   sql:
     init:
-      schema-locations: classpath*:init-data/schema.sql
+#      schema-locations: classpath*:init-data/schema.sql
       data-locations: classpath*:init-data/data.sql
       mode: always
       separator: ;;

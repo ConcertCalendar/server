@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "calendar_info_table")
 public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

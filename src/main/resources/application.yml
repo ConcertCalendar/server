@@ -2,19 +2,22 @@
 spring:
   # application-local.yml을 사용하겠다
   profiles:
-    active: dev
+    active: local
     # jwt.yml 파일 포함
     include: jwt, aws, secret
 
   #JPA
   jpa:
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL8InnoDBDialect
     properties:
       hibernate:
         format_sql: true
         # show_sql은 System.out에 로그가 출력되므로 사용을 지양하자
         # show_sql: true
         # jpa에서 어떤 데이터베이스에 맞춰 쿼리를 작성할 지 표시
-#        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
     defer-datasource-initialization: true
 
     hibernate:
