@@ -26,6 +26,9 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The type User service.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,12 @@ public class UserService{
     private final RefreshTokenRepository refreshTokenRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * Join long.
+     *
+     * @param user the user
+     * @return the long
+     */
     @Transactional
     public Long join(User user) {
 
@@ -55,6 +64,12 @@ public class UserService{
         return userRepository.save(joinUser).getUserId();
     }
 
+    /**
+     * Login token dto.
+     *
+     * @param userDto the user dto
+     * @return the token dto
+     */
     @Transactional
     public TokenDto login(UserDto userDto) {
         // 로그인 시 Email이 일치하면 유저 정보 가져오기
@@ -80,6 +95,11 @@ public class UserService{
         return tokenDto;
     }
 
+    /**
+     * Logout.
+     *
+     * @param tokenRequestDto the token request dto
+     */
     @Transactional
     public void logout(TokenRequestDto tokenRequestDto){
         // 로그아웃 하고 싶은 토큰이 유효한 지 먼저 검증하기
@@ -102,6 +122,11 @@ public class UserService{
 
     }
 
+    /**
+     * Find user info user.
+     *
+     * @return the user
+     */
     public User findUserInfo(){
         String user_email = SecurityUtil.getCurrentEmail();
         log.info("context에 존재하는 이메일은 {}",user_email);
@@ -111,6 +136,12 @@ public class UserService{
 
     }
 
+    /**
+     * Nickname double check boolean.
+     *
+     * @param nickname the nickname
+     * @return the boolean
+     */
     public boolean nicknameDoubleCheck(String nickname) {
         User user =  userRepository.existsByNickname(nickname);
         if (user == null){
@@ -121,6 +152,12 @@ public class UserService{
         }
     }
 
+    /**
+     * Find user by user email user.
+     *
+     * @param userEmail the user email
+     * @return the user
+     */
     public User findUserByUserEmail(String userEmail){
         User user = userRepository.findByUserEmail(userEmail)
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"가입되지 않은 E-MAIL 입니다."));;

@@ -25,6 +25,9 @@ import javax.validation.Valid;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * The type User controller.
+ */
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +36,12 @@ public class UserController {
     private final TokenService tokenService;
     private final CookieUtil cookieUtil;
 
+    /**
+     * Join response entity.
+     *
+     * @param user the user
+     * @return the response entity
+     */
     @PostMapping("/users/join")
     public ResponseEntity join(@Valid @RequestBody User user){
         log.info("회원가입 시도됨");
@@ -53,7 +62,14 @@ public class UserController {
         }
     }
 
-    // 로그인
+    /**
+     * Login response entity.
+     *
+     * @param userDto  the user dto
+     * @param response the response
+     * @return the response entity
+     */
+// 로그인
     @PostMapping("/users/login")
     public ResponseEntity login(@RequestBody UserDto userDto, HttpServletResponse response) {
         log.info("user email = {}", userDto.getUserEmail());
@@ -85,12 +101,24 @@ public class UserController {
         }
     }
 
-    // 토큰 재발급
+    /**
+     * Re issue token dto.
+     *
+     * @param tokenRequestDto the token request dto
+     * @return the token dto
+     */
+// 토큰 재발급
     @PostMapping("/users/reIssue")
     public TokenDto reIssue(@RequestBody TokenRequestDto tokenRequestDto){
         return tokenService.reIssue(tokenRequestDto);
     }
 
+    /**
+     * Logout response entity.
+     *
+     * @param tokenRequestDto the token request dto
+     * @return the response entity
+     */
     @PostMapping("/users/logout")
     public ResponseEntity logout(@RequestBody TokenRequestDto tokenRequestDto){
         log.info("로그아웃 성공");
@@ -104,7 +132,12 @@ public class UserController {
 
     }
 
-    // 마이페이지 컨트롤러
+    /**
+     * Get user info response entity.
+     *
+     * @return the response entity
+     */
+// 마이페이지 컨트롤러
     @GetMapping("/users/info")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<User> getUserInfo(){
@@ -114,7 +147,13 @@ public class UserController {
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
-    // 닉네임 중복 체크 컨트롤러
+    /**
+     * Nickname double check response entity.
+     *
+     * @param nickname the nickname
+     * @return the response entity
+     */
+// 닉네임 중복 체크 컨트롤러
     @GetMapping("/users/join/nicknameCheck")
     public ResponseEntity nicknameDoubleCheck(@RequestParam String nickname){
         boolean nicknameExists = userService.nicknameDoubleCheck(nickname);

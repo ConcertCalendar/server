@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
+/**
+ * The type Security util.
+ */
 //    SecurityContext 에서 전역으로 유저 정보를 제공하는 유틸 클래스
 @Slf4j
 @NoArgsConstructor
@@ -19,6 +22,11 @@ public class SecurityUtil {
     // 인스턴스 없이 메소드 호출 가능
     // 유틸리티 함수 만드는데 유용
 
+    /**
+     * Get current email string.
+     *
+     * @return the string
+     */
     public static String getCurrentEmail(){
         //UserDetails가 있으면
 

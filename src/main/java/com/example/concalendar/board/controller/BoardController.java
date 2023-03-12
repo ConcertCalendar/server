@@ -11,6 +11,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The type Board controller.
+ */
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
     private final PostService postService;
 
+    /**
+     * Gets all posts.
+     *
+     * @param id          the id
+     * @param pageRequest the page request
+     * @return the all posts
+     */
     @GetMapping("/{id}")
     public ResponseEntity getAllPosts(@PathVariable Long id, @PageableDefault(size = 20, sort = "createdDate") Pageable pageRequest){
         log.info("/board/{}에 들어왔습니다",id);

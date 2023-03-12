@@ -10,14 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The type Post service test.
+ */
 @SpringBootTest
 public class PostServiceTest {
+    /**
+     * The Post service.
+     */
     @Autowired
     PostService postService;
 
+    /**
+     * The Post repository.
+     */
     @Autowired
     PostRepository postRepository;
 
+    /**
+     * Create post test.
+     */
     @Test
     @DisplayName("글 등록하기")
     public void createPostTest(){
@@ -35,6 +47,9 @@ public class PostServiceTest {
         assertEquals("title3",post.getPostTitle());
     }
 
+    /**
+     * Update post test.
+     */
     @Test
     @DisplayName("글 수정하기")
     public void updatePostTest(){
@@ -48,6 +63,9 @@ public class PostServiceTest {
         assertEquals("title22 Changed",post.getPostTitle());
     }
 
+    /**
+     * Get post test.
+     */
     @Test
     @DisplayName("글 찾기")
     public void getPostTest(){

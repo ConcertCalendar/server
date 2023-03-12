@@ -12,15 +12,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The type Board service test.
+ */
 @SpringBootTest
 public class BoardServiceTest {
 
+    /**
+     * The Board service.
+     */
     @Autowired
     BoardService boardService;
 
+    /**
+     * The Board repository.
+     */
     @Autowired
     BoardRepository boardRepository;
 
+    /**
+     * Create board test.
+     */
     @Test
     @DisplayName("게시판 등록하기")
     public void createBoardTest(){

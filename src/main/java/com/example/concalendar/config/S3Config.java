@@ -8,6 +8,9 @@ import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * The type S 3 config.
+ */
 @Configuration
 public class S3Config {
 
@@ -21,6 +24,11 @@ public class S3Config {
     private String region;
 
 
+    /**
+     * Amazon s 3 client amazon s 3.
+     *
+     * @return the amazon s 3
+     */
     public AmazonS3 amazonS3Client() {
         BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
         return AmazonS3ClientBuilder.standard()

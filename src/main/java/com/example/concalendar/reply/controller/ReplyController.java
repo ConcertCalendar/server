@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The type Reply controller.
+ */
 @RestController
 @RequiredArgsConstructor
 public class ReplyController {
@@ -17,6 +20,14 @@ public class ReplyController {
     private final JwtTokenProvider jwtTokenProvider;
     private final ReplyService replyService;
 
+    /**
+     * Create reply response entity.
+     *
+     * @param commentId       the comment id
+     * @param replyRequestDto the reply request dto
+     * @param Authorization   the authorization
+     * @return the response entity
+     */
     @PostMapping("/comments/{commentId}/replies")
     public ResponseEntity createReply(@PathVariable Long commentId, @RequestBody ReplyRequestDto replyRequestDto, @RequestHeader String Authorization){
         Message message = new Message();
@@ -34,6 +45,15 @@ public class ReplyController {
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }
 
+    /**
+     * Update comment response entity.
+     *
+     * @param commentId       the comment id
+     * @param replyId         the reply id
+     * @param replyRequestDto the reply request dto
+     * @param Authorization   the authorization
+     * @return the response entity
+     */
     @PutMapping("/comments/{commentId}/replies/{replyId}")
     public ResponseEntity updateComment(@PathVariable Long commentId, @PathVariable Long replyId, @RequestBody ReplyRequestDto replyRequestDto, @RequestHeader String Authorization){
         Message message = new Message();
@@ -51,6 +71,15 @@ public class ReplyController {
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }
 
+    /**
+     * Delete comment response entity.
+     *
+     * @param commentId       the comment id
+     * @param replyId         the reply id
+     * @param replyRequestDto the reply request dto
+     * @param Authorization   the authorization
+     * @return the response entity
+     */
     @DeleteMapping("/comments/{commentId}/replies/{replyId}")
     public ResponseEntity deleteComment(@PathVariable Long commentId, @PathVariable Long replyId, @RequestBody ReplyRequestDto replyRequestDto, @RequestHeader String Authorization){
         Message message = new Message();

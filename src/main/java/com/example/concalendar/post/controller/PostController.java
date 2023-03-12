@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The type Post controller.
+ */
 @Controller
 @RequiredArgsConstructor
 public class PostController {
@@ -20,6 +23,13 @@ public class PostController {
     private final PostService postService;
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * Create post response entity.
+     *
+     * @param postFormDto   the post form dto
+     * @param Authorization the authorization
+     * @return the response entity
+     */
     @PostMapping("/posts")
     public ResponseEntity createPost(@RequestBody PostFormDto postFormDto, @RequestHeader String Authorization){
         Message message = new Message();
@@ -37,6 +47,13 @@ public class PostController {
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
+    /**
+     * Get post response entity.
+     *
+     * @param boardId the board id
+     * @param postId  the post id
+     * @return the response entity
+     */
     @GetMapping("/boards/{boardId}/posts/{postId}")
     public ResponseEntity getPost(@PathVariable Long boardId, @PathVariable Long postId){
         Post post = postService.getPostByPostId(postId);

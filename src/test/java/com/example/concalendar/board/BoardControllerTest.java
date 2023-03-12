@@ -11,12 +11,23 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * The type Board controller test.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BoardControllerTest {
+    /**
+     * The Mock mvc.
+     */
     @Autowired
     public MockMvc mockMvc;
 
+    /**
+     * Gets all post by board id test.
+     *
+     * @throws Exception the exception
+     */
     @DisplayName("BoardId와 일치하는 게시물 리스트 리턴 테스트")
     @Test
     public void getAllPostByBoardIdTest() throws Exception {

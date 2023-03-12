@@ -11,29 +11,45 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * The type Calendar service test.
+ */
 @SpringBootTest
 public class CalendarServiceTest {
     @Autowired
     private CalendarService calendarService;
 
+    /**
+     * Calendar service test 1.
+     */
     @Test
     @DisplayName("글 등록이 가능하다")
     public void calendarServiceTest1(){
 //        calendarService.create("singer","title","content","calTime","calStart","calEnd");
     }
 
+    /**
+     * Calendar service test 2.
+     */
     @Test
     @DisplayName("글 id를 이용하여 삭제가 가능하다")
     public void calendarServiceTest2(){
         calendarService.deleteById(1);
     }
 
+    /**
+     * Calendar service test 3.
+     */
     @Test
     @DisplayName("글 id를 이용하여 객체 탐색이 가능하다.")
     public void calendarServiceTest3(){
         Calendar calendar = calendarService.findById(2);
         assertThat(calendar.getConNo()).isEqualTo(2);
     }
+
+    /**
+     * Calendar service test 4.
+     */
     @Test
     @DisplayName("글 id와 Calendar 객체를 이용하여 DB 수정이 가능하다.")
     public void calendarServiceTest4(){

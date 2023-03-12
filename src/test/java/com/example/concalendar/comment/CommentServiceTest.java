@@ -11,6 +11,9 @@ import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The type Comment service test.
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CommentServiceTest {
@@ -21,6 +24,9 @@ public class CommentServiceTest {
     @Autowired
     private CommentRepository commentRepository;
 
+    /**
+     * Create comment test.
+     */
     @Test
     @DisplayName("댓글 생성 테스트")
     @Order(1)
@@ -29,6 +35,9 @@ public class CommentServiceTest {
         assertEquals(commentService.findByCommentId(1).getCommentContent(),"댓글1");
     }
 
+    /**
+     * Update comment test.
+     */
     @Test
     @DisplayName("댓글 수정 테스트")
     @Order(2)
@@ -37,6 +46,9 @@ public class CommentServiceTest {
         assertEquals(commentService.findByCommentId(1).getCommentContent(),"댓글1 수정");
     }
 
+    /**
+     * Delete comment test.
+     */
     @Test
     @DisplayName("댓글 삭제 테스트")
     @Order(3)

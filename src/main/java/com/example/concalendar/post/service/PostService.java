@@ -19,6 +19,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Post service.
+ */
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -27,7 +30,13 @@ public class PostService {
     private final UserRepository userRepository;
     private final BoardService boardService;
 
-    // PostFormDto와 유저 이메일을 매개변수로 받아서 포스트 테이블에 데이터를 저장하는 메서드
+    /**
+     * Create.
+     *
+     * @param postFormDto the post form dto
+     * @param userEmail   the user email
+     */
+// PostFormDto와 유저 이메일을 매개변수로 받아서 포스트 테이블에 데이터를 저장하는 메서드
     public void create(PostFormDto postFormDto, String userEmail) {
         Post post = Post.builder()
                 .postTitle(postFormDto.getPostTitle())
@@ -40,14 +49,27 @@ public class PostService {
         postRepository.save(post);
     }
 
-    // 포스트를 포스트 id를 가지고 찾는 서비스 메서드
+    /**
+     * Find post by post id post.
+     *
+     * @param num the num
+     * @return the post
+     */
+// 포스트를 포스트 id를 가지고 찾는 서비스 메서드
     public Post findPostByPostId(long num){
         Post post = postRepository.findById(num).orElseThrow();
 
         return post;
     }
 
-    // PostFromDto와 유저 이메일을 매개변수로 받아서 포스트 테이블 내 데이터를 수정하는 메서드
+    /**
+     * Update post.
+     *
+     * @param postId      the post id
+     * @param postFormDto the post form dto
+     * @return the post
+     */
+// PostFromDto와 유저 이메일을 매개변수로 받아서 포스트 테이블 내 데이터를 수정하는 메서드
     @Transactional
     public Post update(long postId, PostFormDto postFormDto){
         Post post = findPostByPostId(postId);
@@ -59,6 +81,13 @@ public class PostService {
 
     }
 
+    /**
+     * Get post by page board return dto.
+     *
+     * @param pageRequest the page request
+     * @param id          the id
+     * @return the board return dto
+     */
     public BoardReturnDto getPostByPage(Pageable pageRequest, long id){
         Page<Post> postPageList = postRepository.findAllWithBoardId(pageRequest,id);
         List<Post> postList = new ArrayList<>();
@@ -83,12 +112,24 @@ public class PostService {
 
     }
 
+    /**
+     * Find all posts by board id list.
+     *
+     * @param id the id
+     * @return the list
+     */
     public List<Post> findAllPostsByBoardId(Long id) {
         List<Post> postList = postRepository.findAllPostsByBoardId(id);
 
         return postList;
     }
 
+    /**
+     * Gets post by post id.
+     *
+     * @param postId the post id
+     * @return the post by post id
+     */
     public Post getPostByPostId(long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"postId에 해당하는 Post가 DB에 존재하지 않습니다."));

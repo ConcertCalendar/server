@@ -18,6 +18,9 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The type Jwt token provider.
+ */
 // 토큰을 생성하고 검증하는 클래스입니다.
 // 해당 컴포넌트는 필터클래스에서 사전 검증을 거칩니다.
 @RequiredArgsConstructor
@@ -36,13 +39,23 @@ public class JwtTokenProvider {
     private final RedisTemplate redisTemplate;
 
 
-    // 객체 초기화, secretKey를 Base64로 인코딩한다.
+    /**
+     * Init.
+     */
+// 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    // JWT 토큰 생성
+    /**
+     * Create token token dto.
+     *
+     * @param userPk the user pk
+     * @param roles  the roles
+     * @return the token dto
+     */
+// JWT 토큰 생성
     public TokenDto createToken(String userPk, List<String> roles) {
 
         // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
@@ -81,13 +94,25 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    // JWT 토큰에서 인증 정보 조회
+    /**
+     * Gets authentication.
+     *
+     * @param token the token
+     * @return the authentication
+     */
+// JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // Jwt 토큰을 복화화해서 회원 정보 추출
+    /**
+     * Gets user pk.
+     *
+     * @param token the token
+     * @return the user pk
+     */
+// Jwt 토큰을 복화화해서 회원 정보 추출
     public String getUserPk(String token) {
         try {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
@@ -96,17 +121,35 @@ public class JwtTokenProvider {
         }
     }
 
-    // Request의 Header에서 access token 값을 가져옵니다. "Authorization" : "TOKEN값'
+    /**
+     * Resolve access token string.
+     *
+     * @param request the request
+     * @return the string
+     */
+// Request의 Header에서 access token 값을 가져옵니다. "Authorization" : "TOKEN값'
     public String resolveAccessToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
 
-    // Request의 Header에서 refresh token 값을 가져옵니다. "RefreshToken" : "TOKEN값'
+    /**
+     * Resolve refresh token string.
+     *
+     * @param request the request
+     * @return the string
+     */
+// Request의 Header에서 refresh token 값을 가져옵니다. "RefreshToken" : "TOKEN값'
     public String resolveRefreshToken(HttpServletRequest request){
         return request.getHeader("RefreshToken");
     }
 
-    // 토큰의 유효성 + 만료일자 확인
+    /**
+     * Validate token boolean.
+     *
+     * @param jwtToken the jwt token
+     * @return the boolean
+     */
+// 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
@@ -117,6 +160,12 @@ public class JwtTokenProvider {
     }
 
 
+    /**
+     * Gets expiration.
+     *
+     * @param accessToken the access token
+     * @return the expiration
+     */
     public Long getExpiration(String accessToken) {
         // accessToken 남은 유효시간
         Date expiration = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody().getExpiration();

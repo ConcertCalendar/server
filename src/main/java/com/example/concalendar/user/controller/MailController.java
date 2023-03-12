@@ -11,12 +11,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Mail controller.
+ */
 @RestController
 @RequiredArgsConstructor
 public class MailController {
 
     private final MailService mailService;
 
+    /**
+     * Confirm mail response entity.
+     *
+     * @param mailDto the mail dto
+     * @return the response entity
+     */
     @GetMapping("users/join/confirm-mail")
     public ResponseEntity confirmMail(@RequestBody MailDto mailDto){
         Message message = new Message();

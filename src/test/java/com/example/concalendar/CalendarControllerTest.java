@@ -14,6 +14,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * The type Calendar controller test.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CalendarControllerTest {
@@ -24,6 +27,11 @@ public class CalendarControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Test calendar controller.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("calendarcontroller 클래스가 잘 작동")
     public void testCalendarController() throws Exception{

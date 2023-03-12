@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The type Reply service test.
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ReplyServiceTest {
@@ -18,6 +21,9 @@ public class ReplyServiceTest {
     @Autowired
     private ReplyRepository replyRepository;
 
+    /**
+     * Create reply test.
+     */
     @Test
     @DisplayName("답글 생성 테스트")
     @Order(1)
@@ -26,6 +32,9 @@ public class ReplyServiceTest {
         assertEquals(replyService.findByReplyId(1).getReplyContent(),"답글1");
     }
 
+    /**
+     * Update reply test.
+     */
     @Test
     @DisplayName("답글 수정 테스트")
     @Order(2)
@@ -34,6 +43,9 @@ public class ReplyServiceTest {
         assertEquals(replyService.findByReplyId(1).getReplyContent(),"답글1 수정");
     }
 
+    /**
+     * Delete reply test.
+     */
     @Test
     @DisplayName("답글 삭제 테스트")
     @Order(3)

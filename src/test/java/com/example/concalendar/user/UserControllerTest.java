@@ -24,10 +24,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * The type User controller test.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
+    /**
+     * The Mock mvc.
+     */
     @Autowired
     public MockMvc mockMvc;
 
@@ -37,11 +43,21 @@ public class UserControllerTest {
     private String accessToken;
     private String refreshToken;
 
+    /**
+     * Before.
+     *
+     * @throws Exception the exception
+     */
     @BeforeEach
     public void before() throws Exception {
         loginTest();
     }
 
+    /**
+     * Login test.
+     *
+     * @throws Exception the exception
+     */
     @DisplayName("로그인 테스트 (Post)")
     @Test
     public void loginTest() throws Exception{
@@ -78,6 +94,11 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * Non expired a tre issue.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("만료되지 않은 Access Token 재발급")
     public void nonExpiredATreIssue() throws Exception {
@@ -110,6 +131,11 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * Expired a tre issue.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("만료된 Access Token 재발급")
     public void expiredATreIssue() throws Exception {

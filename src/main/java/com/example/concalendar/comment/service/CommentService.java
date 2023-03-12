@@ -12,14 +12,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Comment service.
+ */
 @Service
 @RequiredArgsConstructor
 public class CommentService {
 
+    /**
+     * The Comment repository.
+     */
     final CommentRepository commentRepository;
+    /**
+     * The Post service.
+     */
     final PostService postService;
+    /**
+     * The User service.
+     */
     final UserService userService;
 
+    /**
+     * Create.
+     *
+     * @param content   the content
+     * @param userEmail the user email
+     * @param postId    the post id
+     */
     public void create(String content, String userEmail, long postId) {
 
         Comment comment = Comment.builder()
@@ -32,6 +51,12 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    /**
+     * Find by comment id comment.
+     *
+     * @param commentId the comment id
+     * @return the comment
+     */
     public Comment findByCommentId(long commentId){
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"댓글Id에 해당하는 댓글이 DB에 존재하지 않습니다."));
@@ -39,6 +64,14 @@ public class CommentService {
         return comment;
     }
 
+    /**
+     * Update.
+     *
+     * @param commentId     the comment id
+     * @param updateContent the update content
+     * @param userEmail     the user email
+     * @param postId        the post id
+     */
     @Transactional
     public void update(long commentId, String updateContent, String userEmail, long postId) {
         Comment comment = commentRepository.findById(commentId)
@@ -47,6 +80,11 @@ public class CommentService {
         comment.setCommentContent(updateContent);
     }
 
+    /**
+     * Delete.
+     *
+     * @param commentId the comment id
+     */
     public void delete(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"댓글Id에 해당하는 댓글이 DB에 존재하지 않습니다."));

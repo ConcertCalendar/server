@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/**
+ * The type Concert poster controller.
+ */
 @RestController
 @RequiredArgsConstructor
 public class ConcertPosterController {
@@ -18,6 +21,13 @@ public class ConcertPosterController {
     private final ConcertPosterService concertPosterService;
     private final S3PosterService s3PosterService;
 
+    /**
+     * Upload file string.
+     *
+     * @param multipartFile the multipart file
+     * @return the string
+     * @throws IOException the io exception
+     */
     @PostMapping("/poster/upload")
     public String uploadFile(@RequestPart(value = "file") MultipartFile multipartFile) throws IOException {
 

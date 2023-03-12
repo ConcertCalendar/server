@@ -15,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * The type Security config.
+ */
 @RequiredArgsConstructor
 // 기본적인 web 보안 활성화
 @EnableWebSecurity

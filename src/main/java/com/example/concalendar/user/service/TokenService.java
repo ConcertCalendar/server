@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The type Token service.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,12 @@ public class TokenService{
     private final UserService userService;
     private final RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * Re issue token dto.
+     *
+     * @param tokenRequestDto the token request dto
+     * @return the token dto
+     */
     @Transactional
     public TokenDto reIssue(TokenRequestDto tokenRequestDto){
 

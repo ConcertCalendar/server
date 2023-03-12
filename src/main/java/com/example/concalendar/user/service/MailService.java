@@ -8,6 +8,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import java.util.Random;
 
+/**
+ * The type Mail service.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -15,6 +18,12 @@ public class MailService {
 
     private final JavaMailSender javaMailSender;
 
+    /**
+     * Send string.
+     *
+     * @param mailDto the mail dto
+     * @return the string
+     */
     public String send(MailDto mailDto){
         SimpleMailMessage smm = new SimpleMailMessage();
         Random random = new Random();

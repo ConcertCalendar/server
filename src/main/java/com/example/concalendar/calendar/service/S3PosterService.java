@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type S 3 poster service.
+ */
 @Service
 @RequiredArgsConstructor
 public class S3PosterService {
@@ -20,6 +23,13 @@ public class S3PosterService {
 
     private final AmazonS3 amazonS3;
 
+    /**
+     * Upload file string.
+     *
+     * @param multipartFile the multipart file
+     * @return the string
+     * @throws IOException the io exception
+     */
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
 

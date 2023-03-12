@@ -10,11 +10,17 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+/**
+ * The type Post repository.
+ */
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * The Q post.
+     */
     QPost qPost = QPost.post;
 
     @Override

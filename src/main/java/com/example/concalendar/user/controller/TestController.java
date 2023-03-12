@@ -12,12 +12,21 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
+/**
+ * The type Test controller.
+ */
 @RestController
 @RequiredArgsConstructor
 public class TestController {
     private final CookieUtil cookieUtil;
 //    private final TokenDto tokenDto;
 
+    /**
+     * Test string.
+     *
+     * @param response the response
+     * @return the string
+     */
     @GetMapping("/hello")
     public String test(HttpServletResponse response){
 //        HashMap<String, ResponseCookie> hashMapCookies = cookieUtil.createCookies(tokenDto);
@@ -34,6 +43,11 @@ public class TestController {
         return "<h1>test 통과</h1>";
     }
 
+    /**
+     * Test 2 string.
+     *
+     * @return the string
+     */
     @PostMapping("/test2")
     public String test2(){
         return "<h1> 테스트2 통과</h1>";
