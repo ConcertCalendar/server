@@ -20,4 +20,5 @@ fi
 
 cd /home/ubuntu/app
 sudo  docker build -t joonghyun/concert_calendar --platform linux/amd64 .
-sudo docker run -d -p 8080:8080 joonghyun/concert_calendar #host에서 사용하는 포트 80, 컨테이너에서 사용하는 포트 8080
+sudo systemctl restart nginx.service
+sudo docker run -p 8080:8080 joonghyun/concert_calendar #host에서 사용하는 포트 80, 컨테이너에서 사용하는 포트 8080
