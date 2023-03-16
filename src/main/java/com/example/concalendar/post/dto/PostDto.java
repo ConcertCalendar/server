@@ -30,7 +30,7 @@ public class PostDto {
 
     private String postContent;
 
-    private int postHeart;
+    private Long postHeart;
 
     private LocalDateTime createdDate;
 
@@ -39,14 +39,14 @@ public class PostDto {
     private List<CommentDto> commentDtoList;
 
 
-    public PostDto(Post post){
+    public PostDto(Post post, Long postHeartSize){
         this.id = post.getId();
         this.boardId = post.getBoard().getId();
         this.writerId = post.getWriter().getUserId();
         this.writerName = post.getWriter().getUserNickname();
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
-        this.postHeart = post.getPostHeart();
+        this.postHeart = postHeartSize;
         this.createdDate = post.getCreatedDate();
         this.modifiedDate = post.getModifiedDate();
         this.commentDtoList = post.getCommentList().stream()

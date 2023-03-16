@@ -33,7 +33,6 @@ public class BoardDto {
         BoardDto getBoardDto = BoardDto.builder()
                 .postTitle(post.getPostTitle())
                 .postContent(post.getPostContent())
-                .postHeart(post.getPostHeart())
                 .id(post.getId())
                 .boardId(post.getBoard().getId())
                 .writerId(post.getWriter().getUserId())

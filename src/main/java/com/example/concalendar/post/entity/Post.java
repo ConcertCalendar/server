@@ -30,9 +30,6 @@ public class Post {
     @Column(name = "post_content", nullable = false)
     private String postContent;
 
-    @Column(name = "post_heart", length = 10)
-    private int postHeart;
-
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
 

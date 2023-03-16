@@ -45,7 +45,6 @@ public class PostService {
                 .postTitle(postFormDto.getPostTitle())
                 .postContent(postFormDto.getPostContent())
                 .createdDate(LocalDateTime.now())
-                .postHeart(1)
                 .writer(userRepository.findByUserEmail(userEmail).orElseThrow())
                 .board(boardService.findBoardById(postFormDto.getBoardId()))
                 .build();
