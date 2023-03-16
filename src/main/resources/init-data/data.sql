@@ -46,11 +46,11 @@ CREATE PROCEDURE loop_insert_posts()
 BEGIN
 	DECLARE i INT DEFAULT 1;
     WHILE (i <= 50) DO
-	INSERT INTO post_table (created_at,post_content,post_heart,post_title,board_id,writer_id)
-	values(now(), concat('내용내용내용내용내용내용내용\n내용내용내용내용내용내용내용\n내용내용내용내용내용내용내용\n',i),0,concat('제목제목제목제목\n제목제목제목제목\n',i),1,1);
+	INSERT INTO post_table (created_at,post_content,post_title,board_id,writer_id)
+	values(now(), concat('내용내용내용내용내용내용내용\n내용내용내용내용내용내용내용\n내용내용내용내용내용내용내용\n',i),concat('제목제목제목제목\n제목제목제목제목\n',i),1,1);
 
-    INSERT INTO post_table (created_at,post_content,post_heart,post_title,board_id,writer_id)
-    values(now(), concat('후기내용후기내용후기내용후기내용\n후기내용후기내용후기내용후기내용',i),0,concat('후기제목후기제목후기제목후기제목\n후기제목후기제목후기제목후기제목',i),2,2);
+    INSERT INTO post_table (created_at,post_content,post_title,board_id,writer_id)
+    values(now(), concat('후기내용후기내용후기내용후기내용\n후기내용후기내용후기내용후기내용',i),concat('후기제목후기제목후기제목후기제목\n후기제목후기제목후기제목후기제목',i),2,2);
 
 	SET i = i + 1;
     END WHILE;

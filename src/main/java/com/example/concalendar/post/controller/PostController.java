@@ -9,6 +9,7 @@ import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.util.Message;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class PostController {
 
     private final PostService postService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate<Long, String> redisTemplate;
 
     /**
      * Create post response entity.
@@ -57,8 +59,9 @@ public class PostController {
     @GetMapping("/boards/{boardId}/posts/{postId}")
     public ResponseEntity getPost(@PathVariable Long boardId, @PathVariable Long postId){
         Post post = postService.getPostByPostId(postId);
+        long postHeartSize = redisTemplate.opsForSet().size(postId);
 
-        PostDto postDto = new PostDto(post);
+        PostDto postDto = new PostDto(post, postHeartSize);
 
         Message message = new Message();
 
