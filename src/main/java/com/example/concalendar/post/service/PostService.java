@@ -12,6 +12,8 @@ import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final BoardService boardService;
+    private final RedisTemplate<Long, String> redisTemplate;
 
     /**
      * Create.
@@ -135,5 +138,16 @@ public class PostService {
                 .orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"postId에 해당하는 Post가 DB에 존재하지 않습니다."));
 
         return post;
+    }
+
+    public void postHeartClick(long postId, String memberEmail){
+        SetOperations<Long, String> setOperations = redisTemplate.opsForSet();
+
+        if (setOperations.isMember(postId,memberEmail)) {
+            setOperations.remove(postId,memberEmail);
+        }
+        else{
+            setOperations.add(postId,memberEmail);
+        }
     }
 }

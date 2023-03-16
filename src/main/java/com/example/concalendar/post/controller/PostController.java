@@ -69,5 +69,20 @@ public class PostController {
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
+    @PostMapping("/boards/{boardId}/posts/{postId}/heartClick")
+    public ResponseEntity postHeartClick(@PathVariable Long boardId, @PathVariable Long postId, @RequestHeader String Authorization){
+        Message message = new Message();
 
+        if (jwtTokenProvider.validateToken(Authorization)){
+            postService.postHeartClick(postId, jwtTokenProvider.getUserPk(Authorization));
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("좋아요 클릭 성공");
+        }
+        else{
+            message.setStatus(StatusEnum.Unauthorized);
+            message.setMessage("AccessToken이 유효하지 않아서 클릭할 수 없습니다. 로그인 해주세요.");
+        }
+
+        return new ResponseEntity(message,message.getStatus().getHttpStatus());
+    }
 }
