@@ -51,18 +51,20 @@ public class JwtTokenProvider {
     /**
      * Create token token dto.
      *
-     * @param userPk the user pk
+     * @param userEmail the user email
      * @param roles  the roles
+     * @param userId the user id
      * @return the token dto
      */
 // JWT 토큰 생성
-    public TokenDto createToken(String userPk, List<String> roles) {
+    public TokenDto createToken(String userEmail, List<String> roles, Long userId) {
 
         // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
-        Claims claims = Jwts.claims().setSubject(userPk);
+        Claims claims = Jwts.claims().setSubject(userEmail);
 
         // 정보는 key / value 쌍으로 저장된다.
         claims.put("roles", roles);
+        claims.put("userId",userId);
         // 생성날짜, 만료날짜를 위한 Date
         Date now = new Date();
 

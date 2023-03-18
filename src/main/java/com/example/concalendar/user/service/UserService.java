@@ -82,7 +82,7 @@ public class UserService{
             throw new CustomException(StatusEnum.BAD_REQUEST,"잘못된 비밀번호입니다.");
         }
         // AccessToken, Refresh Token 발급하기
-        TokenDto tokenDto = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
+        TokenDto tokenDto = jwtTokenProvider.createToken(user.getUsername(), user.getRoles(), user.getUserId());
 
 //        // RefreshToken 저장하기
 //        RefreshToken refreshToken = RefreshToken.builder()
