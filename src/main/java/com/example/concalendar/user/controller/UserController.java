@@ -1,6 +1,7 @@
 package com.example.concalendar.user.controller;
 
 import antlr.Token;
+import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.user.dto.TokenDto;
 import com.example.concalendar.user.dto.TokenRequestDto;
 import com.example.concalendar.user.dto.UserDto;
@@ -35,6 +36,7 @@ public class UserController {
     private final UserService userService;
     private final TokenService tokenService;
     private final CookieUtil cookieUtil;
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * Join response entity.
@@ -101,17 +103,42 @@ public class UserController {
         }
     }
 
-    /**
-     * Re issue token dto.
-     *
-     * @param tokenRequestDto the token request dto
-     * @return the token dto
-     */
+//    /**
+//     * Re issue token dto.
+//     *
+//     * @param tokenRequestDto the token request dto
+//     * @return the token dto
+//     */
 // 토큰 재발급
+//    @PostMapping("/users/reIssue")
+//    public TokenDto reIssue(@RequestBody TokenRequestDto tokenRequestDto){
+//        return tokenService.reIssue(tokenRequestDto);
+//    }
+
     @PostMapping("/users/reIssue")
-    public TokenDto reIssue(@RequestBody TokenRequestDto tokenRequestDto){
-        return tokenService.reIssue(tokenRequestDto);
+    public ResponseEntity reIssue(@CookieValue(value = "refreshToken") Cookie cookie, @RequestHeader String Authorization, HttpServletResponse response){
+
+        String refreshToken = cookie.getValue();
+        Message message = new Message();
+        HashMap<String, ResponseCookie> hashMapCookies = null;
+
+        if (jwtTokenProvider.validateToken(Authorization)){
+            TokenDto tokenDto = tokenService.reIssue(refreshToken, Authorization);
+            hashMapCookies = cookieUtil.createCookies(tokenDto);
+
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("토큰 재발급 성공");
+            message.setData(tokenDto.getAccessToken());
+            response.addHeader("Set-Cookie",hashMapCookies.get("refreshTokenCookie").toString());
+        }
+        else{
+            message.setStatus(StatusEnum.Unauthorized);
+            message.setMessage("AccessToken이 유효하지 않아서 게시글을 등록할 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
+        }
+
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
+
 
     /**
      * Logout response entity.
