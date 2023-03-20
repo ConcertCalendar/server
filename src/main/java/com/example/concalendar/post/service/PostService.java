@@ -31,7 +31,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final BoardService boardService;
-    private final RedisTemplate<Long, String> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * Create.
@@ -140,13 +140,13 @@ public class PostService {
     }
 
     public void postHeartClick(long postId, String memberEmail){
-        SetOperations<Long, String> setOperations = redisTemplate.opsForSet();
+        SetOperations<String, String> setOperations = redisTemplate.opsForSet();
 
-        if (setOperations.isMember(postId,memberEmail)) {
-            setOperations.remove(postId,memberEmail);
+        if (setOperations.isMember(String.valueOf(postId),memberEmail)) {
+            setOperations.remove(String.valueOf(postId),memberEmail);
         }
         else{
-            setOperations.add(postId,memberEmail);
+            setOperations.add(String.valueOf(postId),memberEmail);
         }
     }
 }
