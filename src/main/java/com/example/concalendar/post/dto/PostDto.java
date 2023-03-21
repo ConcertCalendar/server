@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -30,7 +31,7 @@ public class PostDto {
 
     private String postContent;
 
-    private Long postHeart;
+    private Set<String> postHeartSet;
 
     private LocalDateTime createdDate;
 
@@ -39,14 +40,14 @@ public class PostDto {
     private List<CommentDto> commentDtoList;
 
 
-    public PostDto(Post post, Long postHeartSize){
+    public PostDto(Post post, Set<String> postHeartSet){
         this.id = post.getId();
         this.boardId = post.getBoard().getId();
         this.writerId = post.getWriter().getUserId();
         this.writerName = post.getWriter().getUserNickname();
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
-        this.postHeart = postHeartSize;
+        this.postHeartSet = postHeartSet;
         this.createdDate = post.getCreatedDate();
         this.modifiedDate = post.getModifiedDate();
         this.commentDtoList = post.getCommentList().stream()

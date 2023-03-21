@@ -143,10 +143,10 @@ public class PostService {
         SetOperations<String, String> setOperations = redisTemplate.opsForSet();
 
         if (setOperations.isMember(String.valueOf(postId),memberEmail)) {
-            setOperations.remove(String.valueOf(postId),memberEmail);
+            setOperations.remove("postLike:"+postId,memberEmail);
         }
         else{
-            setOperations.add(String.valueOf(postId),memberEmail);
+            setOperations.add("postLike:"+postId,memberEmail);
         }
     }
 }
