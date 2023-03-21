@@ -1,5 +1,8 @@
 package com.example.concalendar.user.config;
 
+import com.example.concalendar.user.exception.CustomException;
+import com.example.concalendar.util.StatusEnum;
+import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -15,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
     private final JwtTokenProvider jwtTokenProvider;
@@ -34,7 +39,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
             // Redis에 해당 accessToken logout 여부를 확인
             String isLogout = (String) redisTemplate.opsForValue().get(accessToken);
-            log.debug("로그아웃 상태는 {}",isLogout);
+            log.info("로그아웃 상태는 {}",isLogout);
 
             // 로그아웃이 없는(되어 있지 않은) 경우 해당 토큰은 정상적으로 작동하기
             if (ObjectUtils.isEmpty(isLogout)) {
@@ -43,8 +48,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
                 // SecurityContext 에 Authentication 객체를 저장합니다.
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                log.debug("Security Context에 '{}' 인증 정보를 저장했습니다",authentication.getName());
+                log.debug("Security Context에 '{}' 인증 정보를 저장했습니다", authentication.getName());
 
+            }
+            else{
+                log.info("토큰이 로그아웃으로 만료되었습니다.");
+                throw new JwtException("만료된 토큰입니다.");
             }
         }
 

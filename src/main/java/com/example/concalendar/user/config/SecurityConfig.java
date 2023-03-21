@@ -1,5 +1,6 @@
 package com.example.concalendar.user.config;
 
+import com.example.concalendar.user.exception.JwtCustomExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,6 +25,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
+    private final JwtCustomExceptionFilter jwtCustomExceptionFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 //    private final UserLoginFailHandler userLoginFailHandler;
 
@@ -68,9 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .failureHandler(userLoginFailHandler)
 //                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,redisTemplate),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
                 // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
                 // 필터를 등록, 왼쪽은 커스텀한 필터링, 오른쪽 필터링 전에 왼쪽이 먼저 진행됨
+                .addFilterBefore(jwtCustomExceptionFilter,jwtAuthenticationFilter.getClass());
 
         // + 토큰에 저장된 유저정보를 활용하여야 하기 때문에 CustomUserDetailService 클래스를 생성합니다.
         // 세션을 사용하지 않는다고 설정 -> STATELESS
