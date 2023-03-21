@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * The type Post controller.
  */
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class PostController {
 

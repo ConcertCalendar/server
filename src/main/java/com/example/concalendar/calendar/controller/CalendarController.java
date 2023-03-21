@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * The type Calendar controller.
  */
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class CalendarController {
     private final CalendarService calendarService;
