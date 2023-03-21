@@ -76,12 +76,11 @@ public class ReplyController {
      *
      * @param commentId       the comment id
      * @param replyId         the reply id
-     * @param replyRequestDto the reply request dto
      * @param Authorization   the authorization
      * @return the response entity
      */
     @DeleteMapping("/comments/{commentId}/replies/{replyId}")
-    public ResponseEntity deleteComment(@PathVariable Long commentId, @PathVariable Long replyId, @RequestBody ReplyRequestDto replyRequestDto, @RequestHeader String Authorization){
+    public ResponseEntity deleteComment(@PathVariable Long commentId, @PathVariable Long replyId, @RequestHeader String Authorization){
         Message message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
