@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -19,6 +20,8 @@ public class CommentDto {
     private Long id;
 
     private String commentContent;
+
+//    private Set<String> commentHeartSet;
 
     private LocalDateTime createdDate;
 

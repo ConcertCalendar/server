@@ -142,7 +142,7 @@ public class PostService {
     public void postHeartClick(long postId, String memberEmail){
         SetOperations<String, String> setOperations = redisTemplate.opsForSet();
 
-        if (setOperations.isMember(String.valueOf(postId),memberEmail)) {
+        if (setOperations.isMember("postLike:"+postId,memberEmail)) {
             setOperations.remove("postLike:"+postId,memberEmail);
         }
         else{

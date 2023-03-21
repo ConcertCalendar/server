@@ -8,6 +8,8 @@ import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.service.UserService;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,17 +25,18 @@ public class CommentService {
     /**
      * The Comment repository.
      */
-    final CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
     /**
      * The Post service.
      */
-    final PostService postService;
+    private final PostService postService;
     /**
      * The User service.
      */
-    final UserService userService;
+    private final UserService userService;
 
-    final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * Create.
@@ -98,6 +101,17 @@ public class CommentService {
         }
         else {
             throw new CustomException(StatusEnum.Unauthorized,"댓글을 작성한 사용자가 아닙니다. 토큰을 다시 확인해주세요.");
+        }
+    }
+
+    public void commentHeartClick(Long commentId, String memberEmail) {
+        SetOperations<String, String> setOperations = redisTemplate.opsForSet();
+
+        if (setOperations.isMember("commentLike:"+commentId,memberEmail)) {
+            setOperations.remove("commentLike:"+commentId,memberEmail);
+        }
+        else{
+            setOperations.add("commentLike:"+commentId,memberEmail);
         }
     }
 }

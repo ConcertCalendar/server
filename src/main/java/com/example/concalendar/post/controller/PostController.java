@@ -63,6 +63,7 @@ public class PostController {
     public ResponseEntity getPost(@PathVariable Long boardId, @PathVariable Long postId){
         Post post = postService.getPostByPostId(postId);
         Set<String> postHeartSet = redisTemplate.opsForSet().members("postLike:"+postId);
+//        Set<String> commentHeartSet = redisTemplate.opsForSet().members("commentsLikeL"+)
 
         PostDto postDto = new PostDto(post, postHeartSet);
 
@@ -75,7 +76,7 @@ public class PostController {
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
-    @PostMapping("/boards/{boardId}/posts/{postId}/heartClick")
+    @PostMapping("/boards/{boardId}/postsHeart/{postId}")
     public ResponseEntity postHeartClick(@PathVariable Long boardId, @PathVariable Long postId, @RequestHeader String Authorization){
         Message message = new Message();
 
