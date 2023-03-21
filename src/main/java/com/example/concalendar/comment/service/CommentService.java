@@ -85,6 +85,7 @@ public class CommentService {
      *
      * @param commentId the comment id
      */
+    @Transactional
     public void delete(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"댓글Id에 해당하는 댓글이 DB에 존재하지 않습니다."));
