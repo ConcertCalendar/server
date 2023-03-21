@@ -143,13 +143,13 @@ public class UserController {
     /**
      * Logout response entity.
      *
-     * @param tokenRequestDto the token request dto
+     * @param Authorization the token request dto
      * @return the response entity
      */
     @PostMapping("/users/logout")
-    public ResponseEntity logout(@RequestBody TokenRequestDto tokenRequestDto){
+    public ResponseEntity logout(@RequestHeader String Authorization){
         log.info("로그아웃 성공");
-        userService.logout(tokenRequestDto);
+        userService.logout(Authorization);
 
         Message message = new Message();
         message.setStatus(StatusEnum.OK);
