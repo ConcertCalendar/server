@@ -3,6 +3,7 @@ package com.example.concalendar.comment.service;
 import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.comment.repository.CommentRepository;
 import com.example.concalendar.post.service.PostService;
+import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.service.UserService;
 import com.example.concalendar.util.StatusEnum;
@@ -31,6 +32,8 @@ public class CommentService {
      * The User service.
      */
     final UserService userService;
+
+    final JwtTokenProvider jwtTokenProvider;
 
     /**
      * Create.
@@ -86,9 +89,15 @@ public class CommentService {
      * @param commentId the comment id
      */
     @Transactional
-    public void delete(Long commentId) {
+    public void delete(Long commentId, String accessToken) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"댓글Id에 해당하는 댓글이 DB에 존재하지 않습니다."));
-        commentRepository.delete(comment);
+
+        if (comment.getCommentWriter().getUserEmail().equals(jwtTokenProvider.getUserPk(accessToken))){
+            commentRepository.delete(comment);
+        }
+        else {
+            throw new CustomException(StatusEnum.Unauthorized,"댓글을 작성한 사용자가 아닙니다. 토큰을 다시 확인해주세요.");
+        }
     }
 }

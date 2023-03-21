@@ -89,7 +89,7 @@ public class CommentController {
         Message message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
-            commentService.delete(commentId);
+            commentService.delete(commentId, Authorization);
             message.setStatus(StatusEnum.OK);
             message.setMessage("댓글 삭제 성공");
         }
