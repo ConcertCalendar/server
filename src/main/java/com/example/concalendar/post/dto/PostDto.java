@@ -54,6 +54,4 @@ public class PostDto {
                 .map(comment -> new CommentDto(comment))
                 .collect(Collectors.toList());
     }
-
-
 }
