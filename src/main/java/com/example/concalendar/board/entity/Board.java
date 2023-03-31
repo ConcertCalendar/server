@@ -35,7 +35,7 @@ public class Board {
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Post> post;
 
 }

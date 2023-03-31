@@ -37,10 +37,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
         List<Post> postList = queryFactory
                 .select(qPost)
                 .from(qPost)
-                .where(qPost.board.id.eq(id))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                .where(qPost.board.id.eq(id)) // 조건문 id 일치 여부 확인
+                .offset(pageable.getOffset()) // pageable 시작 인덱스를 지정
+                .limit(pageable.getPageSize()) // pageable의 PageSize 만큼 limit
+                .fetch(); // 컬렉션 반환
 
         return new PageImpl<>(postList, pageable, postList.size());
 
