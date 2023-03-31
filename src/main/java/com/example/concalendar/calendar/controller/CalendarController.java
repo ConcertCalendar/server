@@ -2,7 +2,11 @@ package com.example.concalendar.calendar.controller;
 
 import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.service.CalendarService;
+import com.example.concalendar.util.Message;
+import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +37,12 @@ public class CalendarController {
      * @return the list
      */
     @GetMapping("/calendar/event")
-    public @ResponseBody List<Calendar> getEvent(){
-        return calendarService.getEventList();
+    public ResponseEntity getEvent(){
+        Message message = new Message();
+
+        message.setMessage("공연 정보 전송 완료");
+        message.setStatus(StatusEnum.OK);
+        message.setData(calendarService.getEventList());
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 }
