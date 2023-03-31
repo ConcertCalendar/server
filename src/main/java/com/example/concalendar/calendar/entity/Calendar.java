@@ -29,14 +29,8 @@ public class Calendar {
     @Column
     private String conContent;
 
-    @Column
-    private LocalTime conTime;
-
-    @Column
-    private LocalDate conStart;
-
-    @Column
-    private LocalDate conEnd;
+    @Embedded
+    private ConcertTime concertTime;
 
     @Column
     private LocalDateTime createdDate;
@@ -48,10 +42,8 @@ public class Calendar {
 //    @JoinColumn(name = "con_poster_id")
 //    private ConcertPoster concertPoster;
 
-    public void update(LocalTime conTime, LocalDate conStart, LocalDate conEnd) {
-        this.conTime = conTime;
-        this.conStart = conStart;
-        this.conEnd = conEnd;
+    public void update(ConcertTime concertTime) {
+        this.concertTime = concertTime;
         this.updatedDate = LocalDateTime.now();
     }
 }
