@@ -1,21 +1,22 @@
 SET FOREIGN_KEY_CHECKS = 0;
 ;;
--- truncate table user_table;
--- ;;
--- truncate table board_table;
--- ;;
--- truncate table post_table;
--- ;;
--- truncate table calendar;
--- ;;
+truncate table user_table;
+;;
+truncate table board_table;
+;;
+truncate table post_table;
+;;
+truncate table calendar_info_table;
+;;
 SET FOREIGN_KEY_CHECKS = 1;
 ;;
 
--- drop database ConcertCalendar;;
--- create database ConcertCalendar;;
--- use ConcertCalendar;;
-
-
+-- drop database ConcertCalendar;
+-- ;;
+-- create database ConcertCalendar;
+-- ;;
+-- use ConcertCalendar;
+-- ;;
 
 insert into calendar_info_table (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('해리 스타일스 (Harry Styles)','해리 스타일스 첫 내한공연','지정석VIP석 250,000원\n지정석P석 198,000원\n스탠딩P석 165,000원\n지정석R석 165,000원\n지정석S석 143,000원\n지정석A석 121,000원\n지정석B석 110,000원\n지정석C석 88,000원', "20:00:00","2023-03-20 20:00:00","2023-03-20 21:30:00",now());;
 

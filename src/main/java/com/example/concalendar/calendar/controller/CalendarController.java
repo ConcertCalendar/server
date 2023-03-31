@@ -1,5 +1,6 @@
 package com.example.concalendar.calendar.controller;
 
+import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class CalendarController {
      * @return the list
      */
     @GetMapping("/calendar/event")
-    public @ResponseBody List<Map<String, Object>> getEvent(){
+    public @ResponseBody List<Calendar> getEvent(){
         return calendarService.getEventList();
     }
 }
