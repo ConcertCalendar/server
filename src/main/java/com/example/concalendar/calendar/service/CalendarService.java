@@ -71,21 +71,21 @@ public class CalendarService{
         foundCalendar.update(calendar.getConcertTime());
     }
 
-    public List<Map<String, Object>> getEventList(){
+    public List<Calendar> getEventList(){
         // return 할 json 형태의 리스트
         // Map + List 형태로 만든 이유 -> JSON 형태로 반환하기 위해
-        List<Map<String, Object>> eventList = new ArrayList<Map<String, Object>>();
+//        List<Map<String, Object>> eventList = new ArrayList<Map<String, Object>>();
         // DB 내에 있는 캘린더 엔티티 정보를 모은 리스트
         List<Calendar> calendarInfoList = calendarRepository.findAll();
 
-        for(int i = 0; i<calendarInfoList.size(); i++) {
-            Map<String, Object> event = new HashMap<String, Object>();
-//            event.put("start", calendarInfoList.get(i).getConStart());
-//            event.put("title", calendarInfoList.get(i).getConTitle());
-//            event.put("end", calendarInfoList.get(i).getConEnd());
-            eventList.add(event);
-        }
-        return eventList;
+//        for(int i = 0; i<calendarInfoList.size(); i++) {
+//            Map<String, Object> event = new HashMap<String, Object>();
+////            event.put("start", calendarInfoList.get(i).getConStart());
+////            event.put("title", calendarInfoList.get(i).getConTitle());
+////            event.put("end", calendarInfoList.get(i).getConEnd());
+//            eventList.add(event);
+//        }
+        return calendarInfoList;
     }
 
 
