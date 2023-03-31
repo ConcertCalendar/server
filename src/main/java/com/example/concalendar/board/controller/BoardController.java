@@ -7,6 +7,7 @@ import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class BoardController {
      * @return the all posts
      */
     @GetMapping("/{id}")
-    public ResponseEntity getAllPosts(@PathVariable Long id, @PageableDefault(size = 20, sort = "createdDate") Pageable pageRequest){
+    public ResponseEntity getAllPosts(@PathVariable Long id, @PageableDefault(size = 20, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageRequest){
         log.info("/board/{}에 들어왔습니다",id);
         BoardReturnDto boardReturnDto = postService.getPostByPage(pageRequest, id);
 
