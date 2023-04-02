@@ -1,5 +1,7 @@
 package com.example.concalendar.calendar.controller;
 
+import com.example.concalendar.calendar.dto.CalendarDto;
+import com.example.concalendar.calendar.dto.CalendarSaveDto;
 import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.service.CalendarService;
 import com.example.concalendar.util.Message;
@@ -8,9 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -40,9 +43,23 @@ public class CalendarController {
     public ResponseEntity getEvent(){
         Message message = new Message();
 
+        List<CalendarDto> calendarDtoList = calendarService.getEventList();
+
         message.setMessage("공연 정보 전송 완료");
         message.setStatus(StatusEnum.OK);
-        message.setData(calendarService.getEventList());
+        message.setData(calendarDtoList);
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
+
+    @PostMapping("/calendar/event")
+    public ResponseEntity uploadConcertInfo(@RequestPart(value = "file") MultipartFile multipartFile, @RequestPart CalendarSaveDto calendarSaveDto) throws IOException {
+        Message message = new Message();
+
+        calendarService.create(calendarSaveDto, multipartFile);
+
+        message.setMessage("공연 정보 입력");
+        message.setStatus(StatusEnum.OK);
+
         return new ResponseEntity(message, HttpStatus.OK);
     }
 }

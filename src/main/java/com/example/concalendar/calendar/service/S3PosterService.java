@@ -30,7 +30,7 @@ public class S3PosterService {
      * @return the string
      * @throws IOException the io exception
      */
-    public String uploadFile(MultipartFile multipartFile) throws IOException {
+    public String uploadFile(MultipartFile multipartFile, String concertPosterTitle) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
 
         //파일 형식 구하기
@@ -44,6 +44,7 @@ public class S3PosterService {
             contentType = "image/png";
         }
 
+        fileName = concertPosterTitle;
 
         try {
             ObjectMetadata metadata = new ObjectMetadata();
