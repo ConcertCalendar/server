@@ -18,7 +18,7 @@ public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // 기본키(primary key)
-    private Integer conNo;
+    private Long conNo;
 
     @Column
     private String singer;
@@ -35,6 +35,8 @@ public class Calendar {
     @Column
     private LocalDateTime createdDate;
 
+    private String posterUrl;
+
     @Column
     private LocalDateTime updatedDate;
 
@@ -45,5 +47,9 @@ public class Calendar {
     public void update(ConcertTime concertTime) {
         this.concertTime = concertTime;
         this.updatedDate = LocalDateTime.now();
+    }
+
+    public void concertPosterUpdate(String posterUrl){
+        this.posterUrl = posterUrl;
     }
 }

@@ -1,12 +1,15 @@
 package com.example.concalendar.calendar.service;
 
+import com.example.concalendar.calendar.dto.CalendarDto;
+import com.example.concalendar.calendar.dto.CalendarSaveDto;
 import com.example.concalendar.calendar.entity.Calendar;
-import com.example.concalendar.calendar.entity.ConcertTime;
 import com.example.concalendar.calendar.repository.CalendarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -15,30 +18,35 @@ import java.util.*;
 public class CalendarService{
 
     private final CalendarRepository calendarRepository;
+    private final S3PosterService s3PosterService;
 
-    public void create(String singer, String title, String content, ConcertTime concertTime){
+    public void create(CalendarSaveDto calendarSaveDto, MultipartFile multipartFile) throws IOException {
+
+        String posterUrl = s3PosterService.uploadFile(multipartFile, calendarSaveDto.getConTitle());
+
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime updatedDate = LocalDateTime.now();
 
         // builder 를 통한 객체 생성 -> 매개 변수 받아서 빌더에 넣어주기
         Calendar calendar = Calendar.builder()
-                .singer(singer)
-                .conTitle(title)
-                .conContent(content)
-                .concertTime(concertTime)
+                .singer(calendarSaveDto.getSinger())
+                .conTitle(calendarSaveDto.getConTitle())
+                .conContent(calendarSaveDto.getConContent())
+                .concertTime(calendarSaveDto.getConcertTime())
                 .createdDate(createdDate)
                 .updatedDate(updatedDate)
+                .posterUrl(posterUrl)
                 .build();
 
         calendarRepository.save(calendar);
     }
 
     // 공연 정보 DB에서 해당 id 정보 삭제 메서드
-    public void deleteById(int id){
+    public void deleteById(long id){
         calendarRepository.deleteById(id);
    }
 
-    public Calendar findById(int id){
+    public Calendar findById(long id){
         Optional<Calendar> calendar = calendarRepository.findById(id);
 
         if(calendar.isPresent()){
@@ -52,7 +60,7 @@ public class CalendarService{
 
     @Transactional //db 트랜잭션 자동으로 commit 해줌
     // 공연 정보 수정 메서드
-    public void update(int id, Calendar calendar){
+    public void update(long id, Calendar calendar){
         Calendar foundCalendar = calendarRepository.findById(id).orElse(null);
 
 //        foundCalendar.setSinger(calendar.getSinger());
@@ -71,21 +79,23 @@ public class CalendarService{
         foundCalendar.update(calendar.getConcertTime());
     }
 
-    public List<Calendar> getEventList(){
+    public List<CalendarDto> getEventList(){
         // return 할 json 형태의 리스트
         // Map + List 형태로 만든 이유 -> JSON 형태로 반환하기 위해
 //        List<Map<String, Object>> eventList = new ArrayList<Map<String, Object>>();
         // DB 내에 있는 캘린더 엔티티 정보를 모은 리스트
         List<Calendar> calendarInfoList = calendarRepository.findAll();
 
-//        for(int i = 0; i<calendarInfoList.size(); i++) {
-//            Map<String, Object> event = new HashMap<String, Object>();
-////            event.put("start", calendarInfoList.get(i).getConStart());
-////            event.put("title", calendarInfoList.get(i).getConTitle());
-////            event.put("end", calendarInfoList.get(i).getConEnd());
-//            eventList.add(event);
-//        }
-        return calendarInfoList;
+        List<CalendarDto> calendarDtoList = new ArrayList<>();
+
+        for (Calendar calendar : calendarInfoList){
+
+            CalendarDto calendarDto = new CalendarDto(calendar);
+
+            calendarDtoList.add(calendarDto);
+        }
+
+        return calendarDtoList;
     }
 
 
