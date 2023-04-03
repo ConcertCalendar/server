@@ -29,6 +29,8 @@ public class Calendar {
     @Column
     private String conContent;
 
+    private String conPlace;
+
     @Embedded
     private ConcertTime concertTime;
 
@@ -36,6 +38,9 @@ public class Calendar {
     private LocalDateTime createdDate;
 
     private String posterUrl;
+
+    @Embedded
+    private BookingLink bookingLink;
 
     @Column
     private LocalDateTime updatedDate;

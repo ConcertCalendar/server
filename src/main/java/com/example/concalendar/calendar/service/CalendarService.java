@@ -32,10 +32,12 @@ public class CalendarService{
                 .singer(calendarSaveDto.getSinger())
                 .conTitle(calendarSaveDto.getConTitle())
                 .conContent(calendarSaveDto.getConContent())
+                .conPlace(calendarSaveDto.getConPlace())
                 .concertTime(calendarSaveDto.getConcertTime())
                 .createdDate(createdDate)
                 .updatedDate(updatedDate)
                 .posterUrl(posterUrl)
+                .bookingLink(calendarSaveDto.getBookingLink())
                 .build();
 
         calendarRepository.save(calendar);
