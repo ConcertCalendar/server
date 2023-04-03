@@ -11,9 +11,9 @@ spring:
     hibernate:
       ddl-auto: update
 
-  sql:
-    init:
-#      schema-locations: classpath*:init-data/schema.sql
-      data-locations: classpath*:init-data/data.sql
-      mode: always
-      separator: ;;
+#  sql:
+#    init:
+##      schema-locations: classpath*:init-data/schema.sql
+#      data-locations: classpath*:init-data/data.sql
+#      mode: always
+#      separator: ;;
