@@ -6,10 +6,10 @@ spring:
     username: ENC(hyy60tfViPyWZOSuq1PZpg==)
     password: ENC(H0sRW63DQ+aBI+9q7b4PAZPzBTkEHSkw)
     driver-class-name: com.mysql.cj.jdbc.Driver
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: none
+
+  jpa:
+    hibernate:
+      ddl-auto: update
 
   sql:
     init:
