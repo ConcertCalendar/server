@@ -10,22 +10,26 @@ import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.UserRepository;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The type Post service.
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
@@ -141,12 +145,32 @@ public class PostService {
 
     public void postHeartClick(long postId, String memberEmail){
         SetOperations<String, String> setOperations = redisTemplate.opsForSet();
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
 
         if (setOperations.isMember("postLike:"+postId,memberEmail)) {
             setOperations.remove("postLike:"+postId,memberEmail);
+            zSetOperations.add("postRanking",String.valueOf(postId),redisTemplate.opsForSet().members("postLike:"+postId).size());
         }
         else{
             setOperations.add("postLike:"+postId,memberEmail);
+            zSetOperations.add("postRanking",String.valueOf(postId),redisTemplate.opsForSet().members("postLike:"+postId).size());
         }
     }
+
+    public List<Post> getPostRanking(){
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+
+        Set<ZSetOperations.TypedTuple<String>> rankingSet = zSetOperations.reverseRangeWithScores("postRanking",-5,-1);
+
+        List<Post> postList = new ArrayList<>();
+
+        for (ZSetOperations.TypedTuple<String> str : rankingSet){
+            Post post = postRepository.findById(Long.valueOf(str.getValue())).orElseThrow(() -> new CustomException(StatusEnum.BAD_REQUEST,"postId에 해당하는 Post가 DB에 존재하지 않습니다."));
+            postList.add(post);
+        }
+
+        return postList;
+    }
+
+    
 }

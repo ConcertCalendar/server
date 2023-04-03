@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -89,6 +91,28 @@ public class PostController {
             message.setStatus(StatusEnum.Unauthorized);
             message.setMessage("AccessToken이 유효하지 않아서 클릭할 수 없습니다. 로그인 해주세요.");
         }
+
+        return new ResponseEntity(message,message.getStatus().getHttpStatus());
+    }
+
+    @GetMapping("/posts/ranking")
+    public ResponseEntity postRanking(){
+        Message message = new Message();
+        Set<String> postHeartSet;
+
+        message.setMessage("포스트 랭킹을 가져옵니다.");
+        message.setStatus(StatusEnum.OK);
+        List<Post> postList = postService.getPostRanking();
+        List<PostDto> postDtoList = new ArrayList<>();
+
+        for (Post post : postList){
+            postHeartSet = redisTemplate.opsForSet().members("postLike:"+post.getId());
+
+            PostDto postDto = new PostDto(post,postHeartSet);
+            postDtoList.add(postDto);
+        }
+
+        message.setData(postDtoList);
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }
