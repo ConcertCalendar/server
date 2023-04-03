@@ -1,5 +1,6 @@
 package com.example.concalendar.calendar.dto;
 
+import com.example.concalendar.calendar.entity.BookingLink;
 import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.entity.ConcertTime;
 import lombok.Getter;
@@ -19,5 +20,7 @@ public class CalendarSaveDto {
 
     private ConcertTime concertTime;
 
+    private BookingLink bookingLink;
 
+    private String conPlace;
 }
