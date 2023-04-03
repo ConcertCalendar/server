@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,11 +26,13 @@ public class BoardDto {
 
     private int postHeart;
 
+    private int commentSize;
+
     private LocalDateTime createdDate;
 
     private LocalDateTime modifiedDate;
 
-    public static BoardDto entityToGetPostDto(Post post){
+    public static BoardDto entityToGetPostDto(Post post, int postHeartSize, int commentSize){
         BoardDto getBoardDto = BoardDto.builder()
                 .postTitle(post.getPostTitle())
                 .postContent(post.getPostContent())
@@ -39,6 +42,8 @@ public class BoardDto {
                 .writerName(post.getWriter().getUserNickname())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
+                .postHeart(postHeartSize)
+                .commentSize(commentSize)
                 .build();
         return getBoardDto;
 

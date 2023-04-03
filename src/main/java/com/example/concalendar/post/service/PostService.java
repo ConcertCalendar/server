@@ -2,6 +2,7 @@ package com.example.concalendar.post.service;
 
 import com.example.concalendar.board.service.BoardService;
 import com.example.concalendar.board.dto.BoardDto;
+import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.board.dto.BoardReturnDto;
 import com.example.concalendar.post.entity.Post;
@@ -95,6 +96,8 @@ public class PostService {
      * @return the board return dto
      */
     public BoardReturnDto getPostByPage(Pageable pageRequest, long id){
+        SetOperations<String, String> setOperations = redisTemplate.opsForSet();
+
         Page<Post> postPageList = postRepository.findAllWithBoardId(pageRequest,id);
         List<Post> postList = new ArrayList<>();
         List<BoardDto> boardDtoList = new ArrayList<>();
@@ -103,7 +106,18 @@ public class PostService {
         long postSizeByBoardId = postRepository.countPostsByBoardId(id);
 
         for (Post post : postList){
-            BoardDto boardDto = BoardDto.entityToGetPostDto(post);
+
+            int postHeartSize = redisTemplate.opsForSet().members("postLike:"+post.getId()).size();
+
+            int commentSize = post.getCommentList().size();
+            int replySize = 0;
+            for (Comment comment : post.getCommentList()){
+                replySize += comment.getReplyList().size();
+            }
+
+            commentSize = commentSize + replySize;
+
+            BoardDto boardDto = BoardDto.entityToGetPostDto(post, postHeartSize, commentSize);
 
             boardDtoList.add(boardDto);
         }

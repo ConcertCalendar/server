@@ -69,6 +69,4 @@ public class S3PosterService {
 
     }
 
-
-
 }
