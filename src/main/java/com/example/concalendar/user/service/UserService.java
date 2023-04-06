@@ -90,7 +90,7 @@ public class UserService{
 //                .token(tokenDto.getRefreshToken())
 //                .build();
 
-        redisTemplate.opsForValue().set(user.getUserEmail(),tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresTime(), TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set("refresh:"+tokenDto.getRefreshToken(), user.getUserEmail(), tokenDto.getRefreshTokenExpiresTime(), TimeUnit.MILLISECONDS);
 
         return tokenDto;
     }
@@ -118,7 +118,7 @@ public class UserService{
 
         // 해당 Access Token 유효시간을 가지고 와서 BlackList에 저장하기
         Long expiration = jwtTokenProvider.getExpiration(accessToken);
-        redisTemplate.opsForValue().set(accessToken,"logout",expiration,TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set("access:"+accessToken,"logout",expiration,TimeUnit.MILLISECONDS);
 
     }
 

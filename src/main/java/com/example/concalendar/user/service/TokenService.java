@@ -37,7 +37,7 @@ public class TokenService{
      * @return the token dto
      */
     @Transactional
-    public TokenDto reIssue(String refreshToken, String authorization){
+    public TokenDto reIssue(String refreshToken){
 
         // TokenDto 객체 선언
         TokenDto newCreatedToken;
@@ -52,21 +52,20 @@ public class TokenService{
 
         // redis에 저장되어 있던 refresh Token과 재발행 하고 싶은 refresh Token을 비교하여
         // 불일치하면 Exception 발생
-        String userEmail = jwtTokenProvider.getUserPk(authorization);
-        log.info("userEmail은 {}",userEmail);
+//        String userEmail = jwtTokenProvider.getUserPk(authorization);
+//        log.info("userEmail은 {}",userEmail);
 
-        if ( !redisTemplate.opsForValue().get(userEmail).equals(refreshToken) ) {
+        Object o = redisTemplate.opsForValue().get("refresh:"+refreshToken);
+
+        if (o == null) {
             throw new CustomException(StatusEnum.BAD_REQUEST, "일치하는 Refresh Token이 존재하지 않습니다");
         }
 
-        log.info("Refresh Token 검사가 끝났습니다.");
-
-
-        log.info("accessToken이 만료되지 않았을때 /reIssue");
+        log.info("일치하는 Refresh Token이 존재합니다.");
 
 
         // AccessToken이 만료되지 않은 시점에서 로그인 되어 있는 User 객체를 가져온다
-        user = userService.findUserByUserEmail(userEmail);
+        user = userService.findUserByUserEmail(o.toString());
 
         // User객체의 이름과 역할을 매개변수로 token을 다시 생성한다.
         newCreatedToken = jwtTokenProvider.createToken(user.getUsername(), user.getRoles(), user.getUserId());
@@ -74,8 +73,10 @@ public class TokenService{
 
         // Refresh Token을 Redis에 업데이트 하기
         redisTemplate.opsForValue().set(
-                user.getUserEmail(),
-                newCreatedToken.getRefreshToken()
+                "refresh:"+newCreatedToken.getRefreshToken(),
+                newCreatedToken.getRefreshToken(),
+                newCreatedToken.getRefreshTokenExpiresTime(),
+                TimeUnit.MILLISECONDS
         );
 
         return newCreatedToken;

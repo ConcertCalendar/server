@@ -116,25 +116,21 @@ public class UserController {
 //    }
 
     @PostMapping("/users/reIssue")
-    public ResponseEntity reIssue(@CookieValue(value = "refreshToken") Cookie cookie, @RequestHeader String Authorization, HttpServletResponse response){
+    public ResponseEntity reIssue(@CookieValue(value = "refreshToken") Cookie cookie, HttpServletResponse response){
 
         String refreshToken = cookie.getValue();
         Message message = new Message();
         HashMap<String, ResponseCookie> hashMapCookies = null;
 
-        if (jwtTokenProvider.validateToken(Authorization)){
-            TokenDto tokenDto = tokenService.reIssue(refreshToken, Authorization);
-            hashMapCookies = cookieUtil.createCookies(tokenDto);
+        TokenDto tokenDto = tokenService.reIssue(refreshToken);
+        hashMapCookies = cookieUtil.createCookies(tokenDto);
 
-            message.setStatus(StatusEnum.OK);
-            message.setMessage("토큰 재발급 성공");
-            message.setData(tokenDto.getAccessToken());
-            response.addHeader("Set-Cookie",hashMapCookies.get("refreshTokenCookie").toString());
-        }
-        else{
-            message.setStatus(StatusEnum.Unauthorized);
-            message.setMessage("AccessToken이 유효하지 않아서 게시글을 등록할 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
-        }
+        message.setStatus(StatusEnum.OK);
+
+        message.setMessage("토큰 재발급 성공");
+        message.setData(tokenDto.getAccessToken());
+
+        response.addHeader("Set-Cookie",hashMapCookies.get("refreshTokenCookie").toString());
 
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
