@@ -74,7 +74,7 @@ public class TokenService{
         // Refresh Token을 Redis에 업데이트 하기
         redisTemplate.opsForValue().set(
                 "refresh:"+newCreatedToken.getRefreshToken(),
-                newCreatedToken.getRefreshToken(),
+                user.getUserEmail(),
                 newCreatedToken.getRefreshTokenExpiresTime(),
                 TimeUnit.MILLISECONDS
         );
