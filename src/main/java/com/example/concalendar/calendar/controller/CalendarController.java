@@ -62,4 +62,18 @@ public class CalendarController {
 
         return new ResponseEntity(message, HttpStatus.OK);
     }
+
+    @GetMapping("/calendar/nextEvent")
+    public ResponseEntity getNextConcertInfo(){
+        Message message = new Message();
+
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("현재 가장 가까운 공연을 반환합니다.");
+
+        CalendarDto calendarDto = calendarService.getNextEvent();
+
+        message.setData(calendarDto);
+
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
 }
