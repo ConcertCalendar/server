@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // AccessToken이 존재하고 AccessToken이 유효한 경우
         if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
             // Redis에 해당 accessToken logout 여부를 확인
-            String isLogout = (String) redisTemplate.opsForValue().get(accessToken);
+            String isLogout = (String) redisTemplate.opsForValue().get("access:"+accessToken);
             log.info("로그아웃 상태는 {}",isLogout);
 
             // 로그아웃이 없는(되어 있지 않은) 경우 해당 토큰은 정상적으로 작동하기
