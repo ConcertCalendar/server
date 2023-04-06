@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -100,4 +101,12 @@ public class CalendarService{
         return calendarDtoList;
     }
 
+    public CalendarDto getNextEvent() {
+        LocalDate nowDate = LocalDate.now();
+        Calendar calendar = calendarRepository.findNextCalendarByConStart(nowDate);
+
+        CalendarDto calendarDto = new CalendarDto(calendar);
+
+        return calendarDto;
+    }
 }
