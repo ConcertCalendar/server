@@ -143,10 +143,13 @@ public class UserController {
      * @return the response entity
      */
     @PostMapping("/users/logout")
-    public ResponseEntity logout(@RequestHeader String Authorization){
-        log.info("로그아웃 성공");
-        userService.logout(Authorization);
+    public ResponseEntity logout(@RequestHeader String Authorization, @CookieValue(value = "refreshToken") Cookie cookie){
 
+        String refreshToken = cookie.getValue();
+
+        userService.logout(Authorization, refreshToken);
+
+        log.info("로그아웃 성공");
         Message message = new Message();
         message.setStatus(StatusEnum.OK);
         message.setMessage("로그아웃 성공");
