@@ -1,5 +1,6 @@
 package com.example.concalendar.calendar.entity;
 
+import com.example.concalendar.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,6 +45,7 @@ public class Calendar {
 
     @Column
     private LocalDateTime updatedDate;
+
 
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "con_poster_id")

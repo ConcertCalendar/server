@@ -4,6 +4,7 @@ import com.example.concalendar.calendar.dto.CalendarDto;
 import com.example.concalendar.calendar.dto.CalendarSaveDto;
 import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.service.CalendarService;
+import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.util.Message;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CalendarController {
     private final CalendarService calendarService;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * Calendar string.
@@ -73,6 +76,40 @@ public class CalendarController {
         CalendarDto calendarDto = calendarService.getNextEvent();
 
         message.setData(calendarDto);
+
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
+
+    @PostMapping("/calendar/bookmark/{calendar_id}")
+    public ResponseEntity createBookmark(@PathVariable Long calendar_id, @RequestHeader String Authorization){
+        Message message = new Message();
+
+        if (jwtTokenProvider.validateToken(Authorization)){
+            calendarService.createBookmark(calendar_id, jwtTokenProvider.getUserPk(Authorization));
+            message.setStatus(StatusEnum.OK);
+            message.setMessage(calendar_id+"번 북마크 성공");
+        }
+        else{
+            message.setStatus(StatusEnum.Unauthorized);
+            message.setMessage("AccessToken이 유효하지 않아서 게시글을 등록할 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
+        }
+
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/calendar/bookmark/{calendar_id}")
+    public ResponseEntity deleteBookmark(@PathVariable Long calendar_id, @RequestHeader String Authorization){
+        Message message = new Message();
+
+        if (jwtTokenProvider.validateToken(Authorization)){
+            calendarService.deleteBookmark(calendar_id, jwtTokenProvider.getUserPk(Authorization));
+            message.setStatus(StatusEnum.OK);
+            message.setMessage(calendar_id+"번 북마크 삭제 성공");
+        }
+        else{
+            message.setStatus(StatusEnum.Unauthorized);
+            message.setMessage("AccessToken이 유효하지 않아서 게시글을 등록할 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
+        }
 
         return new ResponseEntity(message, HttpStatus.OK);
     }
