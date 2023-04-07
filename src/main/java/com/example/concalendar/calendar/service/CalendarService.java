@@ -3,7 +3,11 @@ package com.example.concalendar.calendar.service;
 import com.example.concalendar.calendar.dto.CalendarDto;
 import com.example.concalendar.calendar.dto.CalendarSaveDto;
 import com.example.concalendar.calendar.entity.Calendar;
+import com.example.concalendar.calendar.entity.CalendarBookmark;
+import com.example.concalendar.calendar.repository.CalendarBookmarkRepository;
 import com.example.concalendar.calendar.repository.CalendarRepository;
+import com.example.concalendar.user.entity.User;
+import com.example.concalendar.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +23,9 @@ import java.util.*;
 public class CalendarService{
 
     private final CalendarRepository calendarRepository;
+    private final CalendarBookmarkRepository calendarBookmarkRepository;
     private final S3PosterService s3PosterService;
+    private final UserService userService;
 
     public void create(CalendarSaveDto calendarSaveDto, MultipartFile multipartFile) throws IOException {
 
@@ -91,9 +97,18 @@ public class CalendarService{
 
         List<CalendarDto> calendarDtoList = new ArrayList<>();
 
+
         for (Calendar calendar : calendarInfoList){
 
-            CalendarDto calendarDto = new CalendarDto(calendar);
+            Set<User> calendarBookmarkUserSet = getBookmarkUserSetsByCalendar(calendar);
+
+            Set<Long> userSet = new HashSet<>();
+
+            for (User user : calendarBookmarkUserSet){
+                userSet.add(user.getUserId());
+            }
+
+            CalendarDto calendarDto = new CalendarDto(calendar, userSet);
 
             calendarDtoList.add(calendarDto);
         }
@@ -105,8 +120,49 @@ public class CalendarService{
         LocalDate nowDate = LocalDate.now();
         Calendar calendar = calendarRepository.findNextCalendarByConStart(nowDate);
 
-        CalendarDto calendarDto = new CalendarDto(calendar);
+        Set<User> calendarBookmarkUserSet = getBookmarkUserSetsByCalendar(calendar);
+
+        Set<Long> userSet = new HashSet<>();
+
+        for (User user : calendarBookmarkUserSet){
+            userSet.add(user.getUserId());
+        }
+
+        CalendarDto calendarDto = new CalendarDto(calendar, userSet);
 
         return calendarDto;
     }
+
+    @Transactional
+    public Set<User> getBookmarkUserSetsByCalendar(Calendar calendar){
+        Set<CalendarBookmark> calendarBookmarkSet = calendarBookmarkRepository.findCalendarBookmarksByCalendar(calendar);
+        Set<User> calendarBookmarkUserSet = new HashSet<>();
+        for (CalendarBookmark calendarBookmark : calendarBookmarkSet){
+            calendarBookmarkUserSet.add(calendarBookmark.getUser());
+        }
+
+        return calendarBookmarkUserSet;
+    }
+
+    @Transactional
+    public void createBookmark(Long calendar_id, String userEmail) {
+        CalendarBookmark calendarBookmark = CalendarBookmark.builder()
+                .calendar(findById(calendar_id))
+                .user(userService.findUserByUserEmail(userEmail))
+                .build();
+
+        calendarBookmarkRepository.save(calendarBookmark);
+    }
+
+    @Transactional
+    public void deleteBookmark(Long calendar_id, String userEmail) {
+
+        Calendar calendar = findById(calendar_id);
+        User user = userService.findUserByUserEmail(userEmail);
+
+        CalendarBookmark calendarBookmark = calendarBookmarkRepository.findCalendarBookmarkByCalendarAndUser(calendar,user);
+
+        calendarBookmarkRepository.delete(calendarBookmark);
+    }
+
 }
