@@ -13,6 +13,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -38,9 +39,9 @@ public class CalendarDto {
 
     private BookingLink bookingLink;
 
-    private Set<Long> userIdSet;
+    private List<Long> userIdList;
 
-    public CalendarDto(Calendar calendar, Set<Long> userIdSet){
+    public CalendarDto(Calendar calendar, List<Long> userIdList){
         this.conNo = calendar.getConNo();
         this.singer = calendar.getSinger();
         this.conTitle = calendar.getConTitle();
@@ -51,6 +52,6 @@ public class CalendarDto {
         this.updatedDate = calendar.getUpdatedDate();
         this.posterUrl = calendar.getPosterUrl();
         this.bookingLink = calendar.getBookingLink();
-        this.userIdSet = userIdSet;
+        this.userIdList = userIdList;
     }
 }

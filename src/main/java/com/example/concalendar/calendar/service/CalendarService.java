@@ -7,7 +7,9 @@ import com.example.concalendar.calendar.entity.CalendarBookmark;
 import com.example.concalendar.calendar.repository.CalendarBookmarkRepository;
 import com.example.concalendar.calendar.repository.CalendarRepository;
 import com.example.concalendar.user.entity.User;
+import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.service.UserService;
+import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,15 +102,15 @@ public class CalendarService{
 
         for (Calendar calendar : calendarInfoList){
 
-            Set<User> calendarBookmarkUserSet = getBookmarkUserSetsByCalendar(calendar);
+            List<User> calendarBookmarkUserList = getBookmarkUserListsByCalendar(calendar);
 
-            Set<Long> userSet = new HashSet<>();
+            List<Long> userIdList = new ArrayList<>();
 
-            for (User user : calendarBookmarkUserSet){
-                userSet.add(user.getUserId());
+            for (User user : calendarBookmarkUserList){
+                userIdList.add(user.getUserId());
             }
 
-            CalendarDto calendarDto = new CalendarDto(calendar, userSet);
+            CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
 
             calendarDtoList.add(calendarDto);
         }
@@ -120,47 +122,57 @@ public class CalendarService{
         LocalDate nowDate = LocalDate.now();
         Calendar calendar = calendarRepository.findNextCalendarByConStart(nowDate);
 
-        Set<User> calendarBookmarkUserSet = getBookmarkUserSetsByCalendar(calendar);
+        List<User> calendarBookmarkUserSet = getBookmarkUserListsByCalendar(calendar);
 
-        Set<Long> userSet = new HashSet<>();
+        List<Long> userIdList = new ArrayList<>();
 
         for (User user : calendarBookmarkUserSet){
-            userSet.add(user.getUserId());
+            userIdList.add(user.getUserId());
         }
 
-        CalendarDto calendarDto = new CalendarDto(calendar, userSet);
+        CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
 
         return calendarDto;
     }
 
     @Transactional
-    public Set<User> getBookmarkUserSetsByCalendar(Calendar calendar){
-        Set<CalendarBookmark> calendarBookmarkSet = calendarBookmarkRepository.findCalendarBookmarksByCalendar(calendar);
-        Set<User> calendarBookmarkUserSet = new HashSet<>();
-        for (CalendarBookmark calendarBookmark : calendarBookmarkSet){
-            calendarBookmarkUserSet.add(calendarBookmark.getUser());
+    public List<User> getBookmarkUserListsByCalendar(Calendar calendar){
+        List<CalendarBookmark> calendarBookmarkList = calendarBookmarkRepository.findCalendarBookmarksByCalendar(calendar.getConNo(),null);
+        List<User> calendarBookmarkUserList = new ArrayList<>();
+        for (CalendarBookmark calendarBookmark : calendarBookmarkList){
+            calendarBookmarkUserList.add(calendarBookmark.getUser());
         }
 
-        return calendarBookmarkUserSet;
+        return calendarBookmarkUserList;
     }
 
     @Transactional
     public void createBookmark(Long calendar_id, String userEmail) {
-        CalendarBookmark calendarBookmark = CalendarBookmark.builder()
-                .calendar(findById(calendar_id))
-                .user(userService.findUserByUserEmail(userEmail))
-                .build();
 
-        calendarBookmarkRepository.save(calendarBookmark);
+        User user = userService.findUserByUserEmail(userEmail);
+
+        List<CalendarBookmark> calendarBookmarkList = calendarBookmarkRepository.findCalendarBookmarksByCalendar(calendar_id,user.getUserId());
+
+        if (calendarBookmarkList.size() == 0) {
+            CalendarBookmark calendarBookmark = CalendarBookmark.builder()
+                    .calendar(findById(calendar_id))
+                    .user(userService.findUserByUserEmail(userEmail))
+                    .build();
+            calendarBookmarkRepository.save(calendarBookmark);
+        }
+        else{
+            throw new CustomException(StatusEnum.BAD_REQUEST,"이미 즐겨찾기를 한 공연입니다.");
+        }
+
+
     }
 
     @Transactional
     public void deleteBookmark(Long calendar_id, String userEmail) {
 
-        Calendar calendar = findById(calendar_id);
         User user = userService.findUserByUserEmail(userEmail);
 
-        CalendarBookmark calendarBookmark = calendarBookmarkRepository.findCalendarBookmarkByCalendarAndUser(calendar,user);
+        CalendarBookmark calendarBookmark = calendarBookmarkRepository.findCalendarBookmarksByCalendar(calendar_id,user.getUserId()).get(0);
 
         calendarBookmarkRepository.delete(calendarBookmark);
     }
