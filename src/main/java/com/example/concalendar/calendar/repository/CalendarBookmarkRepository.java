@@ -10,8 +10,5 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface CalendarBookmarkRepository extends JpaRepository<CalendarBookmark, Long> {
-    public CalendarBookmark findCalendarBookmarkByCalendarAndUser(Calendar calendar, User user);
-
-    public Set<CalendarBookmark> findCalendarBookmarksByCalendar(Calendar calendar);
+public interface CalendarBookmarkRepository extends JpaRepository<CalendarBookmark, Long>, CalendarBookmarkRepositoryCustom {
 }
