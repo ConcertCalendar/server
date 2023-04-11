@@ -24,7 +24,8 @@ public class BoardDto {
 
     private String postContent;
 
-    private int postHeart;
+    private Set<String> postHeartSet;
+    private int postHeartSize;
 
     private int commentSize;
 
@@ -32,7 +33,7 @@ public class BoardDto {
 
     private LocalDateTime modifiedDate;
 
-    public static BoardDto entityToGetPostDto(Post post, int postHeartSize, int commentSize){
+    public static BoardDto entityToGetPostDto(Post post, Set<String> postHeartSet, int commentSize){
         BoardDto getBoardDto = BoardDto.builder()
                 .postTitle(post.getPostTitle())
                 .postContent(post.getPostContent())
@@ -42,7 +43,8 @@ public class BoardDto {
                 .writerName(post.getWriter().getUserNickname())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
-                .postHeart(postHeartSize)
+                .postHeartSet(postHeartSet)
+                .postHeartSize(postHeartSet.size())
                 .commentSize(commentSize)
                 .build();
         return getBoardDto;
