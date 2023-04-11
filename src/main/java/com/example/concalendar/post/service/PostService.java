@@ -111,7 +111,7 @@ public class PostService {
 
         for (Post post : postList){
 
-            int postHeartSize = redisTemplate.opsForSet().members("postLike:"+post.getId()).size();
+            Set<String> postHeartSet = redisTemplate.opsForSet().members("postLike:"+post.getId());
 
             int commentSize = post.getCommentList().size();
             int replySize = 0;
@@ -121,7 +121,7 @@ public class PostService {
 
             commentSize = commentSize + replySize;
 
-            BoardDto boardDto = BoardDto.entityToGetPostDto(post, postHeartSize, commentSize);
+            BoardDto boardDto = BoardDto.entityToGetPostDto(post, postHeartSet, commentSize);
 
             boardDtoList.add(boardDto);
         }
@@ -201,7 +201,7 @@ public class PostService {
 
         for (Post post : postList){
 
-            int postHeartSize = redisTemplate.opsForSet().members("postLike:"+post.getId()).size();
+            Set<String> postHeartSet = redisTemplate.opsForSet().members("postLike:"+post.getId());
 
             int commentSize = post.getCommentList().size();
             int replySize = 0;
@@ -211,7 +211,7 @@ public class PostService {
 
             commentSize = commentSize + replySize;
 
-            BoardDto boardDto = BoardDto.entityToGetPostDto(post, postHeartSize, commentSize);
+            BoardDto boardDto = BoardDto.entityToGetPostDto(post, postHeartSet, commentSize);
 
             boardDtoList.add(boardDto);
         }
