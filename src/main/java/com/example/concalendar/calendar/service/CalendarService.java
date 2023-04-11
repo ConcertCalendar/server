@@ -122,17 +122,39 @@ public class CalendarService{
         LocalDate nowDate = LocalDate.now();
         Calendar calendar = calendarRepository.findNextCalendarByConStart(nowDate);
 
-        List<User> calendarBookmarkUserSet = getBookmarkUserListsByCalendar(calendar);
+        List<User> calendarBookmarkUserList = getBookmarkUserListsByCalendar(calendar);
 
         List<Long> userIdList = new ArrayList<>();
 
-        for (User user : calendarBookmarkUserSet){
+        for (User user : calendarBookmarkUserList){
             userIdList.add(user.getUserId());
         }
 
         CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
 
         return calendarDto;
+    }
+
+    public List<CalendarDto> getSearchEvent(String searchKeyword){
+        List<Calendar> calendarList = calendarRepository.findCalendarsByConTitleContains(searchKeyword);
+
+        List<CalendarDto> calendarDtoList = new ArrayList<>();
+
+        for (Calendar calendar : calendarList){
+            List<User> calendarBookmarkUserList = getBookmarkUserListsByCalendar(calendar);
+
+            List<Long> userIdList = new ArrayList<>();
+
+            for (User user : calendarBookmarkUserList){
+                userIdList.add(user.getUserId());
+            }
+
+            CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
+
+            calendarDtoList.add(calendarDto);
+        }
+
+        return calendarDtoList;
     }
 
     @Transactional

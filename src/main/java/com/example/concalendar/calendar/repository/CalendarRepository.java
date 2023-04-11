@@ -4,7 +4,9 @@ import com.example.concalendar.calendar.entity.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CalendarRepository extends JpaRepository<Calendar, Long>, CalendarRepositoryCustom {
-
+    public List<Calendar> findCalendarsByConTitleContains(String searchKeyword);
 }
