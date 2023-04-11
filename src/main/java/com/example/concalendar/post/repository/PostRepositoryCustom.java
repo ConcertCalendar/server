@@ -10,4 +10,8 @@ public interface PostRepositoryCustom {
     public List<Post> findAllPostsByBoardId(Long id);
     Page<Post> findAllWithBoardId(Pageable pageable, Long id);
 
+    Page<Post> findAllWithSearchKeyword(Pageable pageable, String keyword);
+
+//    Long countPostsBySearchKeyword(String keyword);
+
 }

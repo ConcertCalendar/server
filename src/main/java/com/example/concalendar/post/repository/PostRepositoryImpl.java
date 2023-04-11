@@ -46,4 +46,17 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 
     }
 
+    @Override
+    public Page<Post> findAllWithSearchKeyword(Pageable pageable, String keyword){
+        List<Post> postList = queryFactory
+                .select(qPost)
+                .from(qPost)
+                .where(qPost.postTitle.contains(keyword).or(qPost.postContent.contains(keyword)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(postList, pageable, postList.size());
+    }
+
 }
