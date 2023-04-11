@@ -1,16 +1,21 @@
 package com.example.concalendar.post.controller;
 
+import com.example.concalendar.board.dto.BoardReturnDto;
 import com.example.concalendar.comment.dto.CommentRequestDto;
 import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
+import com.example.concalendar.post.dto.PostSearchReturnDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.service.PostService;
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.util.Message;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +35,8 @@ public class PostController {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
 
+    private Message message;
+
     /**
      * Create post response entity.
      *
@@ -39,7 +46,7 @@ public class PostController {
      */
     @PostMapping("/posts")
     public ResponseEntity createPost(@RequestBody PostFormDto postFormDto, @RequestHeader String Authorization){
-        Message message = new Message();
+        message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
             postService.create(postFormDto, jwtTokenProvider.getUserPk(Authorization));
@@ -69,7 +76,7 @@ public class PostController {
 
         PostDto postDto = new PostDto(post, postHeartSet);
 
-        Message message = new Message();
+        message = new Message();
 
         message.setStatus(StatusEnum.OK);
         message.setMessage("postId="+postId+"에 해당하는 게시물 전송 성공");
@@ -80,7 +87,7 @@ public class PostController {
 
     @PostMapping("/boards/{boardId}/postsHeart/{postId}")
     public ResponseEntity postHeartClick(@PathVariable Long boardId, @PathVariable Long postId, @RequestHeader String Authorization){
-        Message message = new Message();
+        message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
             postService.postHeartClick(postId, jwtTokenProvider.getUserPk(Authorization));
@@ -97,7 +104,7 @@ public class PostController {
 
     @GetMapping("/posts/ranking")
     public ResponseEntity postRanking(){
-        Message message = new Message();
+        message = new Message();
         Set<String> postHeartSet;
 
         message.setMessage("포스트 랭킹을 가져옵니다.");
@@ -115,5 +122,19 @@ public class PostController {
         message.setData(postDtoList);
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
+    }
+
+    @GetMapping("/posts/search")
+    public ResponseEntity postSearch(@RequestParam String searchKeyword,  @PageableDefault(size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageRequest){
+
+        BoardReturnDto searchBoardReturnDto = postService.findSearchPostsBySearchKeyword(searchKeyword, pageRequest);
+
+        message = new Message();
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("검색한 게시물 전달 성공");
+        message.setData(searchBoardReturnDto);
+
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
+
     }
 }

@@ -3,8 +3,10 @@ package com.example.concalendar.post.service;
 import com.example.concalendar.board.service.BoardService;
 import com.example.concalendar.board.dto.BoardDto;
 import com.example.concalendar.comment.entity.Comment;
+import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.board.dto.BoardReturnDto;
+import com.example.concalendar.post.dto.PostSearchReturnDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.user.exception.CustomException;
@@ -14,9 +16,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -186,5 +190,39 @@ public class PostService {
         return postList;
     }
 
-    
+    public BoardReturnDto findSearchPostsBySearchKeyword(String searchKeyword, Pageable pageRequest) {
+        Page<Post> postPageList = postRepository.findAllWithSearchKeyword(pageRequest,searchKeyword);
+        List<Post> postList = new ArrayList<>();
+        List<BoardDto> boardDtoList = new ArrayList<>();
+
+        postList = postPageList.getContent();
+
+        long searchedPostsSize = postList.size();
+
+        for (Post post : postList){
+
+            int postHeartSize = redisTemplate.opsForSet().members("postLike:"+post.getId()).size();
+
+            int commentSize = post.getCommentList().size();
+            int replySize = 0;
+            for (Comment comment : post.getCommentList()){
+                replySize += comment.getReplyList().size();
+            }
+
+            commentSize = commentSize + replySize;
+
+            BoardDto boardDto = BoardDto.entityToGetPostDto(post, postHeartSize, commentSize);
+
+            boardDtoList.add(boardDto);
+        }
+
+        BoardReturnDto boardReturnDto = BoardReturnDto
+                .builder()
+                .boardDtoList(boardDtoList)
+                .postEntireSize(searchedPostsSize)
+                .build();
+
+        return boardReturnDto;
+
+    }
 }

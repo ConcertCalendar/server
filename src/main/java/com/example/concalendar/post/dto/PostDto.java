@@ -33,6 +33,8 @@ public class PostDto {
 
     private Set<String> postHeartSet;
 
+    private long postHeartSize;
+
     private LocalDateTime createdDate;
 
     private LocalDateTime modifiedDate;
@@ -48,6 +50,7 @@ public class PostDto {
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
         this.postHeartSet = postHeartSet;
+        this.postHeartSize = postHeartSet.size();
         this.createdDate = post.getCreatedDate();
         this.modifiedDate = post.getModifiedDate();
         this.commentDtoList = post.getCommentList().stream()
