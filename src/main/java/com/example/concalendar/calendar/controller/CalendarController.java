@@ -27,6 +27,8 @@ public class CalendarController {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private Message message;
+
     /**
      * Calendar string.
      *
@@ -44,7 +46,7 @@ public class CalendarController {
      */
     @GetMapping("/calendar/event")
     public ResponseEntity getEvent(){
-        Message message = new Message();
+        message = new Message();
 
         List<CalendarDto> calendarDtoList = calendarService.getEventList();
 
@@ -56,7 +58,7 @@ public class CalendarController {
 
     @PostMapping("/calendar/event")
     public ResponseEntity uploadConcertInfo(@RequestPart(value = "file") MultipartFile multipartFile, @RequestPart CalendarSaveDto calendarSaveDto) throws IOException {
-        Message message = new Message();
+        message = new Message();
 
         calendarService.create(calendarSaveDto, multipartFile);
 
@@ -68,7 +70,7 @@ public class CalendarController {
 
     @GetMapping("/calendar/nextEvent")
     public ResponseEntity getNextConcertInfo(){
-        Message message = new Message();
+        message = new Message();
 
         message.setStatus(StatusEnum.OK);
         message.setMessage("현재 가장 가까운 공연을 반환합니다.");
@@ -80,9 +82,23 @@ public class CalendarController {
         return new ResponseEntity(message, HttpStatus.OK);
     }
 
+    @GetMapping("/calendar/searchEvent")
+    public ResponseEntity getSearchConcertInfo(@RequestParam String searchKeyword){
+        message = new Message();
+
+        message.setStatus(StatusEnum.OK);
+        message.setMessage(searchKeyword+"에 해당하는 공연을 반환합니다.");
+
+        List<CalendarDto> calendarDtoList = calendarService.getSearchEvent(searchKeyword);
+
+        message.setData(calendarDtoList);
+
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
+
     @PostMapping("/calendar/bookmark/{calendar_id}")
     public ResponseEntity createBookmark(@PathVariable Long calendar_id, @RequestHeader String Authorization){
-        Message message = new Message();
+        message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
             calendarService.createBookmark(calendar_id, jwtTokenProvider.getUserPk(Authorization));
@@ -99,7 +115,7 @@ public class CalendarController {
 
     @DeleteMapping("/calendar/bookmark/{calendar_id}")
     public ResponseEntity deleteBookmark(@PathVariable Long calendar_id, @RequestHeader String Authorization){
-        Message message = new Message();
+        message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
             calendarService.deleteBookmark(calendar_id, jwtTokenProvider.getUserPk(Authorization));
