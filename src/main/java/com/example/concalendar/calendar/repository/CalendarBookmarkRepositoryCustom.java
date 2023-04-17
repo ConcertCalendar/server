@@ -8,4 +8,6 @@ import java.util.Set;
 
 public interface CalendarBookmarkRepositoryCustom {
     public List<CalendarBookmark> findCalendarBookmarksByCalendar(Long calendar_id, Long user_id);
+
+    public List<Calendar> findCalendarBookmarkRanking();
 }

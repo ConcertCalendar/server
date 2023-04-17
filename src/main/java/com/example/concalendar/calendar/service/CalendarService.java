@@ -199,4 +199,26 @@ public class CalendarService{
         calendarBookmarkRepository.delete(calendarBookmark);
     }
 
+    public List<CalendarDto> getEventRankingList() {
+        List<Calendar> calendarInfoList = calendarBookmarkRepository.findCalendarBookmarkRanking();
+
+        List<CalendarDto> calendarDtoList = new ArrayList<>();
+
+        for (Calendar calendar : calendarInfoList){
+
+            List<User> calendarBookmarkUserList = getBookmarkUserListsByCalendar(calendar);
+
+            List<Long> userIdList = new ArrayList<>();
+
+            for (User user : calendarBookmarkUserList){
+                userIdList.add(user.getUserId());
+            }
+
+            CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
+
+            calendarDtoList.add(calendarDto);
+        }
+
+        return calendarDtoList;
+    }
 }

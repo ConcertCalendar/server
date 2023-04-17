@@ -1,9 +1,11 @@
 package com.example.concalendar.calendar.repository;
 
+import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.entity.CalendarBookmark;
 import com.example.concalendar.calendar.entity.QCalendar;
 import com.example.concalendar.calendar.entity.QCalendarBookmark;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +17,7 @@ public class CalendarBookmarkRepositoryImpl implements CalendarBookmarkRepositor
     private final JPAQueryFactory queryFactory;
 
     QCalendarBookmark qCalendarBookmark = QCalendarBookmark.calendarBookmark;
+    QCalendar qCalendar = QCalendar.calendar;
     @Override
     public List<CalendarBookmark> findCalendarBookmarksByCalendar(Long calendar_id, Long user_id){
         return queryFactory.select(qCalendarBookmark)
@@ -35,5 +38,16 @@ public class CalendarBookmarkRepositoryImpl implements CalendarBookmarkRepositor
             return null;
         }
         return qCalendarBookmark.user.userId.eq(user_id);
+    }
+
+    @Override
+    public List<Calendar> findCalendarBookmarkRanking(){
+        return queryFactory.select(qCalendarBookmark.calendar)
+                .from(qCalendarBookmark)
+                .groupBy(qCalendarBookmark.calendar.conNo)
+                .orderBy(qCalendarBookmark.user.userId.sum().desc())
+                .limit(7)
+                .fetch();
+
     }
 }
