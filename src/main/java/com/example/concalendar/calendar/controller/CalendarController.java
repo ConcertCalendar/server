@@ -96,6 +96,20 @@ public class CalendarController {
         return new ResponseEntity(message, HttpStatus.OK);
     }
 
+    @GetMapping("/calendar/ranking")
+    public ResponseEntity getEventRanking(){
+        message = new Message();
+
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("공연 랭킹에 따라 공연 리스트를 반환합니다.");
+
+        List<CalendarDto> calendarDtoList = calendarService.getEventRankingList();
+
+        message.setData(calendarDtoList);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
     @PostMapping("/calendar/bookmark/{calendar_id}")
     public ResponseEntity createBookmark(@PathVariable Long calendar_id, @RequestHeader String Authorization){
         message = new Message();
