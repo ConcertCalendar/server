@@ -2,7 +2,6 @@ package com.example.concalendar.post.entity;
 
 import com.example.concalendar.board.entity.Board;
 import com.example.concalendar.comment.entity.Comment;
-import com.example.concalendar.user.entity.Level;
 import com.example.concalendar.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

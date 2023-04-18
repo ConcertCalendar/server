@@ -5,7 +5,7 @@ import com.example.concalendar.user.config.RedisRepositoryConfig;
 import com.example.concalendar.user.dto.TokenDto;
 import com.example.concalendar.user.dto.TokenRequestDto;
 import com.example.concalendar.user.dto.UserDto;
-import com.example.concalendar.user.entity.Level;
+import com.example.concalendar.user.dto.UserInfoDto;
 import com.example.concalendar.user.entity.RefreshToken;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.exception.CustomException;
@@ -57,7 +57,6 @@ public class UserService{
                 .userBirth(user.getUserBirth())
                 .name(user.getName())
                 .createdDate(LocalDateTime.now())
-                .level(Level.일반회원)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build();
 
@@ -126,12 +125,18 @@ public class UserService{
      *
      * @return the user
      */
-    public User findUserInfo(){
-        String user_email = SecurityUtil.getCurrentEmail();
-        log.info("context에 존재하는 이메일은 {}",user_email);
+    public UserInfoDto findUserInfo(String accessToken){
 
-        return userRepository.findByUserEmail(user_email)
+
+//        log.info("context에 존재하는 이메일은 {}",user_email);
+
+        String user_email = jwtTokenProvider.getUserPk(accessToken);
+
+        log.info("user_email은 {}",user_email);
+        User user = userRepository.findByUserEmail(user_email)
                 .orElseThrow(()-> new RuntimeException("해당하는 이메일이 존재하지 않습니다."));
+        UserInfoDto userInfoDto = new UserInfoDto(user);
+        return userInfoDto;
 
     }
 

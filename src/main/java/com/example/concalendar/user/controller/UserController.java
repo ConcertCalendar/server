@@ -165,11 +165,11 @@ public class UserController {
      */
 // 마이페이지 컨트롤러
     @GetMapping("/users/info")
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public ResponseEntity<User> getUserInfo(){
+//    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    public ResponseEntity<User> getUserInfo(@RequestHeader String Authorization){
         Message message = new Message();
         message.setStatus(StatusEnum.OK);
-        message.setData(userService.findUserInfo());
+        message.setData(userService.findUserInfo(Authorization));
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 

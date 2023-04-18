@@ -31,8 +31,8 @@ insert into calendar_info_table (singer, con_title, con_content, con_time, con_s
 insert into calendar_info_table (singer, con_title, con_content, con_time, con_start, con_end, created_date) values ('킹스 오브 컨비니언스 (Kings Of Convenience)','킹스 오브 컨비니언스 내한공연（Kings Of Convenience Live in Seoul','스탠딩석 99,000원\n지정석 99,000원', "20:00:00","2023-03-17 20:00:00","2023-03-17 21:30:00",now());;
 
 
-insert into user_table (user_name, user_email, user_nickname, user_phone, user_birth, user_password, created_at, user_level) values ('십오', '15@gmail.com', '중현15', '010-5555-5555', '1996-01-06', '$2a$10$xcWOSCsY4tsPgkUQ9WNf0OYSNyBZ7TVAPzPjcq9LBcOFuFTEMXy/.', now(), '일반회원');;
-insert into user_table (user_name, user_email, user_nickname, user_phone, user_birth, user_password, created_at, user_level) values ('십육', '16@gmail.com', '휘경16', '010-6666-6666', '1997-01-01', '$2a$10$xcWOSCsY4tsPgkUQ9WNf0OYSNyBZ7TVAPzPjcq9LBcOFuFTEMXy/.', now(), '일반회원');;
+insert into user_table (user_name, user_email, user_nickname, user_phone, user_birth, user_password, created_at) values ('십오', '15@gmail.com', '중현15', '010-5555-5555', '1996-01-06', '$2a$10$xcWOSCsY4tsPgkUQ9WNf0OYSNyBZ7TVAPzPjcq9LBcOFuFTEMXy/.', now());;
+insert into user_table (user_name, user_email, user_nickname, user_phone, user_birth, user_password, created_at) values ('십육', '16@gmail.com', '휘경16', '010-6666-6666', '1997-01-01', '$2a$10$xcWOSCsY4tsPgkUQ9WNf0OYSNyBZ7TVAPzPjcq9LBcOFuFTEMXy/.', now());;
 insert into user_roles (user_id, roles) values (1, 'ROLE_USER');;
 insert into user_roles (user_id, roles) values (2, 'ROLE_USER');;
 
