@@ -2,6 +2,7 @@ package com.example.concalendar.post.repository;
 
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.entity.QPost;
+import com.example.concalendar.user.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -56,6 +57,19 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        return new PageImpl<>(postList, pageable, postList.size());
+    }
+
+    @Override
+    public Page<Post> findAllWithUser(Pageable pageable, User user){
+        List<Post> postList = queryFactory
+                .select(qPost)
+                .from(qPost)
+                .where(qPost.writer.eq(user))
+                .orderBy(qPost.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
         return new PageImpl<>(postList, pageable, postList.size());
     }
 
