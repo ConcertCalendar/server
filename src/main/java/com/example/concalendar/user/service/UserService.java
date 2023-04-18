@@ -1,5 +1,8 @@
 package com.example.concalendar.user.service;
 
+import com.example.concalendar.post.dto.PostDto;
+import com.example.concalendar.post.entity.Post;
+import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.user.config.RedisRepositoryConfig;
 import com.example.concalendar.user.dto.TokenDto;
@@ -15,6 +18,8 @@ import com.example.concalendar.user.util.SecurityUtil;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -23,7 +28,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,7 +43,8 @@ public class UserService{
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
+    private final PostRepository postRepository;
 
     /**
      * Join long.
@@ -167,5 +173,29 @@ public class UserService{
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"가입되지 않은 E-MAIL 입니다."));;
 
         return user;
+    }
+
+    public List<PostDto> findPostsByUser(String accessToken, Pageable pageRequest) {
+        String user_email = jwtTokenProvider.getUserPk(accessToken);
+
+        User user = findUserByUserEmail(user_email);
+
+        Page<Post> postPageList = postRepository.findAllWithUser(pageRequest,user);
+
+        List<Post> postList = new ArrayList<>();
+        postList = postPageList.getContent();
+
+        List<PostDto> postDtoList = new ArrayList<>();
+        Set<String> postHeartSet = new HashSet<>();
+
+
+        for (Post post : postList){
+            postHeartSet = redisTemplate.opsForSet().members("postLike:"+post.getId());
+
+            PostDto postDto = new PostDto(post,postHeartSet);
+            postDtoList.add(postDto);
+        }
+
+        return postDtoList;
     }
 }

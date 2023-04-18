@@ -1,6 +1,7 @@
 package com.example.concalendar.post.repository;
 
 import com.example.concalendar.post.entity.Post;
+import com.example.concalendar.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +13,7 @@ public interface PostRepositoryCustom {
 
     Page<Post> findAllWithSearchKeyword(Pageable pageable, String keyword);
 
+    Page<Post> findAllWithUser(Pageable pageable, User user);
 //    Long countPostsBySearchKeyword(String keyword);
 
 }

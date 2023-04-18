@@ -13,6 +13,9 @@ import com.example.concalendar.util.Message;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -166,12 +169,21 @@ public class UserController {
 // 마이페이지 컨트롤러
     @GetMapping("/users/info")
 //    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public ResponseEntity<User> getUserInfo(@RequestHeader String Authorization){
+    public ResponseEntity getUserInfo(@RequestHeader String Authorization){
         Message message = new Message();
         message.setStatus(StatusEnum.OK);
         message.setData(userService.findUserInfo(Authorization));
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
+
+    @GetMapping("/users/posts")
+    public ResponseEntity getUserPosts(@RequestHeader String Authorization, @PageableDefault(size = 10) Pageable pageRequest){
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        message.setData(userService.findPostsByUser(Authorization, pageRequest));
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
+    }
+
 
     /**
      * Nickname double check response entity.
