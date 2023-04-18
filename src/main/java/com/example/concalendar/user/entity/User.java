@@ -41,10 +41,6 @@ public class User implements UserDetails {
     @Column(name = "user_nickname", length = 15, nullable = false)
     private String userNickname;
 
-    @Column(name = "user_level", length = 4)
-    @Enumerated(EnumType.STRING)
-    private Level level;
-
     @Column(name = "user_phone", length = 13, nullable = false)
     private String userPhone;
 
