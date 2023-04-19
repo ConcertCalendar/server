@@ -1,6 +1,7 @@
 package com.example.concalendar.user.controller;
 
 import antlr.Token;
+import com.example.concalendar.calendar.service.CalendarService;
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.user.dto.TokenDto;
 import com.example.concalendar.user.dto.TokenRequestDto;
@@ -40,6 +41,7 @@ public class UserController {
     private final TokenService tokenService;
     private final CookieUtil cookieUtil;
     private final JwtTokenProvider jwtTokenProvider;
+    private final CalendarService calendarService;
 
     /**
      * Join response entity.
@@ -181,6 +183,16 @@ public class UserController {
         Message message = new Message();
         message.setStatus(StatusEnum.OK);
         message.setData(userService.findPostsByUser(Authorization, pageRequest));
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
+    }
+
+    @GetMapping("/users/concerts")
+    public ResponseEntity getUserBookmarkConcert(@RequestHeader String Authorization){
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        String user_email = jwtTokenProvider.getUserPk(Authorization);
+        User user = userService.findUserByUserEmail(user_email);
+        message.setData(calendarService.getBookmarkCalendarListsByUser(user));
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 

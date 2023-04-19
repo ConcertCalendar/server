@@ -1,5 +1,6 @@
 package com.example.concalendar.user.service;
 
+//import com.example.concalendar.calendar.service.CalendarService;
 import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
@@ -11,6 +12,8 @@ import com.example.concalendar.user.dto.UserDto;
 import com.example.concalendar.user.dto.UserInfoDto;
 import com.example.concalendar.user.entity.RefreshToken;
 import com.example.concalendar.user.entity.User;
+import com.example.concalendar.calendar.entity.Calendar;
+
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.RefreshTokenRepository;
 import com.example.concalendar.user.repository.UserRepository;
@@ -45,6 +48,7 @@ public class UserService{
     private final RefreshTokenRepository refreshTokenRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final PostRepository postRepository;
+//    private final CalendarService calendarService;
 
     /**
      * Join long.
@@ -197,5 +201,16 @@ public class UserService{
         }
 
         return postDtoList;
+    }
+
+    public List<Calendar> findConcertsByUser(String accessToken) {
+        String user_email = jwtTokenProvider.getUserPk(accessToken);
+
+        User user = userRepository.findByUserEmail(user_email).orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"가입되지 않은 E-MAIL 입니다."));
+
+        List<Calendar> calendarList = new ArrayList<>();
+//        List<Calendar> calendarList = calendarService.getBookmarkCalendarListsByUser(user);
+
+        return calendarList;
     }
 }

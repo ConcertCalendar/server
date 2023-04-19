@@ -169,6 +169,19 @@ public class CalendarService{
     }
 
     @Transactional
+    public List<Calendar> getBookmarkCalendarListsByUser(User user){
+
+        List<CalendarBookmark> calendarBookmarkList = calendarBookmarkRepository.findCalendarBookmarksByCalendar(null,user.getUserId());
+        List<Calendar> calendarList = new ArrayList<>();
+
+        for (CalendarBookmark calendarBookmark : calendarBookmarkList){
+            calendarList.add(calendarBookmark.getCalendar());
+        }
+
+        return calendarList;
+    }
+
+    @Transactional
     public void createBookmark(Long calendar_id, String userEmail) {
 
         User user = userService.findUserByUserEmail(userEmail);
