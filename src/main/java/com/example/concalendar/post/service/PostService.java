@@ -49,6 +49,19 @@ public class PostService {
      * @param userEmail   the user email
      */
 // PostFormDto와 유저 이메일을 매개변수로 받아서 포스트 테이블에 데이터를 저장하는 메서드
+//    @Transactional
+//    public void create(PostFormDto postFormDto, String userEmail) {
+//        Post post = Post.builder()
+//                .postTitle(postFormDto.getPostTitle())
+//                .postContent(postFormDto.getPostContent())
+//                .createdDate(LocalDateTime.now())
+//                .writer(userRepository.findByUserEmail(userEmail).orElseThrow())
+//                .board(boardService.findBoardById(postFormDto.getBoardId()))
+//                .build();
+//        postRepository.save(post);
+//    }
+
+    @Transactional
     public void create(PostFormDto postFormDto, String userEmail) {
         Post post = Post.builder()
                 .postTitle(postFormDto.getPostTitle())
