@@ -5,6 +5,7 @@ import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

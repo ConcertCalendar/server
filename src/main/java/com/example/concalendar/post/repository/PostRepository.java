@@ -13,4 +13,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     Page<Post> findAll(Pageable pageable);
     Long countPostsByBoardId(long boardId);
 
+    public List<Post> findPostsByBoardId(long boardID);
+
 }

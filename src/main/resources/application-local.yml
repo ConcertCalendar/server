@@ -1,7 +1,7 @@
 #DB
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/ConcertCalendar?useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/ConcertCalendar?useUnicode=true&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
     username: ENC(dG83WM1QOq5s0ige89DOBA==)
     password: ENC(x5+dQhl687Mr3118iBojGw==)
     driver-class-name: com.mysql.cj.jdbc.Driver
