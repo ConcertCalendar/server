@@ -30,11 +30,6 @@ spring:
 #      hikari:
 #        jdbc-url: jdbc:h2:mem:testdb;MODE=MYSQL
 
-  # Redis
-  redis:
-    host: localhost
-    port: 6379
-
   # mail
   mail:
     # Google smtp server 사용

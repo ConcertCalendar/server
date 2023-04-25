@@ -11,6 +11,10 @@ spring:
     hibernate:
       ddl-auto: update
 
+  redis:
+    host: my_redis
+    port: 6379
+
 #  sql:
 #    init:
 ##      schema-locations: classpath*:init-data/schema.sql
