@@ -47,7 +47,7 @@ jobs:
       - name: Docker build & push
         run: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker build Dockerfile -t Dockerfile -t ${{ secrets.DOCKER_REPO }}/concert_calendar .
+            docker build Dockerfile -t ${{ secrets.DOCKER_REPO }}/concert_calendar .
             docker push ${{ secrets.DOCKER_REPO }}/concert_calendar
             
       # docker deploy
