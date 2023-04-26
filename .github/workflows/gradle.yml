@@ -62,6 +62,9 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_REPO }}/concert_calendar
             docker-compose up -d
             docker image prune -f
+       # docker logs
+       - name: Dump docker logs
+         uses: jwalton/gh-docker-logs@v1
 
   # time
   current-time:
