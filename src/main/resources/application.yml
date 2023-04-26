@@ -54,3 +54,5 @@ logging:
         type:
           descriptor:
             sql: trace
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSSz,Asia/Seoul
