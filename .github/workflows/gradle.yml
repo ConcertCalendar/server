@@ -61,9 +61,9 @@ jobs:
             sudo rm concal.log
             sudo docker rm - f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_REPO }}/concert_calendar
-            docker-compose up -d
+            sudo docker-compose up -d
             sudo docker logs -f my_calendar &> concal.log &
-            docker image prune -f
+            sudo docker image prune -f
 
   # time
   current-time:
