@@ -3,6 +3,7 @@ package com.example.concalendar.user.controller;
 import antlr.Token;
 import com.example.concalendar.calendar.service.CalendarService;
 import com.example.concalendar.user.config.JwtTokenProvider;
+import com.example.concalendar.user.dto.MailDto;
 import com.example.concalendar.user.dto.TokenDto;
 import com.example.concalendar.user.dto.TokenRequestDto;
 import com.example.concalendar.user.dto.UserDto;
@@ -222,8 +223,8 @@ public class UserController {
     }
 
     @GetMapping("/users/join/emailCheck")
-    public ResponseEntity emailDoubleCheck(@RequestParam String userEmail){
-        boolean userEmailExists = userService.emailDoubleCheck(userEmail);
+    public ResponseEntity emailDoubleCheck(@RequestBody MailDto mailDto){
+        boolean userEmailExists = userService.emailDoubleCheck(mailDto.getEmail());
         Message message = new Message();
 
         if (userEmailExists){
