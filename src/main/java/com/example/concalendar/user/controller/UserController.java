@@ -211,13 +211,13 @@ public class UserController {
         Message message = new Message();
 
         if (nicknameExists){
-            message.setStatus(StatusEnum.BAD_REQUEST);
-            message.setMessage("닉네임이 존재합니다");
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("이미 존재하는 닉네임입니다");
             return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
         else{
             message.setStatus(StatusEnum.OK);
-            message.setMessage("이 닉네임을 사용할 수 있습니다");
+            message.setMessage("닉네임을 사용할 수 있습니다");
             return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
     }
@@ -228,13 +228,13 @@ public class UserController {
         Message message = new Message();
 
         if (userEmailExists){
-            message.setStatus(StatusEnum.BAD_REQUEST);
-            message.setMessage("이메일이 존재합니다");
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("이미 존재하는 이메일입니다");
             return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
         else{
             message.setStatus(StatusEnum.OK);
-            message.setMessage("이 이메일을 사용할 수 있습니다");
+            message.setMessage("이메일을 사용할 수 있습니다");
             return new ResponseEntity(message,message.getStatus().getHttpStatus());
         }
     }
