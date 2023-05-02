@@ -223,8 +223,8 @@ public class UserController {
     }
 
     @GetMapping("/users/join/emailCheck")
-    public ResponseEntity emailDoubleCheck(@RequestBody MailDto mailDto){
-        boolean userEmailExists = userService.emailDoubleCheck(mailDto.getEmail());
+    public ResponseEntity emailDoubleCheck(@RequestParam String email){
+        boolean userEmailExists = userService.emailDoubleCheck(email);
         Message message = new Message();
 
         if (userEmailExists){
