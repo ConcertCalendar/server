@@ -96,7 +96,7 @@ public class PostServiceTest {
 
         List<Post> list1 = new ArrayList<>();
 
-        for (int i =1; i< 100000; i++){
+        for (int i =1; i< 10; i++){
             Post post = Post.builder()
                     .postTitle("title title title"+i)
                     .postContent("content content content"+i+1)

@@ -31,7 +31,7 @@ public class BoardControllerTest {
     @DisplayName("BoardId와 일치하는 게시물 리스트 리턴 테스트")
     @Test
     public void getAllPostByBoardIdTest() throws Exception {
-        MvcResult result = mockMvc.perform(get("/board/1"))
+        MvcResult result = mockMvc.perform(get("/boards/1"))
                 .andExpect(status().isOk())
                 .andReturn();
     }
