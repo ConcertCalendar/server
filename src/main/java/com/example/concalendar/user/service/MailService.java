@@ -36,11 +36,11 @@ public class MailService {
 
         try {
             // setTo -> 누구에게 보내는지 메서드
-            smm.setTo(mailDto.getAddress());
+            smm.setTo(mailDto.getEmail());
             // setSubject ->
             smm.setSubject("회원가입 인증 메일입니다");
             smm.setText("아래 코드를 인증해주세요\n"+key);
-            log.info("메일을 전송합니다 {}",mailDto.getAddress());
+            log.info("메일을 전송합니다 {}",mailDto.getEmail());
             javaMailSender.send(smm);
             return key;
 
