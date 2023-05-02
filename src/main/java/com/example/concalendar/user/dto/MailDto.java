@@ -6,5 +6,5 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class MailDto {
-    private String address;
+    private String email;
 }
