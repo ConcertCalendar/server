@@ -210,32 +210,42 @@ public class UserController {
         boolean nicknameExists = userService.nicknameDoubleCheck(nickname);
         Message message = new Message();
 
+        Boolean isNicknamePossible;
+        message.setStatus(StatusEnum.OK);
+
         if (nicknameExists){
-            message.setStatus(StatusEnum.OK);
             message.setMessage("이미 존재하는 닉네임입니다");
-            return new ResponseEntity(message,message.getStatus().getHttpStatus());
+            isNicknamePossible = false;
         }
         else{
             message.setStatus(StatusEnum.OK);
             message.setMessage("닉네임을 사용할 수 있습니다");
-            return new ResponseEntity(message,message.getStatus().getHttpStatus());
+            isNicknamePossible = true;
         }
+
+        message.setData(isNicknamePossible);
+        return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }
 
     @GetMapping("/users/join/emailCheck")
     public ResponseEntity emailDoubleCheck(@RequestParam String email){
         boolean userEmailExists = userService.emailDoubleCheck(email);
         Message message = new Message();
+        Boolean isEmailPossible;
+        message.setStatus(StatusEnum.OK);
 
         if (userEmailExists){
-            message.setStatus(StatusEnum.OK);
             message.setMessage("이미 존재하는 이메일입니다");
-            return new ResponseEntity(message,message.getStatus().getHttpStatus());
+            isEmailPossible = false;
         }
         else{
             message.setStatus(StatusEnum.OK);
             message.setMessage("이메일을 사용할 수 있습니다");
-            return new ResponseEntity(message,message.getStatus().getHttpStatus());
+            isEmailPossible = true;
         }
+
+        message.setData(isEmailPossible);
+        return new ResponseEntity(message,message.getStatus().getHttpStatus());
+
     }
 }
