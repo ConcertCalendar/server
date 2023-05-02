@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,14 +24,13 @@ public class MailController {
     /**
      * Confirm mail response entity.
      *
-     * @param mailDto the mail dto
      * @return the response entity
      */
     @GetMapping("users/join/confirm-mail")
-    public ResponseEntity confirmMail(@RequestBody MailDto mailDto){
+    public ResponseEntity confirmMail(@RequestParam String email){
         Message message = new Message();
 
-        String emailAuthString = mailService.send(mailDto);
+        String emailAuthString = mailService.send(email);
         message.setStatus(StatusEnum.OK);
         message.setData(emailAuthString);
         message.setMessage("인증메일 발신 성공");
