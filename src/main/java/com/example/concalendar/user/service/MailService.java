@@ -20,11 +20,9 @@ public class MailService {
 
     /**
      * Send string.
-     *
-     * @param mailDto the mail dto
      * @return the string
      */
-    public String send(MailDto mailDto){
+    public String send(String email){
         SimpleMailMessage smm = new SimpleMailMessage();
         Random random = new Random();
         String key = "";
@@ -36,11 +34,11 @@ public class MailService {
 
         try {
             // setTo -> 누구에게 보내는지 메서드
-            smm.setTo(mailDto.getEmail());
+            smm.setTo(email);
             // setSubject ->
             smm.setSubject("회원가입 인증 메일입니다");
             smm.setText("아래 코드를 인증해주세요\n"+key);
-            log.info("메일을 전송합니다 {}",mailDto.getEmail());
+            log.info("메일을 전송합니다 {}",email);
             javaMailSender.send(smm);
             return key;
 
