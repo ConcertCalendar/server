@@ -213,4 +213,14 @@ public class UserService{
 
         return calendarList;
     }
+
+    public boolean emailDoubleCheck(String userEmail) {
+        User user =  userRepository.existsByUserEmail(userEmail);
+        if (user == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }

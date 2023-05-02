@@ -4,4 +4,5 @@ import com.example.concalendar.user.entity.User;
 
 public interface UserRepositoryCustom {
     public User existsByNickname(String nickname);
+    public User existsByUserEmail(String userEmail);
 }

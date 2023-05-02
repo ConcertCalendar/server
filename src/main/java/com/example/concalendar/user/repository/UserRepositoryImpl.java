@@ -22,4 +22,14 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
 
     }
 
+    @Override
+    public User existsByUserEmail(String userEmail){
+        return queryFactory
+                .select(qUser)
+                .from(qUser)
+                .where(qUser.userEmail.eq(userEmail))
+                .fetchOne();
+
+    }
+
 }
