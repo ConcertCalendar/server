@@ -16,4 +16,5 @@ public interface PostRepositoryCustom {
     Page<Post> findAllWithUser(Pageable pageable, User user);
 //    Long countPostsBySearchKeyword(String keyword);
 
+    Post findByIdFetchJoin(Long id);
 }

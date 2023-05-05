@@ -2,6 +2,7 @@ package com.example.concalendar.reply.controller;
 
 import com.example.concalendar.comment.dto.CommentRequestDto;
 import com.example.concalendar.reply.dto.ReplyRequestDto;
+import com.example.concalendar.reply.entity.Reply;
 import com.example.concalendar.reply.service.ReplyService;
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.util.Message;
@@ -94,5 +95,13 @@ public class ReplyController {
         }
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
+    }
+
+    @GetMapping("/replies/{replyId}")
+    public void findReply(@PathVariable Long replyId){
+        Message message = new Message();
+
+        Reply reply = replyService.findByReplyId(replyId);
+
     }
 }

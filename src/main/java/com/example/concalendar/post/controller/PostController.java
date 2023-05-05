@@ -6,6 +6,7 @@ import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.post.dto.PostSearchReturnDto;
 import com.example.concalendar.post.entity.Post;
+import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.post.service.PostService;
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.util.Message;
@@ -32,6 +33,7 @@ import java.util.Set;
 public class PostController {
 
     private final PostService postService;
+    private final PostRepository postRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -136,5 +138,11 @@ public class PostController {
 
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
 
+    }
+
+    @GetMapping("/posts/{post_id}")
+    public void getIdPost(@PathVariable Long post_id){
+
+        Post post = postRepository.findById(post_id).orElseThrow();
     }
 }
