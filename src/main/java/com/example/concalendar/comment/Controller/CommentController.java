@@ -1,6 +1,7 @@
 package com.example.concalendar.comment.Controller;
 
 import com.example.concalendar.comment.dto.CommentRequestDto;
+import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.comment.service.CommentService;
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.util.Message;
@@ -116,5 +117,13 @@ public class CommentController {
         }
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
+    }
+
+    @GetMapping("/comments/{commentId}")
+    public void findComment(@PathVariable Long commentId){
+        Message message = new Message();
+
+        Comment comment = commentService.findByCommentId(commentId);
+
     }
 }

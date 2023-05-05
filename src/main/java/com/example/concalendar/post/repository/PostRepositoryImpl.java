@@ -73,4 +73,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
         return new PageImpl<>(postList, pageable, postList.size());
     }
 
+    @Override
+    public Post findByIdFetchJoin(Long id){
+        Post post = queryFactory
+                .select(qPost)
+                .from(qPost)
+                .where(qPost.id.eq(id))
+                .fetchOne();
+        return post;
+    }
+
 }

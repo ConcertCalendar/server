@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
@@ -35,7 +36,8 @@ public class Board {
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @BatchSize(size = 10000)
+    @OneToMany(mappedBy = "board")
     private List<Post> post;
 
 }

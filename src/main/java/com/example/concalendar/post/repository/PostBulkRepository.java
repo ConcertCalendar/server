@@ -17,8 +17,8 @@ public class PostBulkRepository {
 
     @Transactional
     public void saveAll(List<Post> postList){
-        String sql = "INSERT INTO post_table (post_title, post_content)"+
-                "VALUES (?, ?)";
+        String sql = "INSERT INTO post_table (post_title, post_content, board_id)"+
+                "VALUES (?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql,
                 postList,
@@ -26,6 +26,7 @@ public class PostBulkRepository {
                 (PreparedStatement ps, Post post) -> {
                     ps.setString(1, post.getPostTitle());
                     ps.setString(2, post.getPostContent());
+                    ps.setLong(3,1);
                 });
     }
 

@@ -33,7 +33,7 @@ public class Reply {
     @JoinColumn(name ="writer_id")
     private User replyWriter;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "comment_id")
     private Comment comment;
 }

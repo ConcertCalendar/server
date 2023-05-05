@@ -81,7 +81,7 @@ public class PostService {
      */
 // 포스트를 포스트 id를 가지고 찾는 서비스 메서드
     public Post findPostByPostId(long num){
-        Post post = postRepository.findById(num).orElseThrow();
+        Post post = postRepository.findByIdFetchJoin(num);
 
         return post;
     }

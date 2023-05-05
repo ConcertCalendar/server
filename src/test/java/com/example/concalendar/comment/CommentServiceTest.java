@@ -55,4 +55,10 @@ public class CommentServiceTest {
     public void deleteCommentTest(){
 //        commentService.delete(3L);
     }
+
+    @Test
+    @DisplayName("댓글 id에 해당하는 댓글 읽기 테스트")
+    public void getCommentTest(){
+        commentService.findByCommentId(1);
+    }
 }
