@@ -22,4 +22,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
 
     public List<Post> findPostsByBoardId(long boardID);
 
+    Post findPostByPostTitle(String post_title);
+
 }

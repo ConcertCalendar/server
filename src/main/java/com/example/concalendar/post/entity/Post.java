@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "post_table")
+@Table(name = "post_table", indexes = @Index(name = "idx_post_title_and_content", columnList = "post_title, post_content"))
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
