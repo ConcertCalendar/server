@@ -153,7 +153,7 @@ public class PostServiceTest {
 
         List<Post> list1 = new ArrayList<>();
 
-        for (long i =1; i< 10000; i++){
+        for (long i =1; i< 100000; i++){
             Post post = Post.builder()
                     .postTitle("title title title"+i)
                     .postContent("content content content"+i+1)
@@ -198,6 +198,7 @@ public class PostServiceTest {
 //    }
 
     @Order(3)
+    @Disabled
     @Test
     @Transactional
     @DisplayName("N+1 발생 테스트")
@@ -238,6 +239,18 @@ public class PostServiceTest {
 
         System.out.println("taken time = "+(System.currentTimeMillis() - startTime)+"ms");
 
+
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("인덱스로 게시물 제목 검색 하기")
+    void post_title_search_test_index(){
+        long startTime = System.currentTimeMillis();
+
+        Post post = postRepository.findPostByPostTitle("title title title99900");
+
+        System.out.println("taken time = "+(System.currentTimeMillis() - startTime)+"ms");
 
     }
 }

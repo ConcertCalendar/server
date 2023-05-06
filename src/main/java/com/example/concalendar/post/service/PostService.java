@@ -238,4 +238,10 @@ public class PostService {
         return boardReturnDto;
 
     }
+
+    public Post findPostByPostTitle(String post_title){
+        Post post = postRepository.findPostByPostTitle(post_title);
+
+        return post;
+    }
 }
