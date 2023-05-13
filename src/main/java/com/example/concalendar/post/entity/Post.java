@@ -5,6 +5,7 @@ import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -44,6 +45,7 @@ public class Post {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
 
