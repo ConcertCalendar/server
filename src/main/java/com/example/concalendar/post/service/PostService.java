@@ -12,6 +12,7 @@ import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.UserRepository;
 import com.example.concalendar.util.StatusEnum;
+import com.example.concalendar.util.service.S3UploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,9 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final BoardService boardService;
+    private final S3UploadService s3UploadService;
     private final RedisTemplate<String, String> redisTemplate;
 
     /**
@@ -71,6 +75,14 @@ public class PostService {
                 .board(boardService.findBoardById(postFormDto.getBoardId()))
                 .build();
         postRepository.save(post);
+    }
+
+    @Transactional
+    public String postUploadImageFile(MultipartFile file, Long post_id) throws IOException {
+        String post_image_title = post_id.toString();
+        String file_url = s3UploadService.uploadFile(file, post_image_title);
+
+        return file_url;
     }
 
     /**

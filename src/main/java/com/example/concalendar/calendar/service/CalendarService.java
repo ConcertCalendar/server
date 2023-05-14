@@ -10,6 +10,7 @@ import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.service.UserService;
 import com.example.concalendar.util.StatusEnum;
+import com.example.concalendar.util.service.S3UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +27,12 @@ public class CalendarService{
 
     private final CalendarRepository calendarRepository;
     private final CalendarBookmarkRepository calendarBookmarkRepository;
-    private final S3PosterService s3PosterService;
+    private final S3UploadService s3UploadService;
     private final UserService userService;
 
     public void create(CalendarSaveDto calendarSaveDto, MultipartFile multipartFile) throws IOException {
 
-        String posterUrl = s3PosterService.uploadFile(multipartFile, calendarSaveDto.getConTitle());
+        String posterUrl = s3UploadService.uploadFile(multipartFile, calendarSaveDto.getConTitle());
 
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime updatedDate = LocalDateTime.now();
