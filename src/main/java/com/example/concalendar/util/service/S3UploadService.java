@@ -1,4 +1,4 @@
-package com.example.concalendar.calendar.service;
+package com.example.concalendar.util.service;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class S3PosterService {
+public class S3UploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -30,7 +30,7 @@ public class S3PosterService {
      * @return the string
      * @throws IOException the io exception
      */
-    public String uploadFile(MultipartFile multipartFile, String concertPosterTitle) throws IOException {
+    public String uploadFile(MultipartFile multipartFile, String s3_file_title) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
 
         //파일 형식 구하기
@@ -44,12 +44,17 @@ public class S3PosterService {
             contentType = "image/png";
         }
 
-        fileName = concertPosterTitle;
+        fileName = s3_file_title;
 
+        // S3 객체의 메타 데이터를 추가하는 작업
         try {
+            // S3 객체에 추가할 메타데이터 객체 생성
             ObjectMetadata metadata = new ObjectMetadata();
+            // 메타데이터 ContentType을 설정하기
+            // 현재는 jpeg or png
             metadata.setContentType(contentType);
 
+            // S3버킷에 메타데이터 추가하기
             amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (AmazonServiceException e) {

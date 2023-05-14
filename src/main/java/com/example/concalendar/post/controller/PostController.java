@@ -17,10 +17,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -144,5 +147,17 @@ public class PostController {
     public void getIdPost(@PathVariable Long post_id){
 
         Post post = postRepository.findById(post_id).orElseThrow();
+    }
+
+    @PostMapping("/posts/{post_id}/uploadFile")
+    public ResponseEntity uploadFileInPost(@PathVariable Long post_id, @RequestPart(value = "file") MultipartFile multipartFile) throws IOException {
+        String s3FileUrl = postService.postUploadImageFile(multipartFile, post_id);
+
+        message = new Message();
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("파일이 S3에 저장됐습니다.");
+        message.setData(s3FileUrl);
+
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 }
