@@ -8,6 +8,8 @@ import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.board.dto.BoardReturnDto;
 import com.example.concalendar.post.dto.PostSearchReturnDto;
 import com.example.concalendar.post.entity.Post;
+import com.example.concalendar.post.entity.PostImage;
+import com.example.concalendar.post.repository.PostImageRepository;
 import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.UserRepository;
@@ -42,6 +44,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostImageRepository postImageRepository;
     private final BoardService boardService;
     private final S3UploadService s3UploadService;
     private final RedisTemplate<String, String> redisTemplate;
@@ -79,8 +82,16 @@ public class PostService {
 
     @Transactional
     public String postUploadImageFile(MultipartFile file, Long post_id) throws IOException {
-        String post_image_title = post_id.toString();
-        String file_url = s3UploadService.uploadFile(file, post_image_title);
+        String file_url = s3UploadService.uploadFileToS3(file, post_id);
+
+        Post post = findPostByPostId(post_id);
+
+        PostImage postImage = PostImage.builder()
+                .url(file_url)
+                .post(post)
+                .build();
+
+        postImageRepository.save(postImage);
 
         return file_url;
     }

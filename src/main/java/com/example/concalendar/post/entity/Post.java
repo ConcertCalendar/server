@@ -49,4 +49,8 @@ public class Post {
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
 
+    @BatchSize(size = 10)
+    @OneToMany(mappedBy = "post")
+    private List<PostImage> postImageList;
+
 }
