@@ -5,6 +5,7 @@ import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,12 +17,26 @@ import java.util.List;
  * The type S 3 poster service.
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class S3UploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     private final AmazonS3 amazonS3;
+
+    // 메소드 오버로딩 순서 MultipartFile & Long -> Post 이미지 저장
+    public String uploadFileToS3(MultipartFile multipartFile, Long post_id) throws IOException {
+        String s3_file_path = "post/"+post_id+"/"+System.currentTimeMillis();
+
+        return uploadFile(multipartFile,s3_file_path);
+    }
+    // 메소드 오버로딩 순서 Long & MultipartFile -> 공연 이미지 저장
+    public String uploadFileToS3(MultipartFile multipartFile, String concert_title) throws IOException {
+        String s3_file_path = "Concert/"+concert_title;
+
+        return uploadFile(multipartFile,s3_file_path);
+    }
 
     /**
      * Upload file string.
@@ -30,7 +45,7 @@ public class S3UploadService {
      * @return the string
      * @throws IOException the io exception
      */
-    public String uploadFile(MultipartFile multipartFile, String s3_file_title) throws IOException {
+    public String uploadFile(MultipartFile multipartFile, String s3_file_path) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
 
         //파일 형식 구하기
@@ -44,7 +59,9 @@ public class S3UploadService {
             contentType = "image/png";
         }
 
-        fileName = s3_file_title;
+        fileName = s3_file_path+"."+ext;
+
+        log.info("파일 이름은 {}",fileName);
 
         // S3 객체의 메타 데이터를 추가하는 작업
         try {

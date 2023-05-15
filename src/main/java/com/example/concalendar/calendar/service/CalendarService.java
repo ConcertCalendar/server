@@ -32,7 +32,7 @@ public class CalendarService{
 
     public void create(CalendarSaveDto calendarSaveDto, MultipartFile multipartFile) throws IOException {
 
-        String posterUrl = s3UploadService.uploadFile(multipartFile, calendarSaveDto.getConTitle());
+        String posterUrl = s3UploadService.uploadFileToS3(multipartFile, calendarSaveDto.getConTitle());
 
         LocalDateTime createdDate = LocalDateTime.now();
         LocalDateTime updatedDate = LocalDateTime.now();
