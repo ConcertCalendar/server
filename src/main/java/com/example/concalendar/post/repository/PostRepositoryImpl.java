@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -80,6 +81,26 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
                 .from(qPost)
                 .where(qPost.id.eq(id))
                 .fetchOne();
+        return post;
+    }
+
+    @Override
+    public Post findPreviousPost(Long boardId, LocalDateTime postCreatedDate){
+        Post post = queryFactory
+                .select(qPost)
+                .from(qPost)
+                .where(qPost.board.id.eq(boardId).and(qPost.createdDate.lt(postCreatedDate)))
+                .fetchFirst();
+        return post;
+    }
+
+    @Override
+    public Post findNextPost(Long boardId, LocalDateTime postCreatedDate){
+        Post post = queryFactory
+                .select(qPost)
+                .from(qPost)
+                .where(qPost.board.id.eq(boardId).and(qPost.createdDate.gt(postCreatedDate)))
+                .fetchFirst();
         return post;
     }
 

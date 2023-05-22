@@ -1,16 +1,11 @@
 package com.example.concalendar.post.dto;
 
-import com.example.concalendar.board.entity.Board;
 import com.example.concalendar.comment.dto.CommentDto;
-import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.post.entity.Post;
-import com.example.concalendar.user.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

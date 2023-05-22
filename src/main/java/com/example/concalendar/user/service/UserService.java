@@ -179,6 +179,7 @@ public class UserService{
         return user;
     }
 
+    // 유저가 작성한 Post 리스트 리턴 메소드
     public List<PostDto> findPostsByUser(String accessToken, Pageable pageRequest) {
         String user_email = jwtTokenProvider.getUserPk(accessToken);
 
