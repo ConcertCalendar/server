@@ -267,4 +267,18 @@ public class PostService {
 
         return post;
     }
+
+    public Post getPreviousPostByPostId(Long boardId, Post post) {
+        Post previousPost = postRepository.findPreviousPost(boardId, post.getCreatedDate());
+
+        return previousPost;
+    }
+
+    public Post getNextPostByPostId(Long boardId, Post post) {
+        Post previousPost = postRepository.findNextPost(boardId, post.getCreatedDate());
+
+        return previousPost;
+    }
+
+
 }

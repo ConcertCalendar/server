@@ -1,10 +1,9 @@
 package com.example.concalendar.post.controller;
 
 import com.example.concalendar.board.dto.BoardReturnDto;
-import com.example.concalendar.comment.dto.CommentRequestDto;
 import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
-import com.example.concalendar.post.dto.PostSearchReturnDto;
+import com.example.concalendar.post.dto.PostInfoDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.post.service.PostService;
@@ -15,17 +14,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -76,16 +74,28 @@ public class PostController {
     @GetMapping("/boards/{boardId}/posts/{postId}")
     public ResponseEntity getPost(@PathVariable Long boardId, @PathVariable Long postId){
         Post post = postService.getPostByPostId(postId);
+        Post previousPost = postService.getPreviousPostByPostId(boardId, post);
+        Post nextPost = postService.getNextPostByPostId(boardId, post);
         Set<String> postHeartSet = redisTemplate.opsForSet().members("postLike:"+postId);
 //        Set<String> commentHeartSet = redisTemplate.opsForSet().members("commentsLikeL"+)
 
-        PostDto postDto = new PostDto(post, postHeartSet);
+        PostInfoDto postInfoDto;
+
+        if (previousPost == null) {
+            postInfoDto = PostInfoDto.createFromNextPost(post, postHeartSet, nextPost);
+        }
+        else if(nextPost == null){
+            postInfoDto = PostInfoDto.createFromPreviousPost(post, postHeartSet, previousPost);
+        }
+        else{
+            postInfoDto = PostInfoDto.createPostInfoDto(post, postHeartSet, previousPost, nextPost);
+        }
 
         message = new Message();
 
         message.setStatus(StatusEnum.OK);
         message.setMessage("postId="+postId+"에 해당하는 게시물 전송 성공");
-        message.setData(postDto);
+        message.setData(postInfoDto);
 
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
@@ -115,16 +125,16 @@ public class PostController {
         message.setMessage("포스트 랭킹을 가져옵니다.");
         message.setStatus(StatusEnum.OK);
         List<Post> postList = postService.getPostRanking();
-        List<PostDto> postDtoList = new ArrayList<>();
+        List<PostDto> postRankingDtoList = new ArrayList<>();
 
         for (Post post : postList){
             postHeartSet = redisTemplate.opsForSet().members("postLike:"+post.getId());
 
-            PostDto postDto = new PostDto(post,postHeartSet);
-            postDtoList.add(postDto);
+            PostDto postRankingDto = new PostDto(post,postHeartSet);
+            postRankingDtoList.add(postRankingDto);
         }
 
-        message.setData(postDtoList);
+        message.setData(postRankingDtoList);
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }

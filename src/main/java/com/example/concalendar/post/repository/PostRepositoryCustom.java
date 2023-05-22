@@ -5,6 +5,7 @@ import com.example.concalendar.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PostRepositoryCustom {
@@ -17,4 +18,8 @@ public interface PostRepositoryCustom {
 //    Long countPostsBySearchKeyword(String keyword);
 
     Post findByIdFetchJoin(Long id);
+
+    Post findPreviousPost(Long boardId, LocalDateTime postCreatedDate);
+
+    Post findNextPost(Long boardId, LocalDateTime postCreatedDate);
 }
