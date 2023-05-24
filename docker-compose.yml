@@ -2,16 +2,27 @@ version: "3"
 services:
   redis:
     image: redis
+    container_name: my_redis
+    volumes:
+      - redis_data:/data
     ports:
       - "6379:6379"
-    volumes:
-      - redis_vol:/data
+    networks:
+      - calendar-net
 
   concert_calendar:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: joonghyun/concert_calendar
+    container_name: my_calendar
     ports:
       - "8080:8080"
     depends_on:
       - redis
+    networks:
+      - calendar-net
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  calendar-net:
+    external: true
