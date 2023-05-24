@@ -46,11 +46,11 @@ public class Post {
     private Board board;
 
     @BatchSize(size = 100)
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList;
 
     @BatchSize(size = 10)
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImage> postImageList;
 
 }

@@ -100,6 +100,20 @@ public class PostController {
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
+    @DeleteMapping("/boards/{boardId}/posts/{postId}")
+    public ResponseEntity DeletePost(@PathVariable Long boardId, @PathVariable Long postId, @RequestHeader String Authorization){
+        String user_email = jwtTokenProvider.getUserPk(Authorization);
+
+        postService.deletePost(postId, user_email);
+
+        message = new Message();
+
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("postId="+postId+"에 해당하는 게시물 삭제 성공");
+
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
+    }
+
     @PostMapping("/boards/{boardId}/postsHeart/{postId}")
     public ResponseEntity postHeartClick(@PathVariable Long boardId, @PathVariable Long postId, @RequestHeader String Authorization){
         message = new Message();
@@ -116,6 +130,7 @@ public class PostController {
 
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
     }
+
 
     @GetMapping("/posts/ranking")
     public ResponseEntity postRanking(){

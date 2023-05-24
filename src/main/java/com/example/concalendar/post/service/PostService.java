@@ -11,8 +11,10 @@ import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.entity.PostImage;
 import com.example.concalendar.post.repository.PostImageRepository;
 import com.example.concalendar.post.repository.PostRepository;
+import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.UserRepository;
+import com.example.concalendar.user.service.UserService;
 import com.example.concalendar.util.StatusEnum;
 import com.example.concalendar.util.service.S3UploadService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
     private final PostImageRepository postImageRepository;
     private final BoardService boardService;
     private final S3UploadService s3UploadService;
@@ -280,5 +283,19 @@ public class PostService {
         return previousPost;
     }
 
+    // 삭제
+    @Transactional
+    public void deletePost(Long postId, String user_email){
+        Post post = getPostByPostId(postId);
+
+        User user = userService.findUserByUserEmail(user_email);
+
+        if (post.getWriter().getUserId() == user.getUserId()){
+            postRepository.delete(post);
+        }
+        else{
+            throw new CustomException(StatusEnum.Unauthorized,"게시글을 작성한 사용자가 아니기 때문에 삭제할 수 없습니다. 토큰을 다시 확인해주세요.");
+        }
+    }
 
 }
