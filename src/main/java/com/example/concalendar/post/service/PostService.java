@@ -3,6 +3,7 @@ package com.example.concalendar.post.service;
 import com.example.concalendar.board.service.BoardService;
 import com.example.concalendar.board.dto.BoardDto;
 import com.example.concalendar.comment.entity.Comment;
+import com.example.concalendar.comment.repository.CommentRepository;
 import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.board.dto.BoardReturnDto;
@@ -47,6 +48,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final CommentRepository commentRepository;
     private final PostImageRepository postImageRepository;
     private final BoardService boardService;
     private final S3UploadService s3UploadService;
@@ -286,6 +288,7 @@ public class PostService {
     // 삭제
     @Transactional
     public void deletePost(Long postId, String user_email){
+
         Post post = getPostByPostId(postId);
 
         User user = userService.findUserByUserEmail(user_email);
