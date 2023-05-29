@@ -5,6 +5,7 @@ import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.reply.entity.Reply;
 import com.example.concalendar.user.entity.User;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +27,10 @@ public class Comment {
     @Column(name = "comment_content")
     private String commentContent;
 
+    @Column(name = "warning_cnt")
+    @ColumnDefault("0")
+    private int commentWarningCnt;
+
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
 
@@ -42,4 +47,8 @@ public class Comment {
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replyList;
+
+    public void updateCommentWarningCnt(){
+        this.commentWarningCnt += 1;
+    }
 }

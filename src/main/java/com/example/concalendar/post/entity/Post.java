@@ -6,6 +6,7 @@ import com.example.concalendar.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -31,6 +32,10 @@ public class Post {
     @Column(name = "post_content", nullable = false)
     private String postContent;
 
+    @Column(name = "warning_cnt")
+    @ColumnDefault("0")
+    private int postWarningCnt;
+
     @Column(name = "created_at", length = 13)
     private LocalDateTime createdDate;
 
@@ -53,4 +58,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImage> postImageList;
 
+    public void updateWarningCnt(){
+        this.postWarningCnt += 1;
+    }
 }
