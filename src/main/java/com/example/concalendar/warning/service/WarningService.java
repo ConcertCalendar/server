@@ -11,6 +11,7 @@ import com.example.concalendar.warning.entity.WarningTypeEnum;
 import com.example.concalendar.warning.repository.WarningRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,16 +22,21 @@ public class WarningService {
     private final CommentService commentService;
     private final ReplyService replyService;
 
+    @Transactional
     public void reportPostWarn(Long postId, WarningTypeEnum warningTypeEnum) {
         Post post = postService.findPostByPostId(postId);
+
         Warning warning = Warning.builder()
                 .warningTypeEnum(warningTypeEnum)
                 .post(post)
                 .build();
 
+        post.updateWarningCnt();
+
         warningRepository.save(warning);
     }
 
+    @Transactional
     public void reportCommentWarn(Long commentId, WarningTypeEnum warningTypeEnum) {
         Comment comment = commentService.findByCommentId(commentId);
 
@@ -38,10 +44,12 @@ public class WarningService {
                 .warningTypeEnum(warningTypeEnum)
                 .comment(comment)
                 .build();
+        comment.updateCommentWarningCnt();
 
         warningRepository.save(warning);
     }
 
+    @Transactional
     public void reportReplyWarn(Long replyId, WarningTypeEnum warningTypeEnum) {
         Reply reply = replyService.findByReplyId(replyId);
 
@@ -49,6 +57,8 @@ public class WarningService {
                 .warningTypeEnum(warningTypeEnum)
                 .reply(reply)
                 .build();
+
+        reply.updateReplyWarningCnt();
 
         warningRepository.save(warning);
     }
