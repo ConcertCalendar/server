@@ -44,8 +44,7 @@ public class CalendarService{
                 .conContent(calendarSaveDto.getConContent())
                 .conPlace(calendarSaveDto.getConPlace())
                 .concertTime(calendarSaveDto.getConcertTime())
-                .createdDate(createdDate)
-                .updatedDate(updatedDate)
+                .concertType(calendarSaveDto.getConcertType())
                 .posterUrl(posterUrl)
                 .bookingLink(calendarSaveDto.getBookingLink())
                 .build();

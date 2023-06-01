@@ -3,6 +3,7 @@ package com.example.concalendar.post.entity;
 import com.example.concalendar.board.entity.Board;
 import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.user.entity.User;
+import com.example.concalendar.util.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
@@ -21,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "post_table", indexes = @Index(name = "idx_post_title_and_content", columnList = "post_title, post_content"))
-public class Post {
+public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,12 +36,6 @@ public class Post {
     @Column(name = "warning_cnt")
     @ColumnDefault("0")
     private int postWarningCnt;
-
-    @Column(name = "created_at", length = 13)
-    private LocalDateTime createdDate;
-
-    @Column(name = "modified_at", length = 13)
-    private LocalDateTime modifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="writer_id")

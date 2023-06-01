@@ -24,7 +24,6 @@ public class BoardService {
     public void createBoard(String boardName) {
         Board board = Board.builder()
                 .name(boardName)
-                .createdDate(LocalDateTime.now())
                 .build();
 
         boardRepository.save(board);

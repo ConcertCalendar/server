@@ -35,7 +35,6 @@ public class ReplyService {
                 .replyContent(replyContent)
                 .replyWriter(userService.findUserByUserEmail(userEmail))
                 .comment(commentService.findByCommentId(commentId))
-                .createdDate(LocalDateTime.now())
                 .build();
         replyRepository.save(reply);
 

@@ -23,4 +23,6 @@ public class CalendarSaveDto {
     private BookingLink bookingLink;
 
     private String conPlace;
+
+    private ConcertType concertType;
 }

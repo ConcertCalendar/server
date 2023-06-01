@@ -31,11 +31,12 @@ public class CalendarDto {
 
     private ConcertTime concertTime;
 
-    private LocalDateTime createdDate;
-
-    private LocalDateTime updatedDate;
+    private String concertType;
 
     private String posterUrl;
+    private LocalDateTime createdDate;
+
+    private LocalDateTime modifiedDate;
 
     private BookingLink bookingLink;
 
@@ -48,8 +49,9 @@ public class CalendarDto {
         this.conContent = calendar.getConContent();
         this.conPlace = calendar.getConPlace();
         this.concertTime = calendar.getConcertTime();
+        this.concertType = calendar.getConcertType().getName();
         this.createdDate = calendar.getCreatedDate();
-        this.updatedDate = calendar.getUpdatedDate();
+        this.modifiedDate = calendar.getModifiedDate();
         this.posterUrl = calendar.getPosterUrl();
         this.bookingLink = calendar.getBookingLink();
         this.userIdList = userIdList;
