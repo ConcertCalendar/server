@@ -3,6 +3,7 @@ package com.example.concalendar.reply.entity;
 import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.user.entity.User;
+import com.example.concalendar.util.entity.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "reply_table")
-public class Reply {
+public class Reply extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,12 +28,6 @@ public class Reply {
     @Column(name = "warning_cnt")
     @ColumnDefault("0")
     private int replyWarningCnt;
-
-    @Column(name = "created_at", length = 13)
-    private LocalDateTime createdDate;
-
-    @Column(name = "modified_at", length = 13)
-    private LocalDateTime modifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="writer_id")

@@ -5,32 +5,25 @@ import com.example.concalendar.post.dto.PostDto;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.post.repository.PostRepository;
 import com.example.concalendar.user.config.JwtTokenProvider;
-import com.example.concalendar.user.config.RedisRepositoryConfig;
 import com.example.concalendar.user.dto.TokenDto;
-import com.example.concalendar.user.dto.TokenRequestDto;
 import com.example.concalendar.user.dto.UserDto;
 import com.example.concalendar.user.dto.UserInfoDto;
-import com.example.concalendar.user.entity.RefreshToken;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.calendar.entity.Calendar;
 
 import com.example.concalendar.user.exception.CustomException;
-import com.example.concalendar.user.repository.RefreshTokenRepository;
 import com.example.concalendar.user.repository.UserRepository;
-import com.example.concalendar.user.util.SecurityUtil;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -45,7 +38,6 @@ public class UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final PostRepository postRepository;
 //    private final CalendarService calendarService;
@@ -66,7 +58,6 @@ public class UserService{
                 .userPhone(user.getUserPhone())
                 .userBirth(user.getUserBirth())
                 .name(user.getName())
-                .createdDate(LocalDateTime.now())
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build();
 

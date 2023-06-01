@@ -1,6 +1,8 @@
 package com.example.concalendar.calendar.entity;
 
+import com.example.concalendar.calendar.dto.ConcertType;
 import com.example.concalendar.user.entity.User;
+import com.example.concalendar.util.entity.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +17,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "calendar_info_table")
-public class Calendar {
+public class Calendar extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // 기본키(primary key)
@@ -35,16 +37,13 @@ public class Calendar {
     @Embedded
     private ConcertTime concertTime;
 
-    @Column
-    private LocalDateTime createdDate;
+    @Enumerated(EnumType.STRING)
+    private ConcertType concertType;
 
     private String posterUrl;
 
     @Embedded
     private BookingLink bookingLink;
-
-    @Column
-    private LocalDateTime updatedDate;
 
 
 //    @OneToOne(fetch = FetchType.LAZY)
@@ -53,7 +52,6 @@ public class Calendar {
 
     public void update(ConcertTime concertTime) {
         this.concertTime = concertTime;
-        this.updatedDate = LocalDateTime.now();
     }
 
     public void concertPosterUpdate(String posterUrl){

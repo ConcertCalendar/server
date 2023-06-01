@@ -1,6 +1,7 @@
 package com.example.concalendar.board.entity;
 
 import com.example.concalendar.post.entity.Post;
+import com.example.concalendar.util.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ import java.util.List;
 @Builder
 @Getter
 @Service
-public class Board {
+public class Board extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
@@ -32,9 +33,6 @@ public class Board {
 
     @Column(name = "board_name")
     private String name;
-
-    @Column(name = "created_at", length = 13)
-    private LocalDateTime createdDate;
 
     @BatchSize(size = 10000)
     @OneToMany(mappedBy = "board")

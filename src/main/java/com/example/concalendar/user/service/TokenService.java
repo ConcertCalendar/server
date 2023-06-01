@@ -2,18 +2,13 @@ package com.example.concalendar.user.service;
 
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.user.dto.TokenDto;
-import com.example.concalendar.user.dto.TokenRequestDto;
-import com.example.concalendar.user.entity.RefreshToken;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.exception.CustomException;
-import com.example.concalendar.user.repository.RefreshTokenRepository;
 import com.example.concalendar.user.repository.UserRepository;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

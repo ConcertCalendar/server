@@ -3,6 +3,7 @@ package com.example.concalendar.user.entity;
 import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.reply.entity.Reply;
+import com.example.concalendar.util.entity.BaseTimeEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_table")
-public class User implements UserDetails {
+public class User extends BaseTimeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -46,12 +47,6 @@ public class User implements UserDetails {
 
     @Column(name = "user_password", length = 300, nullable = false)
     private String password;
-
-    @Column(name = "created_at", length = 13)
-    private LocalDateTime createdDate;
-
-    @Column(name = "modified_at", length = 13)
-    private LocalDateTime modifiedDate;
 
     // user와 Post의 관계는 1:N (1명이 여러 개의 게시물 작성 가능)
     @OneToMany(mappedBy = "writer")

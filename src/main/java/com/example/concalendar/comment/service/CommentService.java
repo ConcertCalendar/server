@@ -51,7 +51,6 @@ public class CommentService {
                 .commentContent(content)
                 .article(postService.findPostByPostId(postId))
                 .commentWriter(userService.findUserByUserEmail(userEmail))
-                .createdDate(LocalDateTime.now())
                 .build();
 
         commentRepository.save(comment);

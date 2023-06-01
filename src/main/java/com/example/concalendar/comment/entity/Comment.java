@@ -4,6 +4,7 @@ import com.example.concalendar.board.entity.Board;
 import com.example.concalendar.post.entity.Post;
 import com.example.concalendar.reply.entity.Reply;
 import com.example.concalendar.user.entity.User;
+import com.example.concalendar.util.entity.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment_table")
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,12 +31,6 @@ public class Comment {
     @Column(name = "warning_cnt")
     @ColumnDefault("0")
     private int commentWarningCnt;
-
-    @Column(name = "created_at", length = 13)
-    private LocalDateTime createdDate;
-
-    @Column(name = "modified_at", length = 13)
-    private LocalDateTime modifiedDate;
 
     @ManyToOne
     @JoinColumn(name ="writer_id")
