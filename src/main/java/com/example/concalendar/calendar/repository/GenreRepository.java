@@ -1,0 +1,11 @@
+package com.example.concalendar.calendar.repository;
+
+import com.example.concalendar.calendar.entity.Calendar;
+import com.example.concalendar.calendar.entity.Genre;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface GenreRepository extends JpaRepository<Genre, Long> {
+    List<Genre> findGenresByCalendar(Calendar calendar);
+}

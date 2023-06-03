@@ -42,7 +42,9 @@ public class CalendarDto {
 
     private List<Long> userIdList;
 
-    public CalendarDto(Calendar calendar, List<Long> userIdList){
+    private List<String> genreList;
+
+    public CalendarDto(Calendar calendar, List<Long> userIdList, List<String> genreList){
         this.conNo = calendar.getConNo();
         this.singer = calendar.getSinger();
         this.conTitle = calendar.getConTitle();
@@ -55,5 +57,6 @@ public class CalendarDto {
         this.posterUrl = calendar.getPosterUrl();
         this.bookingLink = calendar.getBookingLink();
         this.userIdList = userIdList;
+        this.genreList = genreList;
     }
 }
