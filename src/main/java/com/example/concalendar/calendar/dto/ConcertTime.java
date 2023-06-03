@@ -1,4 +1,4 @@
-package com.example.concalendar.calendar.entity;
+package com.example.concalendar.calendar.dto;
 
 import lombok.Getter;
 
