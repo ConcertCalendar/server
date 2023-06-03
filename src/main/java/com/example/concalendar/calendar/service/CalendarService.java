@@ -4,8 +4,10 @@ import com.example.concalendar.calendar.dto.CalendarDto;
 import com.example.concalendar.calendar.dto.CalendarSaveDto;
 import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.entity.CalendarBookmark;
+import com.example.concalendar.calendar.entity.Genre;
 import com.example.concalendar.calendar.repository.CalendarBookmarkRepository;
 import com.example.concalendar.calendar.repository.CalendarRepository;
+import com.example.concalendar.calendar.repository.GenreRepository;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.service.UserService;
@@ -27,6 +29,7 @@ public class CalendarService{
 
     private final CalendarRepository calendarRepository;
     private final CalendarBookmarkRepository calendarBookmarkRepository;
+    private final GenreRepository genreRepository;
     private final S3UploadService s3UploadService;
     private final UserService userService;
 
@@ -110,7 +113,9 @@ public class CalendarService{
                 userIdList.add(user.getUserId());
             }
 
-            CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
+            List<String> genreNameList = getCalendarGenres(calendar);
+
+            CalendarDto calendarDto = new CalendarDto(calendar, userIdList, genreNameList);
 
             calendarDtoList.add(calendarDto);
         }
@@ -130,7 +135,9 @@ public class CalendarService{
             userIdList.add(user.getUserId());
         }
 
-        CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
+        List<String> genreNameList = getCalendarGenres(calendar);
+
+        CalendarDto calendarDto = new CalendarDto(calendar, userIdList, genreNameList);
 
         return calendarDto;
     }
@@ -149,7 +156,9 @@ public class CalendarService{
                 userIdList.add(user.getUserId());
             }
 
-            CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
+            List<String> genreNameList = getCalendarGenres(calendar);
+
+            CalendarDto calendarDto = new CalendarDto(calendar, userIdList, genreNameList);
 
             calendarDtoList.add(calendarDto);
         }
@@ -227,11 +236,27 @@ public class CalendarService{
                 userIdList.add(user.getUserId());
             }
 
-            CalendarDto calendarDto = new CalendarDto(calendar, userIdList);
+            List<String> genreNameList = getCalendarGenres(calendar);
+
+            CalendarDto calendarDto = new CalendarDto(calendar, userIdList, genreNameList);
 
             calendarDtoList.add(calendarDto);
         }
 
         return calendarDtoList;
     }
+
+    public List<String> getCalendarGenres(Calendar calendar){
+
+        List<String> genreNameList = new ArrayList<>();
+
+        List<Genre> genreList = genreRepository.findGenresByCalendar(calendar);
+
+        for (Genre genre : genreList){
+            genreNameList.add(genre.getGenreType().getGenreStr());
+        }
+
+        return genreNameList;
+    }
+
 }
