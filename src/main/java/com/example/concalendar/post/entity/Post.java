@@ -2,6 +2,7 @@ package com.example.concalendar.post.entity;
 
 import com.example.concalendar.board.entity.Board;
 import com.example.concalendar.comment.entity.Comment;
+import com.example.concalendar.post.dto.PostFormDto;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.util.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,6 +52,11 @@ public class Post extends BaseTimeEntity {
     @BatchSize(size = 10)
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImage> postImageList;
+
+    public void updatePost(PostFormDto postFormDto){
+        this.postTitle = postFormDto.getPostTitle();
+        this.postContent = postFormDto.getPostContent();
+    }
 
     public void updateWarningCnt(){
         this.postWarningCnt += 1;

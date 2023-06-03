@@ -45,4 +45,8 @@ public class Comment extends BaseTimeEntity {
     public void updateCommentWarningCnt(){
         this.commentWarningCnt += 1;
     }
+
+    public void updateCommentContent(String updateContent) {
+        this.commentContent = updateContent;
+    }
 }

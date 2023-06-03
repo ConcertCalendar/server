@@ -125,8 +125,7 @@ public class PostService {
     public Post update(long postId, PostFormDto postFormDto){
         Post post = findPostByPostId(postId);
 
-        post.setPostTitle(postFormDto.getPostTitle());
-        post.setPostContent(postFormDto.getPostContent());
+        post.updatePost(postFormDto);
 
         return post;
 

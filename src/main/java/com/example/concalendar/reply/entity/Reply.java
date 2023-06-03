@@ -36,6 +36,10 @@ public class Reply extends BaseTimeEntity {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+    public void updateReplyContent(String replyContent){
+        this.replyContent = replyContent;
+    }
+
     public void updateReplyWarningCnt(){
         this.replyWarningCnt += 1;
     }

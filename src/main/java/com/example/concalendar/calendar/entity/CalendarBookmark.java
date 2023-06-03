@@ -19,10 +19,10 @@ public class CalendarBookmark {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user; // Bookmark : User = N : 1
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Calendar calendar; // Bookmark : Calendar = N : 1
 
 }

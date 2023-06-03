@@ -82,7 +82,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"댓글Id에 해당하는 댓글이 DB에 존재하지 않습니다."));
 
-        comment.setCommentContent(updateContent);
+        comment.updateCommentContent(updateContent);
     }
 
     /**
