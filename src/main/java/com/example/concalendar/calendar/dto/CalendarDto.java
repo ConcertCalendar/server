@@ -1,20 +1,11 @@
 package com.example.concalendar.calendar.dto;
 
-import com.example.concalendar.calendar.entity.BookingLink;
 import com.example.concalendar.calendar.entity.Calendar;
-import com.example.concalendar.calendar.entity.CalendarBookmark;
-import com.example.concalendar.calendar.entity.ConcertTime;
-import com.example.concalendar.user.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -44,6 +35,12 @@ public class CalendarDto {
 
     private List<String> genreList;
 
+    private int minPrice;
+
+    private int maxPrice;
+
+    private String regionName;
+
     public CalendarDto(Calendar calendar, List<Long> userIdList, List<String> genreList){
         this.conNo = calendar.getConNo();
         this.singer = calendar.getSinger();
@@ -58,5 +55,8 @@ public class CalendarDto {
         this.bookingLink = calendar.getBookingLink();
         this.userIdList = userIdList;
         this.genreList = genreList;
+        this.minPrice = calendar.getPrice().getMinPrice();
+        this.maxPrice = calendar.getPrice().getMaxPrice();
+        this.regionName = calendar.getRegionType().getRegionName();
     }
 }

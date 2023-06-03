@@ -1,14 +1,10 @@
 package com.example.concalendar.calendar.entity;
 
-import com.example.concalendar.calendar.dto.ConcertType;
-import com.example.concalendar.user.entity.User;
+import com.example.concalendar.calendar.dto.*;
 import com.example.concalendar.util.entity.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -43,6 +39,12 @@ public class Calendar extends BaseTimeEntity {
 
     @Embedded
     private BookingLink bookingLink;
+
+    @Embedded
+    private Price price;
+
+    @Enumerated(EnumType.STRING)
+    private RegionType regionType;
 
 
 //    @OneToOne(fetch = FetchType.LAZY)
