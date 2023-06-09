@@ -9,7 +9,8 @@ public enum GenreType {
     JAZZ(3,"재즈"),
     HIPHOP(4,"힙합"),
     ELECTRONIC(5,"일렉트로닉"),
-    ETC(6,"기타");
+    CLASSIC(6,"클래식"),
+    ETC(7,"기타");
 
     private int id;
     private String GenreStr;
