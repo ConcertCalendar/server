@@ -10,11 +10,11 @@ import java.util.List;
 @Getter
 @Setter
 public class CalendarDto {
-    private Long conNo;
+    private Long id;
 
     private String singer;
 
-    private String conTitle;
+    private String title;
 
     private String conContent;
 
@@ -42,9 +42,9 @@ public class CalendarDto {
     private String regionName;
 
     public CalendarDto(Calendar calendar, List<Long> userIdList, List<String> genreList){
-        this.conNo = calendar.getConNo();
+        this.id = calendar.getConNo();
         this.singer = calendar.getSinger();
-        this.conTitle = calendar.getConTitle();
+        this.title = calendar.getConTitle();
         this.conContent = calendar.getConContent();
         this.conPlace = calendar.getConPlace();
         this.concertTime = calendar.getConcertTime();

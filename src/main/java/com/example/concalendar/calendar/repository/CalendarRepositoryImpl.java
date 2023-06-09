@@ -18,8 +18,8 @@ public class CalendarRepositoryImpl implements CalendarRepositoryCustom{
     public Calendar findNextCalendarByConStart(LocalDate nowDate){
         return queryFactory.select(qCalendar)
                 .from(qCalendar)
-                .where(qCalendar.concertTime.conStart.after(nowDate))
-                .orderBy(qCalendar.concertTime.conStart.asc())
+                .where(qCalendar.concertTime.start.after(nowDate))
+                .orderBy(qCalendar.concertTime.start.asc())
                 .fetchFirst();
     };
 }

@@ -13,7 +13,7 @@ import java.time.LocalTime;
 public class ConcertTime {
     private LocalTime conTime;
 
-    private LocalDate conStart;
+    private LocalDate start;
 
-    private LocalDate conEnd;
+    private LocalDate end;
 }
