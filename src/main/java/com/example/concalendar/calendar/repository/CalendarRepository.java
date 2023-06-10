@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface CalendarRepository extends JpaRepository<Calendar, Long>, CalendarRepositoryCustom {
-    public List<Calendar> findCalendarsByConTitleContains(String searchKeyword);
 }

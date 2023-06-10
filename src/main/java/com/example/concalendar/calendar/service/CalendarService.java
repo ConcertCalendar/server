@@ -143,7 +143,11 @@ public class CalendarService{
     }
 
     public List<CalendarDto> getSearchEvent(String searchKeyword){
-        List<Calendar> calendarList = calendarRepository.findCalendarsByConTitleContains(searchKeyword);
+
+        // searchKeyword 여백 제거
+        String replacedSearchKeyword = searchKeyword.replaceAll("\\s","");
+
+        List<Calendar> calendarList = calendarRepository.findCalendarsByConTitleContains(replacedSearchKeyword);
 
         List<CalendarDto> calendarDtoList = new ArrayList<>();
 
