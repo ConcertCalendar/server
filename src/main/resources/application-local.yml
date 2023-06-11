@@ -14,6 +14,11 @@ spring:
     host: localhost
     port: 6379
 
+  data:
+    mongodb:
+      uri: mongodb+srv://user:1234@pushpin.lgan0wm.mongodb.net/concert_info_crawling?retryWrites=true&w=majority
+
+
 #  sql:
 #    init:
 ##      schema-locations: classpath*:init-data/schema.sql

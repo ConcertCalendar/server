@@ -3,7 +3,9 @@ package com.example.concalendar.calendar.controller;
 import com.example.concalendar.calendar.dto.CalendarDto;
 import com.example.concalendar.calendar.dto.CalendarSaveDto;
 import com.example.concalendar.calendar.entity.Calendar;
+import com.example.concalendar.calendar.entity.CrawlingInfo;
 import com.example.concalendar.calendar.service.CalendarService;
+import com.example.concalendar.calendar.service.CrawlingService;
 import com.example.concalendar.user.config.JwtTokenProvider;
 import com.example.concalendar.util.Message;
 import com.example.concalendar.util.StatusEnum;
@@ -24,6 +26,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CalendarController {
     private final CalendarService calendarService;
+    private final CrawlingService crawlingService;
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -140,6 +143,20 @@ public class CalendarController {
             message.setStatus(StatusEnum.Unauthorized);
             message.setMessage("AccessToken이 유효하지 않아서 게시글을 등록할 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
         }
+
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/calendar/crawling/find/{title}")
+    public ResponseEntity findByCrawlingTitle(@PathVariable String title){
+        message = new Message();
+
+        CrawlingInfo crawlingInfo = crawlingService.getCrawlingInfoByName(title);
+
+//        System.out.println(crawlingInfo.getName());
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("해당하는 이름을 가져옵니다.");
+        message.setData(crawlingInfo);
 
         return new ResponseEntity(message, HttpStatus.OK);
     }

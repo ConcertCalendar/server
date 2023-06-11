@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface CalendarRepositoryCustom {
-    public Calendar findNextCalendarByConStart(LocalDate nowDate);
+    Calendar findNextCalendarByConStart(LocalDate nowDate);
     List<Calendar> findCalendarsByConTitleContains(String searchKeyword);
 
 }

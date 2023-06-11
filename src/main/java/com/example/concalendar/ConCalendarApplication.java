@@ -1,14 +1,16 @@
 package com.example.concalendar;
 
-import org.joda.time.DateTime;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @EnableJpaAuditing
+@EnableMongoRepositories
 @SpringBootApplication
 public class ConCalendarApplication {
     @PostConstruct

@@ -4,6 +4,7 @@ import com.example.concalendar.calendar.dto.CalendarDto;
 import com.example.concalendar.calendar.dto.CalendarSaveDto;
 import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.calendar.entity.CalendarBookmark;
+import com.example.concalendar.calendar.entity.CrawlingInfo;
 import com.example.concalendar.calendar.entity.Genre;
 import com.example.concalendar.calendar.repository.CalendarBookmarkRepository;
 import com.example.concalendar.calendar.repository.CalendarRepository;
@@ -32,6 +33,7 @@ public class CalendarService{
     private final GenreRepository genreRepository;
     private final S3UploadService s3UploadService;
     private final UserService userService;
+
 
     public void create(CalendarSaveDto calendarSaveDto, MultipartFile multipartFile) throws IOException {
 
