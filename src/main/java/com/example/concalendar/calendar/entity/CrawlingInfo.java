@@ -1,6 +1,7 @@
 package com.example.concalendar.calendar.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
@@ -10,11 +11,13 @@ import javax.persistence.Id;
 
 @Document(collection = "interpark")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CrawlingInfo {
     @Id
     private String id;
-    private String name;
-    private Long age;
+    private String title;
+    private String place;
+    private String date;
 }

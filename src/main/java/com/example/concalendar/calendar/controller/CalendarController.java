@@ -151,12 +151,26 @@ public class CalendarController {
     public ResponseEntity findByCrawlingTitle(@PathVariable String title){
         message = new Message();
 
-        CrawlingInfo crawlingInfo = crawlingService.getCrawlingInfoByName(title);
+//        CrawlingInfo crawlingInfo = crawlingService.getCrawlingInfoByName(title);
 
 //        System.out.println(crawlingInfo.getName());
         message.setStatus(StatusEnum.OK);
         message.setMessage("해당하는 이름을 가져옵니다.");
-        message.setData(crawlingInfo);
+//        message.setData(crawlingInfo);
+
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/calendar/crawling/interpark")
+    public ResponseEntity getInterparkCrawling() throws IOException {
+        message = new Message();
+
+        List<CrawlingInfo> crawlingInfoList = crawlingService.getCrawlingInfos();
+
+//        System.out.println(crawlingInfo.getName());
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("인터파크 크롤링 데이터를 가져옵니다.");
+        message.setData(crawlingInfoList.get(0));
 
         return new ResponseEntity(message, HttpStatus.OK);
     }

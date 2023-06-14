@@ -59,6 +59,9 @@ dependencies {
 
     // MongoDB
     implementation ('org.springframework.boot:spring-boot-starter-data-mongodb')
+
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.15.3'
 }
 
 //querydsl 추가 시작

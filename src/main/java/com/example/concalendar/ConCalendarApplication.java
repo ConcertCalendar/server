@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @EnableJpaAuditing
-@EnableMongoRepositories
+@EnableMongoRepositories(basePackages = "com.example.concalendar.calendar")
 @SpringBootApplication
 public class ConCalendarApplication {
     @PostConstruct

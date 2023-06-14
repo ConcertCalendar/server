@@ -10,6 +10,5 @@ import java.util.List;
 
 @Repository
 public interface CrawlingRepository extends MongoRepository<CrawlingInfo, String> {
-    CrawlingInfo findCrawlingInfoByName(String name);
 
 }
