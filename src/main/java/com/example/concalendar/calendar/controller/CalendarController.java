@@ -162,15 +162,15 @@ public class CalendarController {
     }
 
     @GetMapping("/calendar/crawling/interpark")
-    public ResponseEntity getInterparkCrawling() throws IOException {
+    public ResponseEntity getInterparkCrawling() throws IOException, InterruptedException {
         message = new Message();
 
-        List<CrawlingInfo> crawlingInfoList = crawlingService.getCrawlingInfos();
+        String title = crawlingService.getCrawlingInfos();
 
 //        System.out.println(crawlingInfo.getName());
         message.setStatus(StatusEnum.OK);
         message.setMessage("인터파크 크롤링 데이터를 가져옵니다.");
-        message.setData(crawlingInfoList.get(0));
+        message.setData(title);
 
         return new ResponseEntity(message, HttpStatus.OK);
     }

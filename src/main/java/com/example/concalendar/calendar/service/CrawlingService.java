@@ -9,6 +9,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +28,7 @@ import java.util.List;
 public class CrawlingService {
     private final CrawlingRepository crawlingRepository;
     private final MongoTemplate mongoTemplate;
+    private WebDriver webDriver;
 
 //    public CrawlingInfo getCrawlingInfoByName(String name) {
 //
@@ -32,24 +37,40 @@ public class CrawlingService {
 //        return crawlingInfo;
 //    }
 
-    @PostConstruct
-    public List<CrawlingInfo> getCrawlingInfos() throws IOException{
-        List<CrawlingInfo> crawlingInfoList = new ArrayList<>();
+    public String getCrawlingInfos() throws IOException, InterruptedException {
+        String url = "https://tickets.interpark.com/goods/23007654#";
 
-        Document document = Jsoup.connect("https://tickets.interpark.com/goods/23007654#").get();
 
-        Elements contents = document.select("div.summary");
 
-        for (Element content : contents){
-            CrawlingInfo crawlingInfo = CrawlingInfo.builder()
-                    .title(content.select("div.summaryTop").select("h2.prdTitle").text())
-                    .build();
+        log.info("interpark 크롤링 시작");
 
-            System.out.println(crawlingInfo.getTitle());
+        System.setProperty("webdriver.chrome.driver", "/Users/joonghyun/Downloads/chromedriver_mac64/chromedriver");
 
-            crawlingInfoList.add(crawlingInfo);
+        webDriver = new ChromeDriver();
+
+        webDriver.get(url);
+
+        Thread.sleep(1000);
+
+        List<WebElement> elements = webDriver.findElements(By.cssSelector(".prdTitle"));
+
+        for (WebElement element : elements){
+            System.out.println(element);
         }
 
-        return crawlingInfoList;
+//        for (Element content : contents){
+//            CrawlingInfo crawlingInfo = CrawlingInfo.builder()
+//                    .title(content.select("div.summaryTop").select("h2").text())
+//                    .build();
+//
+//            System.out.println(crawlingInfo.getTitle());
+//
+//            crawlingInfoList.add(crawlingInfo);
+//        }
+
+        webDriver.close();
+        webDriver.quit();
+
+        return url;
     }
 }
