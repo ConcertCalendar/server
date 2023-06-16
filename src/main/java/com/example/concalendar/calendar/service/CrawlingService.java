@@ -40,8 +40,6 @@ public class CrawlingService {
     public String getCrawlingInfos() throws IOException, InterruptedException {
         String url = "https://tickets.interpark.com/goods/23007654#";
 
-
-
         log.info("interpark 크롤링 시작");
 
         System.setProperty("webdriver.chrome.driver", "/Users/joonghyun/Downloads/chromedriver_mac64/chromedriver");
@@ -52,11 +50,18 @@ public class CrawlingService {
 
         Thread.sleep(1000);
 
-        List<WebElement> elements = webDriver.findElements(By.cssSelector(".prdTitle"));
+        String main = webDriver.getWindowHandle();
 
-        for (WebElement element : elements){
-            System.out.println(element);
+        for (String handle : webDriver.getWindowHandles()){
+            if (!handle.equals(main)){
+                webDriver.switchTo().window(handle).close();
+            }
         }
+
+        WebElement element = webDriver.findElement(By.cssSelector(".prdTitle"));
+
+        System.out.println(element.getText());
+
 
 //        for (Element content : contents){
 //            CrawlingInfo crawlingInfo = CrawlingInfo.builder()
@@ -71,6 +76,6 @@ public class CrawlingService {
         webDriver.close();
         webDriver.quit();
 
-        return url;
+        return element.getText();
     }
 }
