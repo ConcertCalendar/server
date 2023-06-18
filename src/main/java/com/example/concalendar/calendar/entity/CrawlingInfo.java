@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.time.LocalTime;
 
 @Document(collection = "interpark")
 @Getter
@@ -20,4 +21,8 @@ public class CrawlingInfo {
     private String title;
     private String place;
     private String date;
+    private String time;
+    private String singer;
+    private String minPrice;
+    private String maxPrice;
 }

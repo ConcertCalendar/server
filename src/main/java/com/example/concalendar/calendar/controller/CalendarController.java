@@ -165,12 +165,12 @@ public class CalendarController {
     public ResponseEntity getInterparkCrawling() throws IOException, InterruptedException {
         message = new Message();
 
-        String title = crawlingService.getCrawlingInfos();
+        List<CrawlingInfo> crawlingInfoList = crawlingService.getCrawlingInfos();
 
 //        System.out.println(crawlingInfo.getName());
         message.setStatus(StatusEnum.OK);
         message.setMessage("인터파크 크롤링 데이터를 가져옵니다.");
-        message.setData(title);
+        message.setData(crawlingInfoList);
 
         return new ResponseEntity(message, HttpStatus.OK);
     }
