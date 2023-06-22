@@ -1,10 +1,6 @@
 package com.example.concalendar.user.config;
 
-import com.example.concalendar.user.exception.CustomException;
-import com.example.concalendar.util.StatusEnum;
 import io.jsonwebtoken.JwtException;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -1,11 +1,8 @@
 package com.example.concalendar.user.controller;
 
-import antlr.Token;
 import com.example.concalendar.calendar.service.CalendarService;
 import com.example.concalendar.user.config.JwtTokenProvider;
-import com.example.concalendar.user.dto.MailDto;
 import com.example.concalendar.user.dto.TokenDto;
-import com.example.concalendar.user.dto.TokenRequestDto;
 import com.example.concalendar.user.dto.UserDto;
 import com.example.concalendar.user.entity.User;
 import com.example.concalendar.user.service.TokenService;
@@ -16,13 +13,10 @@ import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +24,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -110,18 +103,6 @@ public class UserController {
 
         }
     }
-
-//    /**
-//     * Re issue token dto.
-//     *
-//     * @param tokenRequestDto the token request dto
-//     * @return the token dto
-//     */
-// 토큰 재발급
-//    @PostMapping("/users/reIssue")
-//    public TokenDto reIssue(@RequestBody TokenRequestDto tokenRequestDto){
-//        return tokenService.reIssue(tokenRequestDto);
-//    }
 
     @PostMapping("/users/reIssue")
     public ResponseEntity reIssue(@CookieValue(value = "refreshToken") Cookie cookie, HttpServletResponse response){

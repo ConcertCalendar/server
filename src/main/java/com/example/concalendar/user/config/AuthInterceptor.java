@@ -3,7 +3,6 @@ package com.example.concalendar.user.config;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.util.StatusEnum;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
