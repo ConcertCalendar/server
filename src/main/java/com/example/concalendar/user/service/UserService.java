@@ -218,10 +218,13 @@ public class UserService{
         }
     }
 
-    public void registerProfileImage(MultipartFile multipartFile, Long user_id) throws IOException {
-        String url = s3UploadService.uploadFileToS3(multipartFile, user_id);
+    @Transactional
+    public void registerProfileImage(MultipartFile multipartFile, String accessToken) throws IOException {
+        String user_email = jwtTokenProvider.getUserPk(accessToken);
 
-        User user = userRepository.findById(user_id).orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"존재하지 않는 계정입니다."));
+        User user = findUserByUserEmail(user_email);
+
+        String url = s3UploadService.uploadFileToS3(multipartFile, user.getUserId());
 
         user.updateProfileImage(url);
     }

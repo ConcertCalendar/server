@@ -181,9 +181,9 @@ public class UserController {
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
-    @PostMapping("/users/info/{user_id}")
-    public ResponseEntity registerProfileImage(@RequestHeader String Authorization, @RequestPart(value = "file") MultipartFile multipartFile, @PathVariable Long user_id) throws IOException {
-        userService.registerProfileImage(multipartFile, user_id);
+    @PostMapping("/users/info")
+    public ResponseEntity registerProfileImage(@RequestHeader String Authorization, @RequestPart(value = "file") MultipartFile multipartFile) throws IOException {
+        userService.registerProfileImage(multipartFile, Authorization);
 
         Message message = new Message();
         message.setStatus(StatusEnum.OK);
