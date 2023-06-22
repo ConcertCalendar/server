@@ -4,19 +4,10 @@ import com.example.concalendar.calendar.entity.CrawlingInfo;
 import com.example.concalendar.calendar.repository.CrawlingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Criteria;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.jsoup.nodes.Element;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import javax.swing.text.html.Option;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,12 +22,6 @@ public class CrawlingService {
     private final MongoTemplate mongoTemplate;
     private WebDriver webDriver;
 
-//    public CrawlingInfo getCrawlingInfoByName(String name) {
-//
-//        CrawlingInfo crawlingInfo = crawlingRepository.findCrawlingInfoByName(name);
-//
-//        return crawlingInfo;
-//    }
 
     public List<CrawlingInfo> getCrawlingInfos() throws IOException, InterruptedException {
         List<CrawlingInfo> crawlingInfoList = new ArrayList<>();
