@@ -22,7 +22,6 @@ public class CookieUtil {
                 .sameSite("None")
                 .secure(true)
                 .path("/")
-                .maxAge(tokenDto.getRefreshTokenExpiresTime())
                 .build();
 
         hashMapCookies.put("refreshTokenCookie",refreshTokenCookie);
