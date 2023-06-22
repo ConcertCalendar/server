@@ -27,11 +27,7 @@ public class UserInfoDto {
 
     private String userNickname;
 
-//    private List<Post> postList;
-//
-//    private List<Comment> commentList;
-//
-//    private List<Reply> replyList;
+    private String userProfileImgUrl;
 
     private List<String> roles = new ArrayList<>();
 
@@ -44,6 +40,7 @@ public class UserInfoDto {
 //        this.commentList = user.getCommentList();
 //        this.replyList = user.getReplyList();
         this.roles = user.getRoles();
+        this.userProfileImgUrl = user.getProfileImageUrl();
     }
 
 }

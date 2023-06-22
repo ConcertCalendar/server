@@ -14,6 +14,7 @@ import com.example.concalendar.calendar.entity.Calendar;
 import com.example.concalendar.user.exception.CustomException;
 import com.example.concalendar.user.repository.UserRepository;
 import com.example.concalendar.util.StatusEnum;
+import com.example.concalendar.util.service.S3UploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,8 +23,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -40,8 +43,7 @@ public class UserService{
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
     private final PostRepository postRepository;
-//    private final CalendarService calendarService;
-
+    private final S3UploadService s3UploadService;
     /**
      * Join long.
      *
@@ -214,5 +216,13 @@ public class UserService{
         else{
             return true;
         }
+    }
+
+    public void registerProfileImage(MultipartFile multipartFile, Long user_id) throws IOException {
+        String url = s3UploadService.uploadFileToS3(multipartFile, user_id);
+
+        User user = userRepository.findById(user_id).orElseThrow(()->new CustomException(StatusEnum.BAD_REQUEST,"존재하지 않는 계정입니다."));
+
+        user.updateProfileImage(url);
     }
 }

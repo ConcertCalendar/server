@@ -47,6 +47,9 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(name = "user_password", length = 300, nullable = false)
     private String password;
 
+    @Column(name = "user_profile_img")
+    private String profileImageUrl;
+
     // user와 Post의 관계는 1:N (1명이 여러 개의 게시물 작성 가능)
     @OneToMany(mappedBy = "writer")
     private List<Post> postList;
@@ -98,5 +101,8 @@ public class User extends BaseTimeEntity implements UserDetails {
         return true;
     }
 
+    public void updateProfileImage(String url){
+        this.profileImageUrl = url;
+    }
 
 }

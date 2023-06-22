@@ -24,10 +24,12 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -179,6 +181,18 @@ public class UserController {
         return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
+    @PostMapping("/users/info/{user_id}")
+    public ResponseEntity registerProfileImage(@RequestHeader String Authorization, @RequestPart(value = "file") MultipartFile multipartFile, @PathVariable Long user_id) throws IOException {
+        userService.registerProfileImage(multipartFile, user_id);
+
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("프로필 이미지가 변경되었습니다.");
+
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
+    }
+
+
     @GetMapping("/users/posts")
     public ResponseEntity getUserPosts(@RequestHeader String Authorization, @PageableDefault(size = 10) Pageable pageRequest){
         Message message = new Message();
@@ -248,4 +262,5 @@ public class UserController {
         return new ResponseEntity(message,message.getStatus().getHttpStatus());
 
     }
+
 }
