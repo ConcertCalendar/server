@@ -26,8 +26,8 @@ public class S3UploadService {
     private final AmazonS3 amazonS3;
 
     // 메소드 오버로딩 순서 MultipartFile & Long -> Post 이미지 저장
-    public String uploadFileToS3(MultipartFile multipartFile, Long post_id) throws IOException {
-        String s3_file_path = "post/"+post_id+"/"+System.currentTimeMillis();
+    public String uploadFileToS3(MultipartFile multipartFile, Long user_id) throws IOException {
+        String s3_file_path = "user/"+user_id+"/"+System.currentTimeMillis();
 
         return uploadFile(multipartFile,s3_file_path);
     }
