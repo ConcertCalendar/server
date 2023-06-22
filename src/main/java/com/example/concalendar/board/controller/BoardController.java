@@ -34,17 +34,6 @@ public class BoardController {
         log.info("/board/{}에 들어왔습니다",id);
         BoardReturnDto boardReturnDto = postService.getPostByPage(pageRequest, id);
 
-
-//        List<Post> postList = postService.findAllPostsByBoardId(id);
-//        List<PostDto> postDtoList = new ArrayList<>();
-//        for (Post posts : postList){
-//
-//            PostDto postDto = PostDto.entityToGetPostDto(posts);
-//
-//            postDtoList.add(postDto);
-//
-//        }
-
         Message message = new Message();
 
         message.setStatus(StatusEnum.OK);
