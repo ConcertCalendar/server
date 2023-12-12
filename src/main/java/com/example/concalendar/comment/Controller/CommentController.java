@@ -1,5 +1,6 @@
 package com.example.concalendar.comment.Controller;
 
+import com.example.concalendar.comment.dto.CommentDto;
 import com.example.concalendar.comment.dto.CommentRequestDto;
 import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.comment.service.CommentService;
@@ -37,16 +38,17 @@ public class CommentController {
         Message message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
-            commentService.create(commentRequestDto.getCommentContent(), jwtTokenProvider.getUserPk(Authorization), postId);
+            CommentDto commentDto = commentService.create(commentRequestDto.getCommentContent(), jwtTokenProvider.getUserPk(Authorization), postId);
             message.setStatus(StatusEnum.OK);
             message.setMessage("댓글 달기 성공");
+            message.setData(commentDto);
         }
         else{
             message.setStatus(StatusEnum.Unauthorized);
             message.setMessage("AccessToken이 유효하지 않아서 사용자 정보를 찾을 수 없습니다. 로그인 해주세요.");
         }
 
-        return new ResponseEntity(message,message.getStatus().getHttpStatus());
+        return new ResponseEntity(message, message.getStatus().getHttpStatus());
     }
 
     @PostMapping("/boards/{boardId}/posts/{postId}/commentsHeart/{commentId}")

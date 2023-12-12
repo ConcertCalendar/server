@@ -1,6 +1,7 @@
 package com.example.concalendar.reply.controller;
 
 import com.example.concalendar.comment.dto.CommentRequestDto;
+import com.example.concalendar.reply.dto.ReplyDto;
 import com.example.concalendar.reply.dto.ReplyRequestDto;
 import com.example.concalendar.reply.entity.Reply;
 import com.example.concalendar.reply.service.ReplyService;
@@ -34,9 +35,10 @@ public class ReplyController {
         Message message = new Message();
 
         if (jwtTokenProvider.validateToken(Authorization)){
-            replyService.create(replyRequestDto.getReplyContent(), jwtTokenProvider.getUserPk(Authorization), commentId);
+            ReplyDto replyDto = replyService.create(replyRequestDto.getReplyContent(), jwtTokenProvider.getUserPk(Authorization), commentId);
             message.setStatus(StatusEnum.OK);
             message.setMessage("답글 달기 성공");
+            message.setData(replyDto);
         }
         else{
             message.setStatus(StatusEnum.Unauthorized);

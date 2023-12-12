@@ -1,5 +1,6 @@
 package com.example.concalendar.comment.service;
 
+import com.example.concalendar.comment.dto.CommentDto;
 import com.example.concalendar.comment.entity.Comment;
 import com.example.concalendar.comment.repository.CommentRepository;
 import com.example.concalendar.post.service.PostService;
@@ -45,7 +46,7 @@ public class CommentService {
      * @param userEmail the user email
      * @param postId    the post id
      */
-    public void create(String content, String userEmail, long postId) {
+    public CommentDto create(String content, String userEmail, long postId) {
 
         Comment comment = Comment.builder()
                 .commentContent(content)
@@ -53,7 +54,9 @@ public class CommentService {
                 .commentWriter(userService.findUserByUserEmail(userEmail))
                 .build();
 
-        commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
+
+        return new CommentDto(savedComment);
     }
 
     /**

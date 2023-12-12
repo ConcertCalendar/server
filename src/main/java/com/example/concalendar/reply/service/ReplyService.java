@@ -1,6 +1,7 @@
 package com.example.concalendar.reply.service;
 
 import com.example.concalendar.comment.service.CommentService;
+import com.example.concalendar.reply.dto.ReplyDto;
 import com.example.concalendar.reply.entity.Reply;
 import com.example.concalendar.reply.repository.ReplyRepository;
 import com.example.concalendar.user.exception.CustomException;
@@ -30,14 +31,14 @@ public class ReplyService {
      * @param userEmail    the user email
      * @param commentId    the comment id
      */
-    public void create(String replyContent, String userEmail, long commentId) {
+    public ReplyDto create(String replyContent, String userEmail, long commentId) {
         Reply reply = Reply.builder()
                 .replyContent(replyContent)
                 .replyWriter(userService.findUserByUserEmail(userEmail))
                 .comment(commentService.findByCommentId(commentId))
                 .build();
-        replyRepository.save(reply);
-
+        Reply savedReply = replyRepository.save(reply);
+        return new ReplyDto(savedReply);
     }
 
     /**
