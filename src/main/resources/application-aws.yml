@@ -1,7 +1,7 @@
 cloud:
   aws:
     s3: #버킷이름
-      bucket: myconcertcalendardeploy
+      bucket: myconcertcalendardeploy1
     region: #S3 지역
       static: ap-northeast-2
     stack:

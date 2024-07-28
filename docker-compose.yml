@@ -7,8 +7,8 @@ services:
       - redis_data:/data
     ports:
       - "6379:6379"
-    networks:
-      - calendar-net
+#    networks:
+#      - calendar-net
 
   concert_calendar:
     image: joonghyun/concert_calendar
@@ -17,12 +17,12 @@ services:
       - "8080:8080"
     depends_on:
       - redis
-    networks:
-      - calendar-net
+#    networks:
+#      - calendar-net
 volumes:
   redis_data:
     driver: local
 
-networks:
-  calendar-net:
-    external: true
+#networks:
+#  calendar-net:
+#    external: true
